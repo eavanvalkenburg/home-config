@@ -26,7 +26,8 @@ This repo holds the config for Eduard's home. Including custom development for A
     1. Microsoft 
     
 ### Automation
-1. Lights on and off
+1. Lights on and off when home or away
+1. Lights on and off when arriving home or leaving
 1. Sonos pauze on TV on
 1. Sonos regroup on TV off
 1. Update Available
