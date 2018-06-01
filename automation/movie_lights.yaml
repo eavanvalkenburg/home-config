@@ -1,0 +1,51 @@
+############################################################
+#
+# Dim the lights when playing movies
+#
+############################################################
+
+  - alias: 'movie_paused'
+    trigger:
+      - platform: state
+        entity_id: media_player.plex_patdcblame9uz5g070n42zts
+        from: 'playing'
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: sun.sun
+          state: 'below_horizon'
+        - condition: state
+          entity_id: light.living
+          state: 'on'
+        - condition: state 
+          entity_id: sensor.plex_playing_movies
+          state: 'True'
+    action:
+        - service: hue.hue_activate_scene
+          data:
+            group_name: "Living"
+            scene_name: "Bright"
+
+  - alias: "movie_play"
+    trigger:
+      - platform: state
+        entity_id: media_player.plex_patdcblame9uz5g070n42zts
+        to: 'playing'
+    condition:
+      condition: and
+      conditions:
+        - condition: state
+          entity_id: sun.sun
+          state: 'below_horizon'
+        - condition: state
+          entity_id: sensor.plex_playing_movies
+          state: 'True'
+        - condition: state
+          entity_id: light.living
+          state: 'on'
+    action:
+        - service: hue.hue_activate_scene
+          data:
+            group_name: "Living"
+            scene_name: "Movie"

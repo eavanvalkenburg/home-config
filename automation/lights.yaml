@@ -1,0 +1,48 @@
+
+  - alias: 'away_lights_on'
+    trigger:
+      - platform: sun
+        # Possible values: sunset, sunrise
+        event: sunset
+        # Optional time offset. This example is 45 minutes.
+        offset: '-00:30:00'
+    condition:
+      - condition: state
+        entity_id: group.people
+        state: 'not_home'
+    action:
+        - delay: '00:{{ (range(2, 30) | random) }}:00'
+        - service: hue.hue_activate_scene
+          data:
+            group_name: "Living"
+            scene_name: "Dimmed"
+
+  - alias: 'home_lights_on'
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: '-00:05:00'
+    condition:
+      - condition: state
+        entity_id: group.people
+        state: 'home'
+    action:
+        - service: hue.hue_activate_scene
+          data:
+            group_name: "Living"
+            scene_name: "Bright"
+
+  - alias: 'away_lights_off'
+    trigger:
+      - platform: time
+        at: '23:00:00'
+    condition:
+      - condition: state
+        entity_id: group.people
+        state: 'not_home'
+    action:
+        - delay: '00:{{ (range(2, 15) | random) }}:00'
+        - service: hue.hue_activate_scene
+          data:
+            group_name: "Living"
+            scene_name: "Off"

@@ -1,0 +1,33 @@
+
+  - platform: plex
+    entity_namespace: 'plex'
+    include_non_clients: false
+    scan_interval: 5
+    show_all_controls: false
+    use_custom_entity_ids: true
+    use_episode_art: true
+    
+  - platform: sonos
+    entity_namespace: 'sonos'
+    # use_custom_entity_ids: true
+    customize:
+      sources:
+        - TV
+        - Spotify
+
+  - platform: webostv
+    name: TV
+    host: 192.168.2.5
+    mac: 14:C9:13:58:A0:C1
+    turn_on_action:
+      service: persistent_notification.create
+      data:
+        message: "Turn on action"
+    customize:
+      sources:
+        - livetv
+        - youtube
+        - hdmi2
+        - hdmi1
+        - NPO Uitzending Gemist
+        - RTL XL

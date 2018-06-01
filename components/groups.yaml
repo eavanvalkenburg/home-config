@@ -1,0 +1,134 @@
+
+
+  default_view:
+    name: Home
+    view: yes
+    entities:
+      - media_player.tv
+      - media_player.plex_patdcblame9uz5g070n42zts
+      - group.sonos
+      # - group.automation
+      - group.lights
+      # - sensor.plex_playing_movies
+      # - sensor.plex_playing_series
+      - group.people
+      - group.weather
+      - timer.tomato
+      - timer.tomato_break
+      - sensor.postnl
+      - sensor.eduards_iphone_battery_level
+      - sensor.eduards_iphone_battery_state
+      - sensor.temperature
+      - sensor.light_level
+     # - hello.world
+
+  weather:
+    name: Weather
+    entities:
+      - sun.sun
+      - sensor.weather_symbol
+      - sensor.weather_condition
+      - sensor.weather_detailed_condition
+      - sensor.weather_condition_code_1d
+      - sensor.weather_temperature
+      - sensor.weather_precipitation
+      - sensor.weather_precipitation_forecast_average
+      - sensor.weather_humidity
+      - sensor.weather_wind_direction
+      - sensor.weather_wind_force
+      - sensor.weather_stationname
+
+  # Living Room:
+  #   view: yes
+  #   entities:
+  #     - light.living 
+  #     - media_player.tv
+
+  # sonos_all: media_player.bedroom, media_player.bathroom, media_player.living_room
+  # sonos_nonl: media_player.bedroom, media_player.bathroom
+
+  sonos:
+    entities:
+      - media_player.bedroom
+      - media_player.bathroom
+      - media_player.living_room
+    icon: mdi:play-pause
+  
+  eduard:
+    name: Eduard
+    entities:
+      - device_tracker.eduards_iphone
+      - device_tracker.eduardsiphone_router
+
+  willemijn:
+    name: Willemijn
+    entities:
+      - device_tracker.android97e3e41b02685fa2
+
+  people:
+    name: People
+    entities:
+      - group.eduard
+      - group.willemijn
+
+  automation:
+    name: Automation
+    view: yes
+    entities:
+      - automation.away_lights_off
+      - automation.away_lights_on
+      - automation.home_lights_on
+      - automation.movie_paused
+      - automation.movie_play
+      - automation.people_lights_off
+      - automation.people_lights_on
+      - automation.tv_off_sonos_on
+      - automation.tv_on_sonos_off
+
+  lights:
+    name: Lights
+    entities:
+      - light.living
+      - light.oplaad_lamp
+      - light.liggende_lamp
+      - light.staande_lamp
+      - light.desk_lamp
+
+  homeserver:
+    name: Tech
+    view: yes
+    entities:
+      - group.technical
+      - group.mediatracker
+
+  technical:
+    name: Server details
+    entities:
+      - sensor.cpu_speed
+      - sensor.cpu_used
+      - sensor.ram_used
+      - sensor.disk_free_content
+      - sensor.disk_used_
+      - sensor.received
+      - sensor.sent
+      - sensor.speedtest_download
+      - sensor.speedtest_upload
+      - sensor.speedtest_ping
+      - sensor.myipopendnscom
+      - sensor.last_boot
+
+  mediatracker:
+    name: Media tracking
+    entities:
+      - sensor.sonarr_series
+      - sensor.sonarr_upcoming
+      - sensor.sonarr_wanted
+      - sensor.sonarr_queue
+      - sensor.sonarr_commands 
+      - sensor.sonarr_diskspace
+      - sensor.sabnzbd_status
+      - sensor.sabnzbd_speed
+      - sensor.sabnzbd_queue
+      - sensor.sabnzbd_left
+      - sensor.sabnzbd_disk
+      - sensor.sabnzbd_disk_free

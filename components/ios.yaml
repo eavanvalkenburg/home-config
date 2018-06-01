@@ -1,0 +1,18 @@
+
+  push:
+      categories:
+        - name: Continue
+          identifier: 'continuetomatotimer'
+          actions:
+            - identifier: 'STOP'
+              title: 'Stop Tomato Timer'
+              activationMode: 'background'
+              authenticationRequired: yes
+              destructive: yes
+              behavior: 'default'
+            - identifier: 'CONTINUE'
+              title: 'Continue Tomato Timer'
+              activationMode: 'background'
+              authenticationRequired: yes
+              destructive: no
+              behavior: 'textInput'

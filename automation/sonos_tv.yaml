@@ -1,0 +1,28 @@
+
+  - alias: 'tv_off_sonos_on'
+    trigger:
+      - platform: state
+        entity_id: media_player.tv
+        to: 'off'
+    action:
+      - service: script.sonos_volume
+      - service: media_player.sonos_join
+        data:
+          master:  "media_player.bedroom" 
+          entity_id: "media_player.living_room, media_player.bathroom"
+      # - service: media_player.media_play
+      #   data:
+      #     entity_id:  "media_player.bedroom" 
+
+  - alias: 'tv_on_sonos_off'
+    trigger:
+      - platform: state
+        entity_id: media_player.tv
+        from: 'off'
+    action:
+      - service: media_player.media_pause
+        data:
+          entity_id:  "media_player.bedroom"
+      - service: media_player.media_pause
+        data:
+          entity_id:  "media_player.bathroom"

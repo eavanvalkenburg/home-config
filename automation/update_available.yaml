@@ -1,0 +1,18 @@
+############################################################
+#
+# Notify me when Home Assistant Update is available
+#
+############################################################
+
+- alias: 'Notify me when update is available'
+  trigger:
+    platform: state
+    entity_id: updater.updater
+  action:
+    - service: notify.ios_eduards_iphone
+      data_template:
+          message: "Home Assistant {{ states('updater.updater') }} is now available."
+    - service: notify.eventgrid
+      data_template:
+          title: "Home Assistant Update Available"
+          message: "Home Assistant {{ states('updater.updater') }} is now available."

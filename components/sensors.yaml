@@ -1,0 +1,66 @@
+  - platform: buienradar
+    name: Weather
+    monitored_conditions:
+      - stationname
+      - condition
+      - conditiondetailed
+      - symbol
+      - humidity
+      - temperature
+      - windforce
+      - winddirection
+      - precipitation
+      - precipitation_forecast_average
+      - conditioncode_1d 
+      
+  - platform: cpuspeed
+
+  - platform: speedtest
+    monitored_conditions:
+      - ping
+      - download
+      - upload
+
+  - platform: dnsip
+
+  - platform: sonarr
+    api_key: !secret sonarr_api_key
+    monitored_conditions:
+      - series
+      - upcoming
+      - wanted
+      - queue
+      - commands 
+      - diskspace
+    days: 2
+    include_paths:
+      - /content
+    unit: TB
+
+  - platform: sabnzbd
+    host: !secret host_ip
+    port: !secret sab_port
+    api_key: !secret sab_api_key
+    monitored_variables:
+      - 'current_status'
+      - 'speed'
+      - 'queue_size'
+      - 'queue_remaining'
+      - 'disk_size'
+      - 'disk_free'
+    
+  - platform: postnl
+    username: !secret postnl_un
+    password: !secret postnl_pw
+
+  - platform: rest
+    resource: !secret hue_light_level
+    value_template: '{{ value_json.state.lightlevel }}'
+    unit_of_measurement: Lux
+    name: 'Light Level'
+
+  - platform: rest
+    resource: !secret hue_temperature
+    value_template: '{{ value_json.state.temperature | float / 100 }}'
+    unit_of_measurement: °C
+    name: 'Temperature'

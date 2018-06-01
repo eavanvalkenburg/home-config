@@ -1,0 +1,26 @@
+
+  host: edvaniothub
+  devices:
+    people:
+      auth_key: QjQ5QSGf60cT/cJfbFFTxdS9FGBDGYsrTD5ffBbW2F0=
+      include:
+        - device_tracker.eduardsiphone_router
+        - device_tracker.androidd46c7cf7cbcec5a6
+    media:
+      auth_key: 6d+G3iygnP/VBiK9zaGXkV9MrywNaeJf2Sq/vvX3Kac=
+      include:
+        - media_player.bathroom
+        - media_player.bedroom
+        - media_player.living_room
+    automation:
+      auth_key: 0xrhabNarsDxo3472V1ed/rWj38H8WoqXEqWHA+rHMY=
+      include:
+        - automation.away_lights_off
+        - automation.away_lights_on
+        - automation.home_lights_on
+        - automation.movie_paused
+        - automation.movie_play
+        - automation.people_lights_off
+        - automation.people_lights_on
+        - automation.tv_off_sonos_on
+        - automation.tv_on_sonos_off

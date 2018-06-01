@@ -1,0 +1,4 @@
+  alexa:
+    filter:
+      include_entities:
+        - media_player.tv
