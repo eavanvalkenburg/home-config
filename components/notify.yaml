@@ -1,4 +1,5 @@
   - name: eventgrid
     platform: azure_event_grid
-    host: hass.westeurope-1.eventgrid.azure.net
+    host: !secret eg_host
     topic key: !secret topic_key
+    data version: 1.0

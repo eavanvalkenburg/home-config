@@ -14,5 +14,6 @@
           message: "Home Assistant {{ states('updater.updater') }} is now available."
     - service: notify.eventgrid
       data_template:
-          title: "Home Assistant Update Available"
-          message: "Home Assistant {{ states('updater.updater') }} is now available."
+          title: "homeassistant.update"
+          message: "update_available"
+          data: "Home Assistant {{ states('updater.updater') }} is now available."
