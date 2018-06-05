@@ -11,6 +11,7 @@ This repo holds the config for Eduard's home. Including custom development for A
     1. Sonos
     1. Plex
     1. LG tv (WebOS)
+    1. Universal (TV, Xbox switch, Plexplayer)
 1. Sensors
     1. Buienradar (Weather)
     1. CPU Speed
@@ -37,3 +38,5 @@ This repo holds the config for Eduard's home. Including custom development for A
 ### Custom components:
 1. Azure Event Grid
     * Notify component that pushed events to Event Grid.
+1. Xbox One 
+    * Switch component to turn the Xbox One X on and off

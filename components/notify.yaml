@@ -3,3 +3,8 @@
     host: !secret eg_host
     topic key: !secret topic_key
     data version: 1.0
+  - platform: webostv
+    name: notify_tv
+    host: 192.168.2.5
+    
+    

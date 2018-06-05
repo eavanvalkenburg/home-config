@@ -11,9 +11,14 @@
   action:
     - service: notify.ios_eduards_iphone
       data_template:
-          message: "Home Assistant {{ states('updater.updater') }} is now available."
+        message: "Home Assistant {{ states('updater.updater') }} is now available."
     - service: notify.eventgrid
       data_template:
-          title: "homeassistant.update"
-          message: "update_available"
-          data: "Home Assistant {{ states('updater.updater') }} is now available."
+        title: "homeassistant.update"
+        message: "update_available"
+        data:
+            data_version: "1"
+            message: "Home Assistant {{ states('updater.updater') }} is now available."
+    - service: notify.notify_tv
+      data_template:
+        message: "Home Assistant {{ states('updater.updater') }} is now available."

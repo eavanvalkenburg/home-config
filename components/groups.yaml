@@ -4,15 +4,14 @@
     name: Home
     view: yes
     entities:
-      - media_player.tv
-      - media_player.plex_patdcblame9uz5g070n42zts
-      - group.sonos
-      # - group.automation
-      - group.lights
-      # - sensor.plex_playing_movies
-      # - sensor.plex_playing_series
       - group.people
       - group.weather
+      - media_player.multimedia
+      - media_player.tv
+      - switch.xboxone
+      #- media_player.plex_patdcblame9uz5g070n42zts
+      - group.lights
+      - group.sonos
       - timer.tomato
       - timer.tomato_break
       - sensor.postnl
@@ -20,7 +19,24 @@
       - sensor.eduards_iphone_battery_state
       - sensor.temperature
       - sensor.light_level
-     # - hello.world
+      - sensor.eduard_naar_huis
+
+  people:
+    name: People
+    entities:
+      - group.willemijn
+      - group.eduard
+
+  willemijn:
+    name: Willemijn
+    entities:
+      - device_tracker.android97e3e41b02685fa2
+
+  eduard:
+    name: Eduard
+    entities:
+      - device_tracker.eduards_iphone
+      - device_tracker.eduardsiphone_router
 
   weather:
     name: Weather
@@ -38,14 +54,14 @@
       - sensor.weather_wind_force
       - sensor.weather_stationname
 
-  # Living Room:
-  #   view: yes
-  #   entities:
-  #     - light.living 
-  #     - media_player.tv
-
-  # sonos_all: media_player.bedroom, media_player.bathroom, media_player.living_room
-  # sonos_nonl: media_player.bedroom, media_player.bathroom
+  lights:
+    name: Lights
+    entities:
+      - light.living
+      - light.oplaad_lamp
+      - light.liggende_lamp
+      - light.staande_lamp
+      - light.desk_lamp
 
   sonos:
     entities:
@@ -54,22 +70,11 @@
       - media_player.living_room
     icon: mdi:play-pause
   
-  eduard:
-    name: Eduard
+  xbox_tv:
+    name: Xbox TV
     entities:
-      - device_tracker.eduards_iphone
-      - device_tracker.eduardsiphone_router
-
-  willemijn:
-    name: Willemijn
-    entities:
-      - device_tracker.android97e3e41b02685fa2
-
-  people:
-    name: People
-    entities:
-      - group.eduard
-      - group.willemijn
+      - switch.xboxone
+      - switch.tv
 
   automation:
     name: Automation
@@ -85,14 +90,6 @@
       - automation.tv_off_sonos_on
       - automation.tv_on_sonos_off
 
-  lights:
-    name: Lights
-    entities:
-      - light.living
-      - light.oplaad_lamp
-      - light.liggende_lamp
-      - light.staande_lamp
-      - light.desk_lamp
 
   homeserver:
     name: Tech

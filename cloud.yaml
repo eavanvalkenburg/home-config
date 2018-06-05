@@ -1,4 +1,6 @@
   alexa:
     filter:
       include_entities:
+        - media_player.multimedia
         - media_player.tv
+        - switch.xboxone

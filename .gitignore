@@ -117,6 +117,7 @@ known_devices.yaml
 entity_registry.yaml
 secrets.yaml
 zwave_device_config.yaml
+tokens.json
 .config_entries.json
 *.log
 *.db

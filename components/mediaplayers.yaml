@@ -20,9 +20,9 @@
     host: 192.168.2.5
     mac: 14:C9:13:58:A0:C1
     turn_on_action:
-      service: persistent_notification.create
+      service: wake_on_lan.send_magic_packet
       data:
-        message: "Turn on action"
+        mac: 14:C9:13:58:A0:C1
     customize:
       sources:
         - livetv
@@ -31,3 +31,54 @@
         - hdmi1
         - NPO Uitzending Gemist
         - RTL XL
+    
+  # - platform: xboxone
+  #   name: Xbox
+  #   ip_address: !secret xbox_ip
+  #   live device id: !secret xbox_live_device_id
+  #   xbox token file: !secret xbox_tokens_file
+
+  - platform: universal
+    name: Multimedia
+    children:
+      #- media_player.xbox
+      - media_player.tv
+      - media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq
+    commands:
+      turn_on:
+        service: switch.turn_on
+        data:
+          entity_id: group.xbox_tv
+      turn_off:
+        service: switch.turn_off
+        data:
+          entity_id: group.xbox_tv
+      volume_up:
+        service: media_player.volume_up
+        data:
+          entity_id: media_player.living_room
+      volume_down:
+        service: media_player.volume_down
+        data:
+          entity_id: media_player.living_room
+      volume_mute:
+        service: media_player.volume_mute
+        data:
+          entity_id: media_player.living_room
+          is_volume_muted: true
+      volume_set:
+        service: media_player.volume_set
+        data_template:
+          entity_id: media_player.living_room
+          volume_level: '{{ volume_level }}'
+      media_play_pause:
+        service: media_player.media_play_pause
+        data:
+          entity_id: media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq
+
+    attributes:
+      state: media_player.tv
+      is_volume_muted: media_player.living_room
+      volume_level: media_player.living_room|volume_level
+      source: media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq|source
+      source_list: media_player.tv|source_list

@@ -23,12 +23,12 @@ REQUIREMENTS = ['azure.eventgrid==0.1.0', 'msrest==0.4.29']
 
 _LOGGER = logging.getLogger(__name__)
 
+ATTR_DATA_VERSION = 'data_version'
+DATA_VERSION_DEFAULT = "1.0"
 CONF_TOPIC_KEY = 'topic key'
-CONF_DATA_VERSION = 'data_version'
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_HOST): cv.string,
-    vol.Optional(CONF_DATA_VERSION, '1'): cv.string,
     vol.Inclusive(CONF_TOPIC_KEY, 'authentication'): cv.string
 })
 
@@ -60,9 +60,13 @@ class AzureEventGrid(BaseNotificationService):
         # The other reason for this is the way in which Event Grid Subscriptions can be filtered, that can be done on Event Type or on a patterns match in the subject
         # this allows you to for instance route all events related to ha.lights.* to a specific endpoint regardless of the light that triggered
 
-        data = kwargs.get(ATTR_DATA)
-        title = data.get(ATTR_TITLE, ATTR_TITLE_DEFAULT)
-        data_version = data.get(CONF_DATA_VERSION)
+        data = kwargs.get(ATTR_DATA) or {}
+        title = kwargs.get(ATTR_TITLE, ATTR_TITLE_DEFAULT)
+        if data.get(ATTR_DATA_VERSION):
+            data_version = data.get(ATTR_DATA_VERSION)
+            data.pop(ATTR_DATA_VERSION)
+        else:
+            data_version = DATA_VERSION_DEFAULT
 
         #create the payload, with subject, message, data and type coming in from the notify platform
         payload = {

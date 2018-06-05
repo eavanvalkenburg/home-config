@@ -1,0 +1,16 @@
+  - platform: xboxone
+    name: xboxone
+    ip_address: !secret xbox_ip
+    live device id: !secret xbox_live_device_id
+  - platform: template
+    switches:
+      tv:
+        value_template: "{{ not is_state('media_player.tv', 'off') }}"
+        turn_on:
+          service: media_player.turn_on
+          data:
+            entity_id: media_player.tv
+        turn_off:
+          service: media_player.turn_off
+          data:
+            entity_id: media_player.tv

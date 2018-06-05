@@ -1,9 +1,25 @@
 ############################################################
-# Plex players
+# Media players
 ############################################################
 
-  media_player.plex_patdcblame9uz5g070n42zts:
-    friendly_name: Xbox One X
+  media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq:
+    friendly_name: Plex on Xbox
+    icon: mdi:plex
+
+  media_player.xbox:
+    icon: mdi:xbox
+
+  media_player.tv:
+    icon: mdi:television
+
+  media_player.bedroom:
+    icon: mdi:bed-empty
+
+  media_player.bathroom:
+    icon: mdi:hot-tub
+
+  media_player.living_room:
+    icon: mdi:home-automation
 
 ############################################################
 # Lights
@@ -39,13 +55,28 @@
   light.all_hue_lights:
     hidden: true
 
+  light.desk_lamp:
+    icon: mdi:lamp
+
+  light.liggende_lamp:
+    icon: mdi:spotlight-beam
+
+  light.oplaad_lamp:
+    icon: mdi:floor-lamp
+
+  light.staande_lamp:
+    icon: mdi:floor-lamp
+
+  light.living:
+    icon: mdi:home
+
 
 ############################################################
 # templates
 ############################################################
 
   sensor.sonos_master:
-    hidden: true
+    hidden: false
 
   sensor.myipopendnscom:
     friendly_name: IP Address
@@ -87,3 +118,16 @@
     order: 2
   group.automation:
     order: 3
+    
+############################################################
+# Groups
+############################################################
+
+  group.eduard:
+    icon: mdi:human-male
+  
+  group.willemijn:
+    icon: mdi:human-female
+
+  group.people:
+    icon: mdi:human-male-female
