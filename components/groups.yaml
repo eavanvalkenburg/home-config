@@ -9,6 +9,7 @@
       - media_player.multimedia
       - media_player.tv
       - switch.xboxone
+      - cover.blind
       #- media_player.plex_patdcblame9uz5g070n42zts
       - group.lights
       - group.sonos

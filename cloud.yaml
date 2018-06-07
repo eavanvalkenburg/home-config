@@ -4,3 +4,4 @@
         - media_player.multimedia
         - media_player.tv
         - switch.xboxone
+        - cover.blind

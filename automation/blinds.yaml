@@ -1,0 +1,66 @@
+  - alias: 'blind_close_sunset'
+    trigger:
+      - platform: sun
+        event: sunset
+    action:
+        - service: cover.close_cover
+          data:
+            entity_id: cover.blind
+
+  - alias: 'blind_open_sunset_week'
+    trigger:
+      - platform: time
+        at: '08:00:00'
+    condition: 
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+        - service: cover.open_cover
+          data:
+            entity_id: cover.blind
+
+  - alias: 'blind_open_sunset_weekend'
+    trigger:
+      - platform: time
+        at: '11:00:00'
+    condition: 
+      - condition: time
+        weekday:
+          - sat
+          - sun
+    action:
+        - service: cover.open_cover
+          data:
+            entity_id: cover.blind
+
+  - alias: 'blind_close_sunny'
+    trigger:
+      - platform: time
+        minutes: 0
+        seconds: 0
+    condition: 
+      condition: and
+      conditions:
+      - condition: sun
+        before: sunset
+      - condition: time
+        after: '14:00:00'
+      - condition: or
+        conditions:
+        - condition: numeric_state
+          entity_id: sensor.weather_temperature
+          above: '19'
+        - condition: numeric_state
+          entity_id: sensor.temperature
+          above: '22'
+    action:
+        - service: cover.set_cover_position
+          data:
+            entity_id: cover.blind
+            position: 50
+  
