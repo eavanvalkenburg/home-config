@@ -22,3 +22,13 @@
     - service: notify.notify_tv
       data_template:
         message: "Home Assistant {{ states('updater.updater') }} is now available."
+
+- id: startup_notification
+  alias: Startup Notification
+  trigger:
+  - event: start
+    platform: homeassistant
+  action:
+  - data:
+      message: Yay, Home Assistant is back up!
+    service: notify.ios_eduards_iphone

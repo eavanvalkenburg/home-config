@@ -1,5 +1,5 @@
   - platform: xboxone
-    name: xboxone
+    name: Xbox One
     ip_address: !secret xbox_ip
     live device id: !secret xbox_live_device_id
   - platform: template

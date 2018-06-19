@@ -8,7 +8,7 @@
       - group.weather
       - media_player.multimedia
       - media_player.tv
-      - switch.xboxone
+      - switch.xbox_one
       - cover.blind
       #- media_player.plex_patdcblame9uz5g070n42zts
       - group.lights
@@ -74,7 +74,7 @@
   xbox_tv:
     name: Xbox TV
     entities:
-      - switch.xboxone
+      - switch.xbox_one
       - switch.tv
 
   automation:

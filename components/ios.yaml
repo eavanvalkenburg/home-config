@@ -1,18 +1,43 @@
-
+  # - push:
+  #     categories:
+  #       - name: Continue
+  #         identifier: 'continuetomatotimer'
+  #         actions:
+  #           - identifier: 'STOP'
+  #             title: 'Stop Tomato Timer'
+  #             activationMode: 'background'
+  #             authenticationRequired: yes
+  #             destructive: yes
+  #             behavior: 'default'
+  #           - identifier: 'CONTINUE'
+  #             title: 'Continue Tomato Timer'
+  #             activationMode: 'background'
+  #             authenticationRequired: yes
+  #             destructive: no
+  #             behavior: 'textInput'
   push:
-      categories:
-        - name: Continue
-          identifier: 'continuetomatotimer'
-          actions:
-            - identifier: 'STOP'
-              title: 'Stop Tomato Timer'
-              activationMode: 'background'
-              authenticationRequired: yes
-              destructive: yes
-              behavior: 'default'
-            - identifier: 'CONTINUE'
-              title: 'Continue Tomato Timer'
-              activationMode: 'background'
-              authenticationRequired: yes
-              destructive: no
-              behavior: 'textInput'
+    categories:
+      - name: Lights
+        identifier: 'lights'
+        actions:
+          - identifier: 'LIGHTS_TURN_OFF'
+            title: 'Turn lights off'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+      - name: Sonos
+        identifier: 'sonos'
+        actions:
+          - identifier: 'SONOS_TURN_ON'
+            title: 'Resume music'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
+          - identifier: 'SONOS_DO_NOTHING'
+            title: 'Do not resume music'
+            activationMode: 'background'
+            authenticationRequired: yes
+            destructive: no
+            behavior: 'default'
