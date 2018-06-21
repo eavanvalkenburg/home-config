@@ -15,3 +15,25 @@
       plex_playing_series:
         value_template: >- 
           {{ is_state_attr('media_player.plex_patdcblame9uz5g070n42zts', 'media_library_name', 'Series' ) }}
+
+  - platform: template
+    sensors:
+      blind_status:
+        friendly_name: 'Blind Status'
+        value_template: '{% if states.cover.blind %}
+            {% if states.cover.blind.attributes["cover_state"] == "OPEN" %}
+              open
+            {% elif states.cover.blind.attributes["cover_state"] == "CLOSED" %}
+              closed
+            {% elif states.cover.blind.attributes["cover_state"] == "PARTIALLY OPENED" %}
+              partially open
+            {% elif states.cover.blind.attributes["cover_state"] == "OPENING" %}
+              opening
+            {% elif states.cover.blind.attributes["cover_state"] == "CLOSING" %}
+              closing
+            {% else %}
+              unknown
+            {% endif %}
+            {% else %}
+            n/a
+            {% endif %}'

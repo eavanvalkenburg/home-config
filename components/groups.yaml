@@ -9,10 +9,9 @@
       - media_player.multimedia
       - media_player.tv
       - switch.xbox_one
-      - cover.blind
-      #- media_player.plex_patdcblame9uz5g070n42zts
       - group.lights
       - group.sonos
+      - group.blind
       - timer.tomato
       - timer.tomato_break
       - sensor.postnl
@@ -21,6 +20,7 @@
       - sensor.temperature
       - sensor.light_level
       - sensor.eduard_naar_huis
+      - sensor.blind_status
 
   people:
     name: People
@@ -91,7 +91,6 @@
       - automation.tv_off_sonos_on
       - automation.tv_on_sonos_off
 
-
   homeserver:
     name: Tech
     view: yes
@@ -130,3 +129,8 @@
       - sensor.sabnzbd_left
       - sensor.sabnzbd_disk
       - sensor.sabnzbd_disk_free
+
+  blind:
+    name: Blind
+    entities:
+      - cover.blind
