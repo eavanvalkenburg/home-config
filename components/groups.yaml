@@ -108,6 +108,8 @@
       - automation.tv_off_sonos_on
       - automation.tv_on_sonos_off
       - input_boolean.tomato_flow
+      - input_boolean.resume_music
+      - sensor.resume_music
 
   homeserver:
     name: Tech

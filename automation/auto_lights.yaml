@@ -33,3 +33,15 @@
           data:
             group_name: "Living"
             scene_name: "Dimmed"
+
+  - alias: ios_turn_lights_off
+    id: ios_turn_lights_off
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: LIGHTS_TURN_OFF
+    action:
+    - alias: Turn all lights off
+      service: homeassistant.turn_off
+      entity_id: group.all_lights

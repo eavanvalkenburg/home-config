@@ -198,3 +198,13 @@
         friendly_name: 'Light level'
         value_template: '{{states.sensor.kitchen_motion_sensor.attributes.light_level}}'
         unit_of_measurement: lux
+      
+      resume_music:
+        friendly_name: Resume the music when the TV turns off
+        value_template: '{{ states.input_boolean.resume_music.state }}'
+        icon_template: >-
+          {% if is_state('input_boolean.resume_music', 'on') %}
+            mdi:music-note
+          {% else %}
+            mdi:music-note-off
+          {% endif %}

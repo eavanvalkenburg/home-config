@@ -1,0 +1,50 @@
+  - alias: "Willemijn arrives home"
+    trigger:
+      - platform: state
+        entity_id: group.willemijn
+        to: 'home'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.resume_music
+
+  - alias: "Eduard arrives home"
+    trigger:
+      - platform: state
+        entity_id: group.eduard
+        to: 'home'
+    condition:
+      - condition: state
+        entity_id: group.willemijn
+        state: 'not_home'
+    action:
+      - service: notify.ios_eduards_iphone
+        data:
+          message: Welcome home, do you want to play music or watch media?
+          data:
+            push:
+              badge: 0
+              category: 'musicortv'
+
+  - alias: "Play music"
+    id: ios_play_music
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: MUSIC
+    action:
+    - alias: Resume music
+      service: media_player.media_play
+      entity_id: media_player.bedroom
+
+  - alias: "Play media"
+    id: ios_play_music
+    trigger:
+      platform: event
+      event_type: ios.notification_action_fired
+      event_data:
+        actionName: MEDIA
+    action:
+    - alias: Turn on xbox and tv
+      service: switch.turn_on
+      entity_id: group.xbox_tv

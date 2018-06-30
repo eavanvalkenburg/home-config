@@ -68,7 +68,6 @@
         service: media_player.media_play_pause
         data:
           entity_id: media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq
-
     attributes:
       state: media_player.tv
       is_volume_muted: media_player.living_room
