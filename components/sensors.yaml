@@ -13,6 +13,9 @@
       - precipitation_forecast_average
       - conditioncode_1d 
       
+  - platform: uptime
+    unit_of_measurement: minutes
+
   - platform: cpuspeed
 
   - platform: speedtest
@@ -53,17 +56,25 @@
     username: !secret postnl_un
     password: !secret postnl_pw
 
-  - platform: rest
-    resource: !secret hue_light_level
-    value_template: '{{ value_json.state.lightlevel }}'
-    unit_of_measurement: Lux
-    name: 'Light Level'
+  - platform: ups
+    username: !secret ups_username
+    password: !secret ups_password
 
-  - platform: rest
-    resource: !secret hue_temperature
-    value_template: '{{ value_json.state.temperature | float / 100 }}'
-    unit_of_measurement: °C
-    name: 'Temperature'
+  - platform: hue
+    ip_address: !secret hue_ip
+    token: !secret hue_key
+
+  # - platform: rest
+  #   resource: !secret hue_light_level
+  #   value_template: '{{ value_json.state.lightlevel }}'
+  #   unit_of_measurement: Lux
+  #   name: 'Light Level'
+
+  # - platform: rest
+  #   resource: !secret hue_temperature
+  #   value_template: '{{ value_json.state.temperature | float / 100 }}'
+  #   unit_of_measurement: °C
+  #   name: 'Temperature'
 
   - platform: google_travel_time
     name: Eduard naar huis
@@ -72,3 +83,118 @@
     destination: zone.home
     options:
       mode: driving
+  - platform: google_travel_time
+    name: Huis naar Werk
+    api_key: !secret google_api_key
+    origin: zone.home
+    destination: zone.work
+    options:
+      mode: driving
+  - platform: google_travel_time
+    name: Werk naar Huis
+    api_key: !secret google_api_key
+    origin: zone.work
+    destination: zone.home
+    options:
+      mode: driving
+
+  - platform: alpha_vantage
+    api_key: !secret alpha_vantage_key
+    symbols:
+    - symbol: MSFT
+      name: Microsoft
+    - symbol: GOOGL
+      name: Google
+    - symbol: AAPL
+      name: Apple
+    - symbol: AMZN
+      name: Amazon
+    # foreign_exchange:
+    # - name: USD_EUR
+    #   from: USD
+    #   to: EUR
+  
+  - platform: plex
+    host: 192.168.2.2
+    port: 80
+    token: !secret plex_token
+
+  - platform: command_line
+    name: "PyPi HASS Version"
+    command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
+
+  - platform: version
+
+  - platform: template
+    sensors:
+      # sonos_volume:
+      #   value_template: "{{ [ states.media_player.bedroom.attributes.volume_level, states.media_player.bathroom.attributes.volume_level ] | min }}"
+      # sonos_master:
+      #   value_template: >-
+      #     {% if is_state_attr('media_player.bedroom', 'is_coordinator', true) %}
+      #       media_player.bedroom
+      #     {% else %}
+      #       media_player.bathroom
+      #     {% endif %}
+      plex_playing_movies:
+        value_template: >- 
+          {{ is_state_attr('media_player.plex_patdcblame9uz5g070n42zts', 'media_library_name', 'Movies' ) }}
+      plex_playing_series:
+        value_template: >- 
+          {{ is_state_attr('media_player.plex_patdcblame9uz5g070n42zts', 'media_library_name', 'Series' ) }}
+      blind_status:
+        friendly_name: 'Blind Status'
+        value_template: "{{ states('cover.blind') }}"
+      blind_position:
+        friendly_name: 'Blind Position'
+        value_template: "{{ states.cover.blind.attributes.current_position }}"
+      total_packages:
+        friendly_name: Total packages
+        unit_of_measurement: 'packages'
+        value_template: "{{ states('sensor.postnl')|int + states('sensor.ups')|int }}"
+      hassuptime:
+          friendly_name: "HASS Uptime"
+          value_template: >-
+            {% set uptime = states.sensor.uptime.state | round %}
+            {% set minutes = (uptime % 60) | int %}
+            {% set hours = ((uptime / 60) % 24) | int %}
+            {% set days = (uptime / 1440) | int %}
+            {%- if days > 0 -%}
+              {%- if days == 1 -%}
+                1 day
+              {%- else -%}
+                {{ days }} days
+              {%- endif -%}
+              {{ ', ' }}
+            {%- endif -%}
+            {{ '%02d' % hours }}:{{ '%02d' % minutes }} hrs
+      coinbase_btc:
+        friendly_name: Coinbase Bitcoin Value
+        value_template: "{{ states.sensor.coinbase_btc_wallet.attributes['Balance in native currency']|replace(' EUR', '')|float }}"
+        unit_of_measurement: 'EUR'
+        icon_template: '{{ states.sensor.coinbase_btc_wallet.attributes.icon }}'
+      coinbase_eth:
+        friendly_name: Coinbase Ethereum Value
+        value_template: "{{ states.sensor.coinbase_eth_wallet.attributes['Balance in native currency']|replace(' EUR', '')|float }}"
+        unit_of_measurement: 'EUR'
+        icon_template: '{{ states.sensor.coinbase_btc_wallet.attributes.icon }}'
+      coinbase_ltc:
+        friendly_name: Coinbase Litecoin Value
+        value_template: "{{ states.sensor.coinbase_ltc_wallet.attributes['Balance in native currency']|replace(' EUR', '')|float }}"
+        unit_of_measurement: 'EUR'
+        icon_template: '{{ states.sensor.coinbase_btc_wallet.attributes.icon }}'
+      coinbase_total:
+        friendly_name: Coinbase Total Value
+        value_template: '{{ states("sensor.coinbase_btc")|float + states("sensor.coinbase_eth")|float + states("sensor.coinbase_ltc")|float }}'
+        unit_of_measurement: 'EUR'
+        icon_template: '{{ states.sensor.coinbase_btc_wallet.attributes.icon }}'
+
+      temperature:
+        friendly_name: 'Temperature'
+        value_template: '{{states.sensor.kitchen_motion_sensor.attributes.temperature}}'
+        unit_of_measurement: °C
+
+      light_level:
+        friendly_name: 'Light level'
+        value_template: '{{states.sensor.kitchen_motion_sensor.attributes.light_level}}'
+        unit_of_measurement: lux

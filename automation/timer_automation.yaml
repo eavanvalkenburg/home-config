@@ -1,77 +1,67 @@
-  - alias: 'Tomato Timer'
+  - alias: 'Start Tomato Flow'
     trigger:
-      platform: event
-      event_type: timer.start
-      event_data: 
-        entity_id: timer.tomato
+      platform: state
+      entity_id: input_boolean.tomato_flow
+      to: "on"
     action:
-      - service: script.turn_on
-        entity_id: script.say
-        data:
-          variables:
-            where: 'media_player.living_room'
-            what: 'Starting timer'
-      - service: media_player.media_pause
-        data:
-          entity_id:  "media_player.bathroom"
-      - service: notify.ios_eduards_iphone
-        data_template:
-          message: "Tomato timer is starting!"
-    
-  - alias: 'Tomato Timer End'
-    trigger:
-      platform: event
-      event_type: timer.finish
-      event_data: 
-        entity_id: timer.tomato
-    action:
-      - service: script.turn_on
-        entity_id: script.say
-        data:
-          variables:
-            where: 'media_player.living_room'
-            what: 'Time for a break!'
-      - service: media_player.media_play
-        data:
-          entity_id:  "media_player.bathroom"
       - service: timer.start
-        entity_id: timer.tomato_break
-      - service: notify.ios_eduards_iphone
-        data:
-          message: "Time for a break!"
-          data:
-            push:
-              badge: 5
-              sound: <SOUND FILE HERE>
-              category: "continuetomatotimer" # Needs to match the top level identifier you used in the ios configuration
-              # action_data: # Anything passed in action_data will get echoed back to Home Assistant.
-              #   entity_id: light.test
-              #   my_custom_data: foo_bar
-
-
-  - alias: 'Break over'
-    trigger: 
-      platform: event
-      event_type: timer.finish
-      event_data: 
-        entity_id: timer.tomato_break
-    action:
-      - service: script.turn_on
-        entity_id: script.say
-        data:
-          variables:
-            where: 'media_player.living_room'
-            what: 'Time to get back to work!'
-      - service: notify.ios_eduards_iphone
         data_template:
-          message: "Time to get back to work!"
-
-  - alias: 'Stop Tomato Timer'
-    trigger: 
-      platform: event
-      event_type: ios.notification_action_fired
-      event_data:
-        actionName: STOP
+          entity_id: timer.tomato
+          duration: 00:25:00
+      - service: media_player.media_pause
+        entity_id: media_player.bedroom
+  
+  - alias: 'Stop Tomato Flow'
+    trigger:
+      platform: state
+      entity_id: input_boolean.tomato_flow
+      to: "off"
     action:
-      service: timer.cancel
-      entity_id: timer.tomato_break
+      - service: timer.cancel
+        entity_id: timer.tomato
+      - service: media_player.media_play
+        entity_id: media_player.bedroom
+ 
+  - alias: 'Tomato Timer Finished - break'
+    trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data: 
+        entity_id: timer.tomato
+    condition:
+      condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ states.timer.tomato.attributes.duration == "0:25:00" }}'
+      - condition: state
+        entity_id: input_boolean.tomato_flow
+        state: 'on'
+    action:
+    - service: timer.start
+      data:
+        entity_id: timer.tomato
+        duration: 00:05:00
+    - service: media_player.media_play
+      entity_id: media_player.bedroom
+
+  - alias: 'Tomato Timer Finished - resume'
+    trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data: 
+        entity_id: timer.tomato
+    condition:
+      condition: and
+      conditions:
+      - condition: template
+        value_template: '{{ states.timer.tomato.attributes.duration == "0:05:00" }}'
+      - condition: state
+        entity_id: input_boolean.tomato_flow
+        state: 'on'
+    action:
+    - service: timer.start
+      data:
+        entity_id: timer.tomato
+        duration: 00:25:00
+    - service: media_player.media_pause
+      entity_id: media_player.bedroom

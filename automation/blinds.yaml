@@ -50,9 +50,8 @@
         before: sunset
       - condition: time
         after: '14:00:00'
-      - condition: state
-        entity_id: sensor.blind_status
-        state: open
+      - condition: template
+        value_template: '{{ states.cover.blind.attributes.current_position > 50 }}'
       - condition: or
         conditions:
         - condition: numeric_state
@@ -61,7 +60,6 @@
         - condition: numeric_state
           entity_id: sensor.temperature
           above: '22'
-
     action:
         - service: cover.set_cover_position
           data:

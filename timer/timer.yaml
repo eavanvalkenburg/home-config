@@ -1,4 +1,5 @@
   tomato:
     duration: '00:25:00'
+    icon: mdi:food-apple
   tomato_break:
     duration: '00:05:00'

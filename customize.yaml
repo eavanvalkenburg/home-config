@@ -1,133 +1,78 @@
-############################################################
-# Media players
-############################################################
+media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq:
+  friendly_name: Plex on Xbox
+  icon: mdi:plex
+media_player.xbox:
+  icon: mdi:xbox
+media_player.tv:
+  icon: mdi:television
+media_player.bedroom:
+  icon: mdi:bed-empty
+media_player.bathroom:
+  icon: mdi:hot-tub
+media_player.living_room:
+  icon: mdi:home-automation
+light.dlight1:
+  hidden: true
+light.dlight2:
+  hidden: true
+light.dlight3:
+  hidden: true
+light.tapdimmer:
+  hidden: true
+light.spot_links:
+  hidden: true
+light.spot_rechts:
+  hidden: true
+light.kitchen:
+  hidden: true
+light.lamp_links:
+  hidden: true
+light.lamp_rechts:
+  hidden: true
+light.all_hue_lights:
+  hidden: true
+light.desk_lamp:
+  icon: mdi:lamp
+light.liggende_lamp:
+  icon: mdi:spotlight-beam
+light.oplaad_lamp:
+  icon: mdi:floor-lamp
+light.staande_lamp:
+  icon: mdi:floor-lamp
+light.living:
+  icon: mdi:home
+sensor.sonos_master:
+  hidden: false
+sensor.myipopendnscom:
+  friendly_name: IP Address
+automation.tv_on_sonos_off:
+  friendly_name: Sonos paused in the other rooms when watching TV
+automation.tv_off_sonos_on:
+  friendly_name: Sonos play after regroup when turning off the TV
+automation.away_lights_off:
+  friendly_name: Lights on when away
+automation.away_lights_on:
+  friendly_name: Lights off when away
+automation.movie_paused:
+  friendly_name: Movie pause - lights on
+automation.movie_play:
+  friendly_name: Movie playing - dim lights
+automation.home_lights_on:
+  friendly_name: Lights on when home
+automation.people_lights_on:
+  friendly_name: Lights on when arriving home
+automation.people_lights_off:
+  friendly_name: Lights off when leaving
+group.default_view:
+  order: 1
+group.homeserver:
+  order: 2
+group.automation:
+  order: 3
+group.eduard:
+  icon: mdi:human-male
+group.willemijn:
+  icon: mdi:human-female
+group.people:
+  icon: mdi:human-male-female
 
-  media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq:
-    friendly_name: Plex on Xbox
-    icon: mdi:plex
-
-  media_player.xbox:
-    icon: mdi:xbox
-
-  media_player.tv:
-    icon: mdi:television
-
-  media_player.bedroom:
-    icon: mdi:bed-empty
-
-  media_player.bathroom:
-    icon: mdi:hot-tub
-
-  media_player.living_room:
-    icon: mdi:home-automation
-
-############################################################
-# Lights
-############################################################
-
-  light.dlight1:
-    hidden: true
-
-  light.dlight2:
-    hidden: true
-
-  light.dlight3:
-    hidden: true
-
-  light.tapdimmer:
-    hidden: true
-
-  light.spot_links:
-    hidden: true
-  
-  light.spot_rechts:
-    hidden: true
-
-  light.kitchen:
-    hidden: true
-
-  light.lamp_links:
-    hidden: true
-
-  light.lamp_rechts:
-    hidden: true
-
-  light.all_hue_lights:
-    hidden: true
-
-  light.desk_lamp:
-    icon: mdi:lamp
-
-  light.liggende_lamp:
-    icon: mdi:spotlight-beam
-
-  light.oplaad_lamp:
-    icon: mdi:floor-lamp
-
-  light.staande_lamp:
-    icon: mdi:floor-lamp
-
-  light.living:
-    icon: mdi:home
-
-
-############################################################
-# templates
-############################################################
-
-  sensor.sonos_master:
-    hidden: false
-
-  sensor.myipopendnscom:
-    friendly_name: IP Address
-    
-############################################################
-# Automation
-############################################################
-
-  automation.tv_on_sonos_off:
-    friendly_name: Sonos paused in the other rooms when watching TV
-
-  automation.tv_off_sonos_on:
-    friendly_name: Sonos play after regroup when turning off the TV
-
-  automation.away_lights_off:
-    friendly_name: Lights on when away
-
-  automation.away_lights_on:
-    friendly_name: Lights off when away
-
-  automation.movie_paused:
-    friendly_name: Movie pause - lights on
-
-  automation.movie_play:
-    friendly_name: Movie playing - dim lights
-
-  automation.home_lights_on:
-    friendly_name: Lights on when home
-
-  automation.people_lights_on:
-    friendly_name: Lights on when arriving home
-
-  automation.people_lights_off:
-    friendly_name: Lights off when leaving
-
-  group.default_view:
-    order: 1
-  group.homeserver:
-    order: 2
-  group.automation:
-    order: 3
-    
-############################################################
-# Groups
-############################################################
-
-  group.eduard:
-    icon: mdi:human-male
-  
-  group.willemijn:
-    icon: mdi:human-female
-
-  group.people:
-    icon: mdi:human-male-female
