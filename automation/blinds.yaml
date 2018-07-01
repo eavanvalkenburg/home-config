@@ -49,9 +49,13 @@
       - condition: sun
         before: sunset
       - condition: time
-        after: '14:00:00'
+        after: '12:00:00'
       - condition: template
         value_template: '{{ states.cover.blind.attributes.current_position > 50 }}'
+      - condition: template
+        value_template: '{{ states.sun.sun.attributes.azimuth > 215 }}'
+      # - condition: template
+      #   value_template: '{{ states.sun.sun.attributes.elevation > 50 }}'
       - condition: or
         conditions:
         - condition: numeric_state

@@ -6,5 +6,7 @@
   - platform: webostv
     name: notify_tv
     host: 192.168.2.5
-    
+  - platform: command_line
+    name: update_hass
+    command: "sudo pip install homeassistant -U"
     

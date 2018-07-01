@@ -10,6 +10,7 @@
       - media_player.tv
       - switch.xbox_one
       - group.lights
+      - sensor.aeotec_zw111_nano_dimmer_energy_2
       - group.sonos
       - group.blind
       - sensor.blind_position
@@ -80,6 +81,7 @@
       - light.liggende_lamp
       - light.staande_lamp
       - light.desk_lamp
+      - light.aeotec_zw111_nano_dimmer_level_2
 
   sonos:
     entities:
