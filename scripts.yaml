@@ -43,3 +43,16 @@
           eventtype: "update_available"
           dataversion: 1.0.0
           payload: "{ 'message': 'test' }"
+
+  restart_ha:
+    alias: Restart Home Assistant
+    sequence:
+      - service: homeassistant.restart
+
+  reload_ha:
+    alias: Reload Configs
+    sequence:
+      - service: automation.reload
+      - service: script.reload
+      - service: homeassistant.reload_core_config
+      - service: frontend.reload_themes

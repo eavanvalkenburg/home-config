@@ -147,7 +147,9 @@
         value_template: "{{ states('cover.blind') }}"
       blind_position:
         friendly_name: 'Blind Position'
-        value_template: "{{ states.cover.blind.attributes.current_position }}"
+        value_template: "{{ states.cover.blind.attributes.current_position | int}}"
+        unit_of_measurement: "%"
+        icon_template: mdi:blinds
       total_packages:
         friendly_name: Total packages
         unit_of_measurement: 'packages'
@@ -208,3 +210,9 @@
           {% else %}
             mdi:music-note-off
           {% endif %}
+      sun_elevation:
+        value_template: '{{ states.sun.sun.attributes.elevation | float }}'
+        unit_of_measurement: 'º'
+      sun_azimuth:
+        value_template: '{{ states.sun.sun.attributes.azimuth | float }}'
+        unit_of_measurement: 'º'

@@ -1,8 +1,7 @@
-
-
   default_view:
     name: Home
     view: yes
+    icon: mdi:home
     entities:
       - group.people
       - group.weather
@@ -10,7 +9,7 @@
       - media_player.tv
       - switch.xbox_one
       - group.lights
-      - sensor.aeotec_zw111_nano_dimmer_energy_2
+      - sensor.aeotec_zw111_nano_dimmer_power_2
       - group.sonos
       - group.blind
       - sensor.blind_position
@@ -27,8 +26,9 @@
       - sensor.blind_status
       - sensor.plex
       - group.stocks
-      # - group.hue_sensors
-      - history_graph.traveltimes
+      - sensor.sun_azimuth
+      - sensor.sun_elevation
+      - group.alarm
 
   people:
     name: People
@@ -65,7 +65,6 @@
       - sensor.weather_stationname
       - weather.br_unknown_station
       - sun.sun
-      - history_graph.temperatures
 
   hue_sensors:
     name: Hue Sensors
@@ -83,6 +82,13 @@
       - light.desk_lamp
       - light.aeotec_zw111_nano_dimmer_level_2
 
+  alarm:
+    name: Alarm
+    entities:
+      - input_boolean.alarm_on
+      - input_datetime.alarm_clock_time
+      - automation.alarm_automation
+
   sonos:
     entities:
       - media_player.bedroom
@@ -96,9 +102,41 @@
       - switch.xbox_one
       - switch.tv
 
+  packages:
+    name: Packages
+    entities:
+      - sensor.postnl
+      - sensor.ups
+
+  stocks:
+    name: Stocks
+    entities:
+      - sensor.microsoft
+      - sensor.google
+      - sensor.apple
+      - sensor.amazon
+      - sensor.coinbase_total
+
+  blind:
+    name: Blind
+    entities:
+      - cover.blind
+      - automation.close_the_blind_when_its_sunny
+
+  graphs:
+    name: Graphs
+    view: yes
+    icon: mdi:chart-line
+    entities:
+      - history_graph.traveltimes
+      - history_graph.temperatures
+      - history_graph.sun
+      - history_graph.blind
+
   automation:
     name: Automation
     view: yes
+    icon: mdi:auto-fix
     entities:
       - automation.away_lights_off
       - automation.away_lights_on
@@ -116,12 +154,15 @@
   homeserver:
     name: Tech
     view: yes
+    icon: mdi:settings
     entities:
       - group.technical
       - group.mediatracker
       - sensor.current_version
       - sensor.pypi_hass_version
       - sensor.hassuptime
+      - script.reload_ha
+      - script.restart_ha
 
   technical:
     name: Server details
@@ -154,22 +195,3 @@
       - sensor.sabnzbd_left
       - sensor.sabnzbd_disk
       - sensor.sabnzbd_disk_free
-
-  blind:
-    name: Blind
-    entities:
-      - cover.blind
-
-  packages:
-    name: Packages
-    entities:
-      - sensor.postnl
-      - sensor.ups
-
-  stocks:
-    name: Stocks
-    entities:
-      - sensor.microsoft
-      - sensor.google
-      - sensor.apple
-      - sensor.amazon

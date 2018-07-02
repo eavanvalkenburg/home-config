@@ -65,10 +65,12 @@ automation.people_lights_off:
   friendly_name: Lights off when leaving
 group.default_view:
   order: 1
-group.homeserver:
+group.graphs:
   order: 2
-group.automation:
+group.homeserver:
   order: 3
+group.automation:
+  order: 4
 group.eduard:
   icon: mdi:human-male
 group.willemijn:
