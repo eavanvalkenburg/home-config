@@ -1,0 +1,171 @@
+name: OVP
+views:
+  - name: Home
+    tab_icon: mdi:home-assistant
+    theme: default
+    columnCount: 2
+    columnWidth: 600
+    cards:
+      # - type: column
+      #   cards:
+      - type: glance
+        title: Home
+        entities:
+          - sensor.blind_position
+          - sensor.temperature
+          - sensor.light_level
+          - sensor.blind_status
+
+      - type: glance
+        title: People
+        entities:
+          - group.willemijn
+          - group.eduard
+          - sensor.eduards_iphone_battery_level
+          - sensor.eduards_iphone_battery_state
+          - sensor.eduard_naar_huis
+
+      - type: camera-preview
+        entity: camera.eduard
+
+      - type: entities
+        title: Finance
+        entities:
+          - sensor.microsoft
+          - sensor.google
+          - sensor.apple
+          - sensor.amazon
+          - sensor.coinbase_total
+          - sensor.coinbase_btc
+          - sensor.coinbase_eth
+          - sensor.coinbase_ltc
+
+      - type: entities
+        title: Weather
+        entities:
+          - sun.sun
+          - sensor.weather_symbol
+          - sensor.weather_condition
+          - sensor.weather_detailed_condition
+          - sensor.weather_condition_code_1d
+          - sensor.weather_temperature
+          - sensor.weather_precipitation
+          - sensor.weather_precipitation_forecast_average
+          - sensor.weather_humidity
+          - sensor.weather_wind_direction
+          - sensor.weather_wind_force
+          - sensor.weather_stationname
+
+      - type: weather-forecast
+        entity: weather.br_unknown_station
+
+      - type: entities
+        title: Misc
+        entities:
+          - timer.tomato
+          - sensor.total_packages
+          - cover.blind
+
+      - type: glance
+        # Title of the entities card
+        title: Media
+        # The entities here will be shown in the same order as specified.
+        entities:
+          - media_player.bedroom
+          - media_player.bathroom
+          - media_player.living_room
+          - media_player.multimedia
+          - media_player.tv
+          - sensor.plex
+          - switch.xbox_one
+
+  - tab_icon: mdi:play-pause
+    name: Media
+    theme: shiny
+    cards:
+      - type: entities
+        # Title of the entities card
+        title: Media
+        # The entities here will be shown in the same order as specified.
+        entities:
+          - media_player.bedroom
+          - media_player.bathroom
+          - media_player.living_room
+          - media_player.multimedia
+          - media_player.tv
+          - sensor.plex
+          - switch.xbox_one
+
+      - type: entities
+        title: Media tracking
+        entities:
+          - sensor.sonarr_series
+          - sensor.sonarr_upcoming
+          - sensor.sonarr_wanted
+          - sensor.sonarr_queue
+          - sensor.sonarr_commands 
+          - sensor.sonarr_diskspace
+          - sensor.sabnzbd_status
+          - sensor.sabnzbd_speed
+          - sensor.sabnzbd_queue
+          - sensor.sabnzbd_left
+          - sensor.sabnzbd_disk
+          - sensor.sabnzbd_disk_free
+      - type: entities
+        title: Automations
+        entities:
+          - automation.movie_paused
+          - automation.movie_play
+          - automation.tv_off_sonos_on
+          - automation.tv_on_sonos_off
+
+  - tab_icon: mdi:lightbulb-on
+    name: Lights
+    theme: simple
+    cards:
+      - type: entities
+        title: Lights
+        entities:
+          - light.living
+          - light.oplaad_lamp
+          - light.liggende_lamp
+          - light.staande_lamp
+          - light.desk_lamp
+          
+      - type: entities
+        title: Automations
+        entities:
+          - automation.away_lights_off
+          - automation.away_lights_on
+          - automation.home_lights_on
+          - automation.people_lights_off
+          - automation.people_lights_on
+
+    # Specify a tab_icon if you want the view tab to be an icon.
+  - tab_icon: mdi:server
+    # Name of the view. Will be used as the tooltip for tab icon
+    name: Server
+    theme: dark
+    cards:
+      - type: entities
+        title: Technical Status
+        entities:          
+          - sensor.cpu_speed
+          - sensor.cpu_used
+          - sensor.ram_used
+          - sensor.disk_free_content
+          - sensor.disk_used_
+          - sensor.received
+          - sensor.sent
+          - sensor.speedtest_download
+          - sensor.speedtest_upload
+          - sensor.speedtest_ping
+          - sensor.myipopendnscom
+          - sensor.last_boot
+
+      - type: entities
+        title: Hass Status
+        entities:
+          - sensor.current_version
+          - sensor.pypi_hass_version
+          - sensor.hassuptime

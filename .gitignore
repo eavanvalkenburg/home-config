@@ -133,3 +133,8 @@ deps
 tts
 www
 .cloud
+
+*.xml
+*.pickle
+*.sqlite
+*log.txt

@@ -7,14 +7,6 @@
     use_custom_entity_ids: true
     use_episode_art: true
     
-  - platform: sonos
-    entity_namespace: 'sonos'
-    # use_custom_entity_ids: true
-    customize:
-      sources:
-        - TV
-        - Spotify
-
   - platform: webostv
     name: TV
     host: 192.168.2.5
@@ -76,7 +68,6 @@
         service: media_player.media_play_pause
         data:
           entity_id: media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq
-
     attributes:
       state: media_player.tv
       is_volume_muted: media_player.living_room
