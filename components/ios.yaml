@@ -23,21 +23,36 @@
           - identifier: 'LIGHTS_TURN_OFF'
             title: 'Turn lights off'
             activationMode: 'background'
-            authenticationRequired: yes
+            authenticationRequired: no
             destructive: no
-            behavior: 'default'
       - name: Sonos
         identifier: 'sonos'
         actions:
-          - identifier: 'SONOS_TURN_ON'
+          - identifier: 'MUSIC'
             title: 'Resume music'
             activationMode: 'background'
-            authenticationRequired: yes
+            authenticationRequired: no
             destructive: no
-            behavior: 'default'
           - identifier: 'SONOS_DO_NOTHING'
             title: 'Do not resume music'
             activationMode: 'background'
-            authenticationRequired: yes
+            authenticationRequired: no
             destructive: no
-            behavior: 'default'
+      - name: MusicOrTV
+        identifier: 'musicortv'
+        actions:
+          - identifier: 'MUSIC'
+            title: 'Play music'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+          - identifier: 'MEDIA'
+            title: 'Watch Media'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no
+          - identifier: 'NOTHING'
+            title: 'Neither'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: no

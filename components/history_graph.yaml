@@ -1,0 +1,28 @@
+  traveltimes:
+    name: Traveltimes
+    entities:
+      - sensor.huis_naar_werk
+      - sensor.werk_naar_huis
+    hours_to_show: 192
+    refresh: 3600
+  temperatures:
+    name: Temperatures
+    entities:
+      - sensor.temperature
+      - sensor.weather_temperature
+    hours_to_show: 72
+    refresh: 300
+  sun_elevation:
+    name: Sun
+    entities:
+      - sensor.sun_elevation
+      - sensor.sun_azimuth
+    hours_to_show: 72
+    refresh: 300
+  blind:
+    name: Blind
+    entities:
+      - sensor.blind_position
+    hours_to_show: 72
+    refresh: 900
+    

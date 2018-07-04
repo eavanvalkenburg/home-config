@@ -1,0 +1,14 @@
+  - alias: Alarm Automation
+    trigger:
+      platform: template
+      value_template: "{{ states('sensor.time') == ((states.input_datetime.alarm_clock_time.attributes.timestamp | int) -900 | timestamp_custom('%H:%M', False)) }}"
+    condition:
+    - condition: state
+      entity_id: input_boolean.alarm_on
+      state: "on"
+    action:
+    - service: light.turn_on
+      data:
+        entity_id: light.aeotec_zw111_nano_dimmer_level_2
+        brightness: 99
+        transition: 900

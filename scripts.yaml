@@ -32,3 +32,27 @@
       - service: media_player.sonos_restore
         data_template:
           entity_id: "{{ 'media_player.' ~ where }}"
+
+  aeg_test:
+    alias: Azure Event Grid Test
+    sequence:
+      - service: azure_event_grid.publish_message
+        data_template:
+          name: update_notify
+          subject: "homeassistant.update"
+          eventtype: "update_available"
+          dataversion: 1.0.0
+          payload: "{ 'message': 'test' }"
+
+  restart_ha:
+    alias: Restart Home Assistant
+    sequence:
+      - service: homeassistant.restart
+
+  reload_ha:
+    alias: Reload Configs
+    sequence:
+      - service: automation.reload
+      - service: script.reload
+      - service: homeassistant.reload_core_config
+      - service: frontend.reload_themes

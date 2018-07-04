@@ -38,21 +38,25 @@
           data:
             entity_id: cover.blind
 
-  - alias: 'blind_close_sunny'
+  - alias: 'Close the blind when its sunny'
     trigger:
       - platform: time
-        minutes: 0
-        seconds: 0
+        minutes: '/15'
+        seconds: 00
     condition: 
       condition: and
       conditions:
-      - condition: sun
-        before: sunset
-      - condition: time
-        after: '14:00:00'
       - condition: state
-        entity_id: sensor.blind_status
-        state: open
+        entity_id: sun.sun
+        state: above_horizon
+      - condition: time
+        after: '11:00:00'
+      # - condition: and
+      #   conditions:
+      #   - condition: template
+      #     value_template: '{{ states.sun.sun.attributes.azimuth | float > 215 }}'
+      #   - condition: template
+      #     value_template: '{{ states.sun.sun.attributes.azimuth | float < 292 }}'
       - condition: or
         conditions:
         - condition: numeric_state
@@ -61,10 +65,21 @@
         - condition: numeric_state
           entity_id: sensor.temperature
           above: '22'
-
     action:
         - service: cover.set_cover_position
-          data:
+          data_template:
             entity_id: cover.blind
-            position: 50
-  
+            position: >-
+              {%- set elevation = states.sun.sun.attributes.elevation | float -%}
+              {%- set azimuth = states.sun.sun.attributes.azimuth | float -%}
+              {%- if azimuth > 200 and azimuth < 292 -%}
+                {{ ([[ elevation | round | int, 100] |min, 0] |max) | int }}
+              {%- else -%}
+                100
+              {%- endif -%}
+
+  # if el > 12 and az > 215 and az < 292:
+  # pos 75
+  # elif el > 35
+  # pos 50
+  # el 0
