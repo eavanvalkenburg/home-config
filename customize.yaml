@@ -45,24 +45,6 @@ sensor.sonos_master:
   hidden: false
 sensor.myipopendnscom:
   friendly_name: IP Address
-automation.tv_on_sonos_off:
-  friendly_name: Sonos paused in the other rooms when watching TV
-automation.tv_off_sonos_on:
-  friendly_name: Sonos play after regroup when turning off the TV
-automation.away_lights_off:
-  friendly_name: Lights on when away
-automation.away_lights_on:
-  friendly_name: Lights off when away
-automation.movie_paused:
-  friendly_name: Movie pause - lights on
-automation.movie_play:
-  friendly_name: Movie playing - dim lights
-automation.home_lights_on:
-  friendly_name: Lights on when home
-automation.people_lights_on:
-  friendly_name: Lights on when arriving home
-automation.people_lights_off:
-  friendly_name: Lights off when leaving
 group.default_view:
   order: 1
 group.graphs:

@@ -4,7 +4,8 @@
 #
 ############################################################
 
-  - alias: 'movie_paused'
+  - alias: 'Movie - Pause'
+    id: 'movie_paused'
     trigger:
       - platform: state
         entity_id: media_player.plex_patdcblame9uz5g070n42zts
@@ -27,7 +28,8 @@
             group_name: "Living"
             scene_name: "Bright"
 
-  - alias: "movie_play"
+  - alias: 'Movie - Play'
+    id: "movie_play"
     trigger:
       - platform: state
         entity_id: media_player.plex_patdcblame9uz5g070n42zts

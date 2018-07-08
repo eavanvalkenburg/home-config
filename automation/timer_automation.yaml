@@ -1,4 +1,5 @@
   - alias: 'Start Tomato Flow'
+    id: tomato_start
     trigger:
       platform: state
       entity_id: input_boolean.tomato_flow
@@ -12,6 +13,7 @@
         entity_id: media_player.bedroom
   
   - alias: 'Stop Tomato Flow'
+    id: tomato_stop
     trigger:
       platform: state
       entity_id: input_boolean.tomato_flow
@@ -23,6 +25,7 @@
         entity_id: media_player.bedroom
  
   - alias: 'Tomato Timer Finished - break'
+    id: tomato_finished_break
     trigger:
     - platform: event
       event_type: timer.finished
@@ -45,6 +48,7 @@
       entity_id: media_player.bedroom
 
   - alias: 'Tomato Timer Finished - resume'
+    id: tomato_finished_resume
     trigger:
     - platform: event
       event_type: timer.finished

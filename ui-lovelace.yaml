@@ -1,70 +1,85 @@
-name: OVP
+title: Home
 views:
-  - name: Home
-    tab_icon: mdi:home-assistant
-    theme: default
-    columnCount: 2
-    columnWidth: 600
+  - icon: mdi:home-assistant
+    title: Home
     cards:
-      # - type: column
-      #   cards:
-      - type: glance
-        title: Home
-        entities:
-          - sensor.blind_position
-          - sensor.temperature
-          - sensor.light_level
-          - sensor.blind_status
+      - type: vertical-stack
+        cards:
+        - type: glance
+          title: People
+          entities:
+            - group.willemijn
+            - sensor.kitchen_motion_sensor
+            # - group.eduard
+            # - sensor.eduards_iphone_battery_level
+            # - sensor.eduards_iphone_battery_state
+            # - sensor.eduard_naar_huis
 
-      - type: glance
-        title: People
-        entities:
-          - group.willemijn
-          - group.eduard
-          - sensor.eduards_iphone_battery_level
-          - sensor.eduards_iphone_battery_state
-          - sensor.eduard_naar_huis
+        - type: picture-glance
+          image:
+          camera_image: 'camera.eduard'
+          title: Eduard
+          entities:
+            - group.eduard
+            - sensor.eduards_iphone_battery_level
+            - sensor.eduards_iphone_battery_state
+            - sensor.eduard_naar_huis
+            - sensor.huis_naar_werk
+            - sensor.werk_naar_huis
 
-      - type: camera-preview
-        entity: camera.eduard
+        - type: entities
+          title: Finance
+          entities:
+            - sensor.microsoft
+            - sensor.google
+            - sensor.apple
+            - sensor.amazon
+            - sensor.coinbase_total
+            - sensor.coinbase_btc
+            - sensor.coinbase_eth
+            - sensor.coinbase_ltc
 
-      - type: entities
-        title: Finance
-        entities:
-          - sensor.microsoft
-          - sensor.google
-          - sensor.apple
-          - sensor.amazon
-          - sensor.coinbase_total
-          - sensor.coinbase_btc
-          - sensor.coinbase_eth
-          - sensor.coinbase_ltc
+        # - type: camera-preview
+        #   entity: camera.eduard
+      - type: vertical-stack
+        cards:
+        - type: glance
+          title: Home
+          entities:
+            - sensor.blind_position
+            - sensor.temperature
+            - sensor.light_level
+            - sensor.blind_status
+            - binary_sensor.neo_coolcam_doorwindow_detector_sensor
+            - cover.blind
+            - light.qubino_zmnhvdx_flush_dimmer_010v_level
 
-      - type: entities
-        title: Weather
-        entities:
-          - sun.sun
-          - sensor.weather_symbol
-          - sensor.weather_condition
-          - sensor.weather_detailed_condition
-          - sensor.weather_condition_code_1d
-          - sensor.weather_temperature
-          - sensor.weather_precipitation
-          - sensor.weather_precipitation_forecast_average
-          - sensor.weather_humidity
-          - sensor.weather_wind_direction
-          - sensor.weather_wind_force
-          - sensor.weather_stationname
+        - type: entities
+          title: Misc
+          entities:
+            - timer.tomato
+            - sensor.total_packages
 
-      - type: weather-forecast
-        entity: weather.br_unknown_station
+      - type: vertical-stack
+        cards:
+        - type: entities
+          title: Weather
+          entities:
+            - sun.sun
+            - sensor.weather_symbol
+            - sensor.weather_condition
+            - sensor.weather_detailed_condition
+            - sensor.weather_condition_code_1d
+            - sensor.weather_temperature
+            - sensor.weather_precipitation
+            - sensor.weather_precipitation_forecast_average
+            - sensor.weather_humidity
+            - sensor.weather_wind_direction
+            - sensor.weather_wind_force
+            - sensor.weather_stationname
 
-      - type: entities
-        title: Misc
-        entities:
-          - timer.tomato
-          - sensor.total_packages
-          - cover.blind
+        - type: weather-forecast
+          entity: weather.br_unknown_station
 
       - type: glance
         # Title of the entities card
@@ -79,9 +94,8 @@ views:
           - sensor.plex
           - switch.xbox_one
 
-  - tab_icon: mdi:play-pause
-    name: Media
-    theme: shiny
+  - icon: mdi:play-pause
+    title: Media
     cards:
       - type: entities
         # Title of the entities card
@@ -111,61 +125,151 @@ views:
           - sensor.sabnzbd_left
           - sensor.sabnzbd_disk
           - sensor.sabnzbd_disk_free
-      - type: entities
-        title: Automations
-        entities:
-          - automation.movie_paused
-          - automation.movie_play
-          - automation.tv_off_sonos_on
-          - automation.tv_on_sonos_off
 
-  - tab_icon: mdi:lightbulb-on
-    name: Lights
-    theme: simple
+  - icon: mdi:lightbulb-on
+    title: Lights
     cards:
       - type: entities
         title: Lights
         entities:
-          - light.living
           - light.oplaad_lamp
           - light.liggende_lamp
           - light.staande_lamp
           - light.desk_lamp
-          
+      
       - type: entities
-        title: Automations
+        title: Bedroom
+        entities:
+          - light.aeotec_zw111_nano_dimmer_level_2
+
+  - icon: mdi:chart-line
+    title: History
+    cards:
+      - type: history-graph
+        title: Traveltimes
+        entities:
+          - sensor.huis_naar_werk
+          - sensor.werk_naar_huis
+        hours_to_show: 192
+        refresh: 3600
+
+      - type: history-graph
+        title: Temperatures
+        entities:
+          - sensor.temperature
+          - sensor.weather_temperature
+        hours_to_show: 72
+        refresh: 300
+
+      - type: history-graph
+        title: Sun
+        entities:
+          - sensor.sun_elevation
+          - sensor.sun_azimuth
+        hours_to_show: 72
+        refresh: 300
+
+      - type: history-graph
+        title: Blind
+        entities:
+          - sensor.blind_position
+        hours_to_show: 72
+        refresh: 900
+
+  - icon: mdi:server
+    title: Server
+    cards:
+      - type: vertical-stack
+        cards:
+        - type: entities
+          title: Technical Status
+          entities:          
+            - sensor.cpu_speed
+            - sensor.cpu_used
+            - sensor.ram_used
+            - sensor.disk_free_content
+            - sensor.disk_used_
+            - sensor.received
+            - sensor.sent
+            - sensor.speedtest_download
+            - sensor.speedtest_upload
+            - sensor.speedtest_ping
+            - sensor.myipopendnscom
+            - sensor.last_boot
+
+        - type: entities
+          title: System
+          entities:
+            - sensor.hassuptime
+            - automation.startup_notification
+            - script.reload_ha
+            - script.restart_ha
+            - automation.notify_me_when_update_is_available
+            - sensor.current_version
+            - sensor.pypi_hass_version
+
+      - type: entities
+        title: Light Automations
         entities:
           - automation.away_lights_off
           - automation.away_lights_on
-          - automation.home_lights_on
-          - automation.people_lights_off
-          - automation.people_lights_on
-
-    # Specify a tab_icon if you want the view tab to be an icon.
-  - tab_icon: mdi:server
-    # Name of the view. Will be used as the tooltip for tab icon
-    name: Server
-    theme: dark
-    cards:
-      - type: entities
-        title: Technical Status
-        entities:          
-          - sensor.cpu_speed
-          - sensor.cpu_used
-          - sensor.ram_used
-          - sensor.disk_free_content
-          - sensor.disk_used_
-          - sensor.received
-          - sensor.sent
-          - sensor.speedtest_download
-          - sensor.speedtest_upload
-          - sensor.speedtest_ping
-          - sensor.myipopendnscom
-          - sensor.last_boot
+          - automation.lights_on_at_sunset
+          - automation.lights_off_after_leaving
+          - automation.lights_off_when_away
 
       - type: entities
-        title: Hass Status
+        title: Media Automations
         entities:
-          - sensor.current_version
-          - sensor.pypi_hass_version
-          - sensor.hassuptime
+          - automation.movie__pause
+          - automation.movie__play
+          - automation.tv_off_play_music
+          - automation.tv_off_sonos_on
+          - automation.tv_on_pause_sonos
+          - input_boolean.resume_music
+          - automation.play_media
+          - automation.play_music
+
+      - type: entities
+        title: Tomato Automations
+        entities:
+          - timer.tomato
+          - input_boolean.tomato_flow
+          - automation.start_tomato_flow
+          - automation.stop_tomato_flow
+          - automation.tomato_timer_finished__break
+          - automation.tomato_timer_finished__resume
+
+      - type: entities
+        title: Blind Automations
+        entities:
+          - cover.blind
+          - sensor.blind_status
+          - sensor.blind_position
+          - automation.blind_close_at_sunset
+          - automation.blind_open_at_sunrise_week
+          - automation.blind_open_at_sunrise_weekend
+          - automation.close_the_blind_when_its_sunny
+
+      - type: entities
+        title: People Automations
+        entities:
+          - automation.eduard_arrives_home
+          - automation.willemijn_arrives_home
+          - automation.willemijn_leaves_home
+          - automation.lights_on_when_arriving_home
+          - automation.lights_off__ios
+
+      - type: entities
+        title: Alarm Automations
+        entities:
+          - automation.alarm_automation
+          - input_boolean.alarm_on
+          - input_datetime.alarm_clock_time
+
+      - type: entities
+        title: Fan Automations
+        entities:
+          - light.qubino_zmnhvdx_flush_dimmer_010v_level
+          - script.fan_full
+          - script.fan_background
+          - script.fan_off

@@ -1,4 +1,5 @@
-  - alias: 'lights_on'
+  - alias: 'Lights on at sunset'
+    id: lights_sunset
     trigger:
       - platform: sun
         event: sunset
@@ -9,7 +10,8 @@
             group_name: "Living"
             scene_name: "Dimmed"
 
-  - alias: 'away_lights_off'
+  - alias: 'Lights off when away'
+    id: lights_off_away
     trigger:
       - platform: time
         at: '23:00:00'
@@ -24,7 +26,8 @@
             group_name: "Living"
             scene_name: "Off"
 
-  - alias: 'arriving_lights_on'
+  - alias: 'Lights on when arriving home'
+    id: lights_on_home
     trigger:
       - platform: state
         entity_id: group.people
@@ -40,7 +43,8 @@
             group_name: "Living"
             scene_name: "Dimmed"
 
-  - alias: 'arriving_lights_off'
+  - alias: 'Lights off after leaving'
+    id: lights_on_after_leaving
     trigger:
       - platform: state
         entity_id: group.people
@@ -59,7 +63,7 @@
             group_name: "Living"
             scene_name: "Dimmed"
 
-  - alias: ios_turn_lights_off
+  - alias: Lights off - iOS
     id: ios_turn_lights_off
     trigger:
       platform: event

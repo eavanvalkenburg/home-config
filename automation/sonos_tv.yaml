@@ -1,5 +1,6 @@
 
-  - alias: 'tv_off_sonos_on'
+  - alias: TV Off, Sonos On
+    id: 'tv_off_sonos_on'
     trigger:
       - platform: state
         entity_id: media_player.tv
@@ -21,7 +22,8 @@
               badge: 0
               category: 'sonos'
 
-  - alias: 'tv_off_resume'
+  - alias: 'TV Off, Play music'
+    id: 'tv_off_play'
     trigger:
       - platform: state
         entity_id: media_player.tv
@@ -35,7 +37,8 @@
         data:
           entity_id:  "media_player.bedroom"
 
-  - alias: 'tv_on_sonos_off'
+  - alias: TV On, Pause Sonos
+    id: 'tv_on_sonos_off'
     trigger:
       - platform: state
         entity_id: media_player.tv

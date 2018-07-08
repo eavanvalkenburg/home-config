@@ -138,3 +138,4 @@ www
 *.pickle
 *.sqlite
 *log.txt
+*.config_entries

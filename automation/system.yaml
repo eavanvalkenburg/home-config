@@ -5,6 +5,7 @@
 ############################################################
 
 - alias: 'Notify me when update is available'
+  id: update_available
   trigger:
     platform: state
     entity_id: updater.updater

@@ -1,4 +1,5 @@
-  - alias: 'blind_close_sunset'
+  - alias: 'Blind close at sunset'
+    id: blind_sunset
     trigger:
       - platform: sun
         event: sunset
@@ -7,7 +8,8 @@
           data:
             entity_id: cover.blind
 
-  - alias: 'blind_open_sunset_week'
+  - alias: 'Blind open at sunrise week'
+    id: blind_sunrise_week
     trigger:
       - platform: time
         at: '08:00:00'
@@ -24,7 +26,8 @@
           data:
             entity_id: cover.blind
 
-  - alias: 'blind_open_sunset_weekend'
+  - alias: 'Blind open at sunrise weekend'
+    id: blind_sunrise_weekend
     trigger:
       - platform: time
         at: '11:00:00'
@@ -39,6 +42,7 @@
             entity_id: cover.blind
 
   - alias: 'Close the blind when its sunny'
+    id: blind_sunny
     trigger:
       - platform: time
         minutes: '/15'

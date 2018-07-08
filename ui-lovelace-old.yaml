@@ -1,0 +1,135 @@
+name: Home
+views:
+- name: Home
+  tab_icon: mdi:home
+  cards:
+  - type: entities
+    title: People
+    entities: []
+  - - type: entities
+      title: Willemijn
+      entities:
+      - device_tracker.android97e3e41b02685fa2
+    - []
+  - - type: entities
+      title: Eduard
+      entities:
+      - device_tracker.eduards_iphone
+      - device_tracker.eduardsiphone_router
+    - []
+  - type: camera-preview
+    entity: camera.eduard
+  - type: entities
+    title: Weather
+    entities:
+    - sensor.temperature
+    - sensor.weather_temperature
+    - sensor.weather_symbol
+    - sensor.weather_condition
+    - sensor.weather_detailed_condition
+    - sensor.weather_condition_code_1d
+    - sensor.weather_precipitation
+    - sensor.weather_precipitation_forecast_average
+    - sensor.weather_humidity
+    - sensor.weather_wind_direction
+    - sensor.weather_wind_force
+    - sensor.weather_stationname
+    - sun.sun
+  - type: weather-forecast
+    entity: weather.br_unknown_station
+  - type: media-control
+    entity: media_player.multimedia
+  - type: media-control
+    entity: media_player.tv
+  - type: entities
+    title: Lights
+    entities:
+    - light.living
+    - light.oplaad_lamp
+    - light.liggende_lamp
+    - light.staande_lamp
+    - light.desk_lamp
+    - light.aeotec_zw111_nano_dimmer_level_2
+  - type: entities
+    entities: []
+  - type: media-control
+    entity: media_player.bedroom
+  - type: media-control
+    entity: media_player.bathroom
+  - type: media-control
+    entity: media_player.living_room
+  - type: entities
+    title: Blind
+    entities:
+    - cover.blind
+    - automation.close_the_blind_when_its_sunny
+  - type: entities
+    title: Stocks
+    entities:
+    - sensor.microsoft
+    - sensor.google
+    - sensor.apple
+    - sensor.amazon
+    - sensor.coinbase_total
+  - type: entities
+    title: Alarm
+    entities:
+    - input_boolean.alarm_on
+    - input_datetime.alarm_clock_time
+    - automation.alarm_automation
+- name: Graphs
+  tab_icon: mdi:chart-line
+  cards:
+  - type: history-graph
+    entity: history_graph.traveltimes
+  - type: history-graph
+    entity: history_graph.temperatures
+  - type: history-graph
+    entity: history_graph.sun
+  - type: history-graph
+    entity: history_graph.blind
+- name: Automation
+  tab_icon: mdi:auto-fix
+  cards: []
+- name: Tech
+  tab_icon: mdi:settings
+  cards:
+  - type: entities
+    title: Server details
+    entities:
+    - sensor.cpu_speed
+    - sensor.cpu_used
+    - sensor.ram_used
+    - sensor.disk_free_content
+    - sensor.disk_used_
+    - sensor.received
+    - sensor.sent
+    - sensor.speedtest_download
+    - sensor.speedtest_upload
+    - sensor.speedtest_ping
+    - sensor.myipopendnscom
+    - sensor.last_boot
+  - type: entities
+    title: Media tracking
+    entities:
+    - sensor.sonarr_series
+    - sensor.sonarr_upcoming
+    - sensor.sonarr_wanted
+    - sensor.sonarr_queue
+    - sensor.sonarr_commands
+    - sensor.sonarr_diskspace
+    - sensor.sabnzbd_status
+    - sensor.sabnzbd_speed
+    - sensor.sabnzbd_queue
+    - sensor.sabnzbd_left
+    - sensor.sabnzbd_disk
+    - sensor.sabnzbd_disk_free
+- cards:
+  - card_config:
+      title: All Entities
+    filter:
+    - {}
+    type: entity-filter
+  name: All Entities
+  tab_icon: mdi:settings
+

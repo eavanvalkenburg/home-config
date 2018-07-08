@@ -1,4 +1,5 @@
   - alias: "Willemijn arrives home"
+    id: willemijn_home
     trigger:
       - platform: state
         entity_id: group.willemijn
@@ -8,6 +9,7 @@
         entity_id: input_boolean.resume_music
 
   - alias: "Willemijn leaves home"
+    id: willemijn_away
     trigger:
       - platform: state
         entity_id: group.willemijn
@@ -17,6 +19,7 @@
         entity_id: input_boolean.resume_music
 
   - alias: "Eduard arrives home"
+    id: eduard_home
     trigger:
       - platform: state
         entity_id: group.eduard

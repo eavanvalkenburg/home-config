@@ -56,3 +56,26 @@
       - service: script.reload
       - service: homeassistant.reload_core_config
       - service: frontend.reload_themes
+
+  fan_full:
+    alias: Set fan to full
+    sequence:
+      - service: light.turn_on
+        entity_id: light.qubino_zmnhvdx_flush_dimmer_010v_level
+        data:
+          brightness_pct: 80
+
+  fan_background:
+    alias: Set fan to background
+    sequence:
+      - service: light.turn_on
+        entity_id: light.qubino_zmnhvdx_flush_dimmer_010v_level
+        data:
+          brightness_pct: 40
+
+  fan_off:
+    alias: Turn fan off
+    sequence:
+      - service: light.turn_off
+        entity_id: light.qubino_zmnhvdx_flush_dimmer_010v_level
+
