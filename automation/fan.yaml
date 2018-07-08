@@ -1,0 +1,21 @@
+  - alias: 'Fan Evening'
+    id: fan_evening
+    trigger:
+      - platform: time
+        at: '18:00:00'
+    action:
+        - service: script.fan_full
+        - delay: '02:00'
+        - service: script.fan_background
+        - delay: '02:00'
+        - service: script.fan_off
+
+  - alias: 'Fan Morning'
+    id: fan_morning
+    trigger:
+      - platform: time
+        at: '08:00:00'
+    action:
+        - service: script.fan_background
+        - delay: '01:00'
+        - service: script.fan_off

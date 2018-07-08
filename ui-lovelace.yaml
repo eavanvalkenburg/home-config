@@ -273,3 +273,5 @@ views:
           - script.fan_full
           - script.fan_background
           - script.fan_off
+          - automation.fan_evening
+          - automation.fan_morning
