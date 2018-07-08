@@ -1,0 +1,191 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret lat
+  longitude: !secret long
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: -2
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Amsterdam
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+# introduction:
+
+# Enables the frontend
+frontend:
+  themes:
+    dark:
+      primary-color: blue
+    shiny:
+      primary-color: red
+    simple:
+      primary-color: white
+      primary-text-color: blue
+
+cloud:
+  !include cloud.yaml
+
+  # Enables configuration UI
+config:
+
+http:
+  # Secrets are defined in the file secrets.yaml
+  api_password: !secret http_password
+  ssl_certificate: /etc/letsencrypt/live/eavv.nl/fullchain.pem
+  ssl_key: /etc/letsencrypt/live/eavv.nl/privkey.pem
+  # base_url: home.eavv.nl
+  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+  # base_url: example.duckdns.org:8123
+api:
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+wake_on_lan:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+
+sensor: !include components/sensors.yaml
+# sensor 2: !include components/templates.yaml
+
+#device trackers
+device_tracker:
+  - platform: asuswrt
+    host: !secret router_ip
+    #port: 8443
+    protocol: telnet
+    username: !secret asus_user
+    password: !secret asus_pw
+    interval_seconds: 12
+    consider_home: 120
+    mode: router
+    track_new_devices: no
+    new_device_defaults:
+      hide_if_away: true
+    
+#components
+notify: !include components/notify.yaml
+switch: !include components/switch.yaml
+media_player: !include components/mediaplayers.yaml
+group: !include components/groups.yaml
+
+hue:
+  bridges:
+    - host: !secret hue_ip
+
+#automation
+automation: !include_dir_merge_list automation
+script: !include scripts.yaml
+
+#timer
+timer: !include components/timer.yaml
+
+# Text to speech
+tts:
+  - platform: microsoft
+    api_key: !secret speech_api_key
+    language: en-us
+    gender: Female
+    type: JessaRUS
+    rate: 20
+    volume: -50
+    pitch: high
+    contour: (0, 0) (100, 100)
+
+ios: !include components/ios.yaml
+
+cover:
+  - platform: brunt
+    username: !secret brunt_username
+    password: !secret brunt_password
+
+zone:
+  - name: Home
+    latitude: !secret lat
+    longitude:  !secret long
+    radius: 15
+    icon: mdi:account-multiple
+  - name: Work
+    latitude: !secret work_lat
+    longitude: !secret work_long
+    radius: 150
+    icon: mdi:microsoft
+
+camera:
+  name: Eduard
+  platform: generic
+  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.eduards_iphone.attributes.latitude }},{{ states.device_tracker.eduards_iphone.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:E%7C{{ states.device_tracker.eduards_iphone.attributes.latitude }},{{ states.device_tracker.eduards_iphone.attributes.longitude }}
+  limit_refetch_to_url_change: true
+
+zwave:
+  usb_path: /dev/ttyACM0
+  debug: true
+
+input_boolean:
+  tomato_flow:
+    name: Tomato Flow
+    icon: mdi:food-apple
+  resume_music:
+    # name: Resume the music when the TV turns off
+    icon: mdi:music-note
+  alarm_on:
+    name: Alarm Active
+    icon: mdi:alarm
+
+input_datetime:
+  alarm_clock_time:
+    name: Alarm Clock
+    has_time: true
+
+weather:
+  - platform: buienradar
+    forecast: True
+
+coinbase:
+  api_key: !secret coinbase_key 
+  api_secret: !secret coinbase_secret
+  exchange_rate_currencies:
+    - BTC
+    - ETH
+    - LTC
+
+history_graph: !include components/history_graph.yaml
+
+azure_event_grid:
+  update_notify:
+    host: !secret eg_host
+    topic key: !secret topic_key
+
+logger:
+  default: warn
+  logs:
+    homeassistant.components.mqtt: info
+    homeassistant.components.azure_event_grid: debug
+    azure_event_grid: debug
