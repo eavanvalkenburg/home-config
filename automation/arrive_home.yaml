@@ -11,7 +11,7 @@
     trigger:
       - platform: state
         entity_id: group.willemijn
-        to: 'home'
+        from: 'home'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.resume_music
