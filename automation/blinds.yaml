@@ -73,7 +73,7 @@
               {%- set elevation = states.sun.sun.attributes.elevation | float -%}
               {%- set azimuth = states.sun.sun.attributes.azimuth | float -%}
               {%- if azimuth > 200 and azimuth < 292 -%}
-                {{ ([[((70- elevation )*0.86+25) | round | int, 100] |min, 0] |max) | int }} }}
+                {{ ([[ elevation | round | int, 100] |min, 0] |max) | int }}
               {%- else -%}
                 100
               {%- endif -%}
