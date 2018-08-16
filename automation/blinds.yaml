@@ -45,7 +45,7 @@
     id: blind_sunny
     trigger:
       - platform: time
-        minutes: '/15'
+        minutes: '/5'
         seconds: 00
     condition: 
       condition: and
@@ -55,20 +55,6 @@
         state: above_horizon
       - condition: time
         after: '11:00:00'
-      # - condition: and
-      #   conditions:
-      #   - condition: template
-      #     value_template: '{{ states.sun.sun.attributes.azimuth | float > 215 }}'
-      #   - condition: template
-      #     value_template: '{{ states.sun.sun.attributes.azimuth | float < 292 }}'
-      - condition: or
-        conditions:
-        - condition: numeric_state
-          entity_id: sensor.weather_temperature
-          above: '19'
-        - condition: numeric_state
-          entity_id: sensor.temperature
-          above: '22'
     action:
         - service: cover.set_cover_position
           data_template:
@@ -76,14 +62,47 @@
             position: >-
               {%- set elevation = states.sun.sun.attributes.elevation | float -%}
               {%- set azimuth = states.sun.sun.attributes.azimuth | float -%}
-              {%- if azimuth > 200 and azimuth < 292 -%}
-                {{ ([[ elevation | round | int, 100] |min, 0] |max) | int }}
+              {%- set temp_out = states.sensor.weather_temperature.state | float -%}
+              {%- set temp_in = states.sensor.temperature.state | float -%}
+              {%- set clear = is_state('input_boolean.clear_day', 'on') -%}
+              {%- set add = (temp_in - 22, 1) | max -%}
+              {%- set sun_pos = azimuth > 195 and azimuth < 290 -%}
+              {%- set factor = (temp_out - 19, 1) | max -%}
+              {%- set temp = temp_in >= 22 and temp_out >= 19 -%}
+              {%- if sun_pos and temp and clear -%}
+                {{ ([[ elevation - (add*factor) | round | int, 100] |min, 0] |max) | int }}
               {%- else -%}
                 100
               {%- endif -%}
 
-  # if el > 12 and az > 215 and az < 292:
-  # pos 75
-  # elif el > 35
-  # pos 50
-  # el 0
+  - alias: 'Set Clear Day'
+    id: set_clear
+    trigger:
+      platform: state
+      entity_id: sensor.weather_condition
+      to: clear
+    condition: 
+      condition: state
+      entity_id: sun.sun
+      state: above_horizon
+    action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.clear_day
+
+  - alias: 'Reset Clear Day'
+    id: reset_clear
+    trigger:
+      platform: sun
+      event: sunrise
+      offset: '-00:05:00'
+    action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.clear_day
+    - condition: state
+      entity_id: sensor.weather_condition
+      state: clear
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.clear_day

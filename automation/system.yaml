@@ -1,9 +1,3 @@
-############################################################
-#
-# Notify me when Home Assistant Update is available
-#
-############################################################
-
 - alias: 'Notify me when update is available'
   id: update_available
   trigger:
@@ -40,3 +34,12 @@
   - service: notify.notify_tv
     data:
       message: Yay, Home Assistant is back up!
+
+- alias: 'Start HomeKit'
+  trigger:
+    - platform: event
+      event_type: zwave.network_ready
+    - platform: event
+      event_type: zwave.network_complete
+  action:
+    - service: homekit.start

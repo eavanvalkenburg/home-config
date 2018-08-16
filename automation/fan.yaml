@@ -1,21 +1,117 @@
-  - alias: 'Fan Evening'
-    id: fan_evening
+  - alias: 'Fan Cooking'
+    id: fan_cooking
     trigger:
       - platform: time
         at: '18:00:00'
     action:
-        - service: script.fan_full
-        - delay: '02:00'
-        - service: script.fan_background
-        - delay: '02:00'
-        - service: script.fan_off
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.cooking
 
-  - alias: 'Fan Morning'
-    id: fan_morning
+  - alias: 'Fan After Cooking'
+    id: fan_after_cooking
+    trigger:
+      - platform: time
+        at: '20:00:00'
+    action:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.cooking
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.after_cooking
+
+  - alias: 'Fan Off'
+    id: fan_off
+    trigger:
+      - platform: time
+        at: '22:00:00'
+    action:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.after_cooking
+
+  - alias: 'Shower On Morning Week'
+    id: shower_on_morning_weekday
     trigger:
       - platform: time
         at: '08:00:00'
+    condition: 
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
     action:
-        - service: script.fan_background
-        - delay: '01:00'
-        - service: script.fan_off
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.shower
+
+  - alias: 'Shower Off Morning Week'
+    id: shower_off_morning_weekday
+    trigger:
+      - platform: time
+        at: '09:00:00'
+    condition: 
+      - condition: time
+        weekday:
+          - mon
+          - tue
+          - wed
+          - thu
+          - fri
+    action:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.shower
+
+  - alias: 'Shower On  Morning Weekend'
+    id: shower_on_morning_weekend
+    trigger:
+      - platform: time
+        at: '10:00:00'
+    condition: 
+      - condition: time
+        weekday:
+          - sat
+          - sun
+    action:
+        - service: input_boolean.turn_on
+          entity_id: input_boolean.shower
+
+  - alias: 'Shower Off Morning Weekend'
+    id: shower_off_morning_weekend
+    trigger:
+      - platform: time
+        at: '11:00:00'
+    condition: 
+      - condition: time
+        weekday:
+          - sat
+          - sun
+    action:
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.shower
+
+  - alias: 'Fan'
+    id: fan
+    trigger:
+      - platform: state
+        entity_id: input_boolean.washingmachine_busy
+      - platform: state
+        entity_id: input_boolean.dryer_busy
+      - platform: state
+        entity_id: input_boolean.cooking
+      - platform: state
+        entity_id: input_boolean.after_cooking
+      - platform: state
+        entity_id: input_boolean.shower
+    action:
+      - service: light.turn_on
+        entity_id: light.fan_level
+        data_template:
+          brightness_pct: >-
+              {%- set factor = 40 -%}
+              {%- set highest = 80 -%}
+              {%- set wm = is_state('input_boolean.washingmachine_busy', 'on') | int *factor/2 -%}
+              {%- set dr = is_state('input_boolean.dryer_busy', 'on') | int *factor/2 -%}
+              {%- set co = is_state('input_boolean.cooking', 'on') | int *factor*2 -%}
+              {%- set ac = is_state('input_boolean.after_cooking', 'on') | int *factor -%}
+              {%- set sh = is_state('input_boolean.shower', 'on') | int *factor -%}
+              {{ [wm+dr+co+ac+sh, highest] | min | float }}

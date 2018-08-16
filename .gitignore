@@ -118,7 +118,9 @@ entity_registry.yaml
 secrets.yaml
 zwave_device_config.yaml
 tokens.json
+xbox-tokens.json
 .config_entries.json
+*.config_entries
 *.log
 *.db
 *.HA_VERSION
@@ -133,9 +135,13 @@ deps
 tts
 www
 .cloud
+.storage
+.vscode
+.vs
 
 *.xml
 *.pickle
 *.sqlite
 *log.txt
-*.config_entries
+.vs/.homeassistant/v15/.suo
+.homekit.state

@@ -1,0 +1,21 @@
+  - alias: Notify when door is open
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.neo_coolcam_doorwindow_detector_sensor
+        to: 'on'
+    action:
+    - service: notify.notify_tv
+      data_template:
+        message: "The front door is open!"
+
+  - alias: Notify when door stays open 
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.neo_coolcam_doorwindow_detector_sensor
+        to: 'on'
+        for:
+          minutes: 5
+    action:
+    - service: notify.ios_eduards_iphone
+      data_template:
+        message: "The front door has been open for five minutes!"

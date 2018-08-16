@@ -14,3 +14,9 @@
           service: media_player.turn_off
           data:
             entity_id: media_player.tv
+      fan:
+        value_template: "{{ is_state('light.qubino_zmnhvdx_flush_dimmer_010v_level', 'on') }}"
+        turn_on:
+          service: script.fan_full
+        turn_off:
+          service: script.fan_off

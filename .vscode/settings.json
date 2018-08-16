@@ -2,5 +2,8 @@
     "python.linting.enabled": true,
     "python.linting.pylintEnabled": true,
     "python.linting.flake8Enabled": false,
-    "python.linting.pydocstyleEnabled": false
+    "python.linting.pydocstyleEnabled": false,
+    "yaml.schemas": {
+        "file:///c%3A/Users/edvan/.vscode-insiders/extensions/gizmos.docs-yaml-0.1.4/schemas/toc.schema.json": "toc.yml"
+    }
 }

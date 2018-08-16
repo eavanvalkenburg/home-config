@@ -27,8 +27,8 @@
   # - platform: xboxone
   #   name: Xbox
   #   ip_address: !secret xbox_ip
-  #   live device id: !secret xbox_live_device_id
-  #   xbox token file: !secret xbox_tokens_file
+  #   live_device_id: !secret xbox_live_device_id
+  #   xbox_token_file: !secret xbox_tokens_file
 
   - platform: universal
     name: Multimedia
@@ -36,7 +36,7 @@
       #- media_player.xbox
       - media_player.living_room
       - media_player.tv
-      - media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq
+      - media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
     commands:
       turn_on:
         service: switch.turn_on
@@ -67,10 +67,10 @@
       media_play_pause:
         service: media_player.media_play_pause
         data:
-          entity_id: media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq
+          entity_id: media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
     attributes:
       state: media_player.tv
       is_volume_muted: media_player.living_room
       volume_level: media_player.living_room|volume_level
-      source: media_player.plex_plex_pa31x6mjt8izwh52z18bxbyq|source
+      source: media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3|source
       source_list: media_player.tv|source_list

@@ -29,11 +29,11 @@ from homeassistant.core import callback, Event, ServiceCall
 from homeassistant.setup import async_prepare_setup_platform
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.loader import bind_hass
-from homeassistant.helpers import template, config_validation as cv
+from homeassistant.helpers import discovery, template, config_validation as cv
 from homeassistant.helpers.entity import Entity
 from homeassistant.util.async_ import (
     run_coroutine_threadsafe, run_callback_threadsafe)
-from homeassistant.const import CONF_HOST, CONF_PAYLOAD, CONF_NAME, HTTP_BAD_REQUEST, HTTP_UNAUTHORIZED, EVENT_STATE_CHANGED 
+from homeassistant.const import CONF_HOST, CONF_MONITORED_VARIABLES, CONF_PAYLOAD, CONF_NAME, HTTP_BAD_REQUEST, HTTP_UNAUTHORIZED, EVENT_STATE_CHANGED 
 from datetime import datetime
 
 REQUIREMENTS = ['azure.eventgrid==1.1.0', 'msrest==0.4.29']
@@ -59,10 +59,18 @@ ATTR_PAYLOAD_TEMPLATE = 'payload_template'
 DEFAULT_EVENT_TYPE = 'HomeAssistant'
 DEFAULT_DATA_VERSION = 1 
 
+FIELD_TYPES = {
+    'topic': ['Topic', 'topic'],
+    'subject': ['Subject', 'subject'],
+    'event type': ['Event Type', 'eventType'],
+}
+
 TOPIC_CONFIG_SCHEMA = vol.Schema({
-    vol.Required(CONF_HOST): cv.string,
-    vol.Required(CONF_TOPIC_KEY): cv.string
-})
+    vol.Optional(CONF_HOST, default=''): cv.string,
+    vol.Optional(CONF_TOPIC_KEY, default=''): cv.string,
+    vol.Optional(CONF_MONITORED_VARIABLES, default=['event type']):
+        vol.All(cv.ensure_list, vol.Length(min=1), [vol.In(FIELD_TYPES)]),
+}, vol.Length(min=1))
 
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
@@ -82,35 +90,41 @@ MQTT_PUBLISH_SCHEMA = vol.Schema({
 
 async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
     """Set up the Azure Event Grid platform."""
-    # try:
-    LOGGER.debug("async_setup")
+    try:
+        LOGGER.debug("async_setup")
 
-    topics = config.get(DOMAIN) 
-    all_event_grids = {}
+        topics = config.get(DOMAIN) 
+        all_event_grids = {}
+        LOGGER.debug("adding sensors")
+        hass.async_add_job(
+            discovery.async_load_platform(hass, 'sensor', DOMAIN, {}, config))
 
-    @asyncio.coroutine
-    def async_handle_event_grid_service(service_call):
-        """Handle calls to event grid services."""
-        topic_name = service_call.data[CONF_NAME]
-        eventGrid = all_event_grids[topic_name]
-        
-        if service_call.service == SERVICE_AZURE_EVENT_GRID__PUBLISH_MESSAGE:
-            eventGrid.event_grid_publish_message(service_call)
+        @asyncio.coroutine
+        def async_handle_event_grid_service(service_call):
+            """Handle calls to event grid services."""
+            topic_name = service_call.data[CONF_NAME]
+            eventGrid = all_event_grids[topic_name]
+            
+            if service_call.service == SERVICE_AZURE_EVENT_GRID__PUBLISH_MESSAGE:
+                eventGrid.event_grid_publish_message(service_call)
 
-    for name, topic in topics.items():
-        LOGGER.debug("setting up topic: %s", name)
-        eventGrid = AzureEventGrid(hass, topic[CONF_HOST], name, topic[CONF_TOPIC_KEY])
-        all_event_grids[name] = eventGrid
-
-    hass.services.async_register(
-        DOMAIN, SERVICE_AZURE_EVENT_GRID__PUBLISH_MESSAGE, async_handle_event_grid_service,
-        schema=MQTT_PUBLISH_SCHEMA)
-
-    for topic in topics:
-        hass.http.register_view(EventGridView(hass))
-
-    # except Exception  as err:
-    #     LOGGER.error("Error async_setup: %s", err)
+        for i in topics.items():
+            LOGGER.debug(i)
+            name = i[0]
+            host = i[1][CONF_HOST]
+            key = i[1][CONF_TOPIC_KEY]
+            LOGGER.debug(f"setting up topic: {name}")
+            if host and key:
+                LOGGER.debug(f'with host: {host}')
+                eventGrid = AzureEventGrid(hass, host, name, key)
+                all_event_grids[name] = eventGrid
+            elif host or key:
+                LOGGER.error(f'Incorrect config, please supply either both Host and Topic Key or Monitored Variables. Supplied {i[1]}')
+        hass.services.async_register(
+            DOMAIN, SERVICE_AZURE_EVENT_GRID__PUBLISH_MESSAGE, async_handle_event_grid_service,
+            schema=MQTT_PUBLISH_SCHEMA)
+    except Exception  as err:
+        LOGGER.error("Error async_setup: %s", err)
 
     return True
 
@@ -154,51 +168,55 @@ class AzureEventGrid(object):
         except HomeAssistantError as err:
             LOGGER.error("Unable to send event to Event Grid: %s", err)
 
-class EventGridView(HomeAssistantView):
+# class EventGridView(HomeAssistantView):
 
-    # requires_auth = False
-    url = EVENT_GRID_HTTP_ENDPOINT
-    name = EVENT_GRID_HTTP_NAME
-    LOGGER.debug(f"Create event grid viewer")
+#     # requires_auth = False
+#     url = EVENT_GRID_HTTP_ENDPOINT
+#     name = EVENT_GRID_HTTP_NAME
+#     LOGGER.debug(f"Create event grid viewer")
 
-    def __init__(self, hass):
-        self.hass = hass
+#     def __init__(self, hass, name, mon_var):
+#         self.hass = hass
+#         self._name = name
+#         self._mon_var = mon_var
+#         self._state = None
+#         self._state_attr = None
 
-    @asyncio.coroutine
-    def post(self, request):
-        from azure.eventgrid.models import SubscriptionValidationResponse
-        SubscriptionValidationEvent = "Microsoft.EventGrid.SubscriptionValidationEvent"
-        LOGGER.debug(f"Start event grid viewer call {request}")
-        try:
-            data = yield from request.json()
-            LOGGER.debug(f"Processing EventGrid data {data}")
-        except ValueError:
-            LOGGER.error("Received event grid data: %s", request)
-            return self.json_message('Invalid JSON', HTTP_BAD_REQUEST)
+#     @asyncio.coroutine
+#     def post(self, request):
+#         from azure.eventgrid.models import SubscriptionValidationResponse
+#         SubscriptionValidationEvent = "Microsoft.EventGrid.SubscriptionValidationEvent"
+#         LOGGER.debug(f"Start event grid viewer call {request}")
+#         try:
+#             data = yield from request.json()
+#             LOGGER.debug(f"Processing EventGrid data {data}")
+#         except ValueError:
+#             LOGGER.error("Received event grid data: %s", request)
+#             return self.json_message('Invalid JSON', HTTP_BAD_REQUEST)
 
-        for event in data:
-            LOGGER.debug(f"Processing EventGrid message {event}")
-            if "eventType" in event:
-                if event['eventType'] == SubscriptionValidationEvent:
-                    #[{'id': '58f9787a-xxxx-xxxx-xxxx-4fbb31c69398', 'topic': '/subscriptions/f2da982c-fc6f-xxxx-ad1e-46a186f9fa84/resourceGroups/eventgridtest/providers/Microsoft.EventGrid/topics/keestesttopic', 'subject': '', 'data': {'validationCode': '09E2E428-xxxx-xxxx-xxxx-BCD800D109A3', 'validationUrl': 'https://rp-westeurope.eventgrid.azure.net/eventsubscriptions/test/validate?id=09E2E428-xxxx-xxxx-xxxx-BCD800D109A3&t=2018-06-10T12:23:49.7126308Z&apiVersion=2018-05-01-preview&token=xxxx%2fXT1Uy8ndIfaro1mo%3d'}, 'eventType': 'Microsoft.EventGrid.SubscriptionValidationEvent', 'eventTime': '2018-06-10T12:23:49.7126308Z', 'metadataVersion': '1', 'dataVersion': '2'}]
-                    return self.json({
-                        'ValidationResponse': event['data']['validationCode']
-                    })
-                else:
-                    # {'data': "{ 'message': 'test' }", 
-                    # 'eventTime': '2018-07-01T15:24:10.6291209999999999Z', 
-                    # 'eventType': 'doUpdate', 
-                    # 'id': '5e0e8f49-c958-4bb9-9746-f56f8ce3c7f5', 
-                    # 'subject': 'homeassistant.update', 
-                    # 'dataVersion': '', 
-                    # 'metadataVersion': '1', 
-                    # 'topic': '/subscriptions/8f962503-0c00-4280-a157-8c20b3a9d990/resourceGroups/edvanhome/providers/Microsoft.EventGrid/topics/hass'}
-                    LOGGER.debug("else statement")
-                    self.hass.bus.fire(EVENT_STATE_CHANGED, event_data=event['eventType'])
-                    # Todo do simething with this message
-                    # hass.
+#         for event in data:
+#             LOGGER.debug(f"Processing EventGrid message {event}")
+#             if "eventType" in event:
+#                 if event['eventType'] == SubscriptionValidationEvent:
+#                     #[{'id': '58f9787a-xxxx-xxxx-xxxx-4fbb31c69398', 'topic': '/subscriptions/f2da982c-fc6f-xxxx-ad1e-46a186f9fa84/resourceGroups/eventgridtest/providers/Microsoft.EventGrid/topics/keestesttopic', 'subject': '', 'data': {'validationCode': '09E2E428-xxxx-xxxx-xxxx-BCD800D109A3', 'validationUrl': 'https://rp-westeurope.eventgrid.azure.net/eventsubscriptions/test/validate?id=09E2E428-xxxx-xxxx-xxxx-BCD800D109A3&t=2018-06-10T12:23:49.7126308Z&apiVersion=2018-05-01-preview&token=xxxx%2fXT1Uy8ndIfaro1mo%3d'}, 'eventType': 'Microsoft.EventGrid.SubscriptionValidationEvent', 'eventTime': '2018-06-10T12:23:49.7126308Z', 'metadataVersion': '1', 'dataVersion': '2'}]
+#                     return self.json({
+#                         'ValidationResponse': event['data']['validationCode']
+#                     })
+#                 else:
+#                     # {'data': "{ 'message': 'test' }", 
+#                     # 'eventTime': '2018-07-01T15:24:10.6291209999999999Z', 
+#                     # 'eventType': 'doUpdate', 
+#                     # 'id': '5e0e8f49-c958-4bb9-9746-f56f8ce3c7f5', 
+#                     # 'subject': 'homeassistant.update', 
+#                     # 'dataVersion': '', 
+#                     # 'metadataVersion': '1', 
+#                     # 'topic': '/subscriptions/8f962503-0c00-4280-a157-8c20b3a9d990/resourceGroups/edvanhome/providers/Microsoft.EventGrid/topics/hass'}
+#                     LOGGER.debug("else statement")
+#                     self.hass.bus.fire(EVENT_STATE_CHANGED, event_data=event['eventType'])
+#                     # Todo do simething with this message
+#                     # hass.
 
         # raise LOGGER.error('Unknown request on EventGrid api')
 
-# http://eavv.nl:8123/api/services/azure_event_grid/update_notify?api_password=eduardvv1
+# http://eavv.nl:8123/api/azure_event_grid?api_password=eduardvv1
 # https://edvanfunction.azurewebsites.net/api/TestHASSWebhook?code=bqpUXVoA/La1pu89d7mN8DKZpcOMzRSRx7c43EDlAD0TmP1f2/tuKg==&clientId=_master 

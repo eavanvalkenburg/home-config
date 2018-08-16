@@ -8,7 +8,7 @@
     id: 'movie_paused'
     trigger:
       - platform: state
-        entity_id: media_player.plex_patdcblame9uz5g070n42zts
+        entity_id: media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
         from: 'playing'
     condition:
       condition: and
@@ -32,7 +32,7 @@
     id: "movie_play"
     trigger:
       - platform: state
-        entity_id: media_player.plex_patdcblame9uz5g070n42zts
+        entity_id: media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
         to: 'playing'
     condition:
       condition: and

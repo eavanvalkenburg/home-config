@@ -14,6 +14,9 @@
       - condition: state
         entity_id: input_boolean.resume_music
         state: 'off'
+      - condition: state
+        entity_id: group.eduard
+        state: 'home'
       - service: notify.ios_eduards_iphone
         data:
           message: The TV is off, do you want to start playing music?
@@ -32,6 +35,9 @@
       - condition: state
         entity_id: input_boolean.resume_music
         state: 'on'
+      - condition: state
+        entity_id: group.eduard
+        state: 'home'
     action:
       - service: media_player.media_play
         data:

@@ -30,19 +30,18 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     ip_address = config.get(CONF_IP_ADDRESS)
     live_id = config.get(CONF_LIVE_ID)
     name = config.get(CONF_NAME)
-    add_devices([XboxOne(hass, live_id, ip_address, name, STATE_OFF)])
+    add_devices([XboxOne(hass, live_id, ip_address, name)], True)
 
 class XboxOne(SwitchDevice):
     """Representation of a Xbox One device, allowing on and off commands."""
 
-    def __init__(self, hass, live_id, ip, name, state):
+    def __init__(self, hass, live_id, ip, name):
         """Initialize the switch."""
         self.hass = hass
         self._live_id = live_id
         self._ip = ip
         self._name = name
-        self._state = state
-        self.discover()
+        self._state = None
 
     @property
     def name(self):
@@ -50,14 +49,16 @@ class XboxOne(SwitchDevice):
         return self._name
 
     @property
+    def is_on(self):
+        """Return true if device is on."""
+        return self._state == STATE_ON
+
+    @property
     def state(self):
         """Return _state variable, containing the appropriate constant."""
         return self._state
 
     def update(self, **kwargs):
-        self.discover()
-
-    def discover(self):
         command = f"xbox-discover --address { self._ip }" 
         response = str(subprocess.check_output(command, shell=True))
         if len(response) > 55:

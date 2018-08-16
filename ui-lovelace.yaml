@@ -1,224 +1,46 @@
 title: Home
 views:
+# living room
   - icon: mdi:home-assistant
-    title: Home
+    title: Living Room
     cards:
-      - type: vertical-stack
-        cards:
-        - type: glance
-          title: People
-          entities:
-            - group.willemijn
-            - sensor.kitchen_motion_sensor
-            # - group.eduard
-            # - sensor.eduards_iphone_battery_level
-            # - sensor.eduards_iphone_battery_state
-            # - sensor.eduard_naar_huis
+    - type: glance
+      title: Status
+      entities:
+        - sensor.blind_position
+        - sensor.temperature
+        - sensor.living_room_temperature
+        - sensor.light_level
+        - sensor.living_room_luminance
+        - sensor.living_light_level
+        - sensor.blind_status
+        - binary_sensor.front_door_sensor
+        - cover.blind
+        - light.fan_level
 
-        - type: picture-glance
-          image:
-          camera_image: 'camera.eduard'
-          title: Eduard
-          entities:
-            - group.eduard
-            - sensor.eduards_iphone_battery_level
-            - sensor.eduards_iphone_battery_state
-            - sensor.eduard_naar_huis
-            - sensor.huis_naar_werk
-            - sensor.werk_naar_huis
-
-        - type: entities
-          title: Finance
-          entities:
-            - sensor.microsoft
-            - sensor.google
-            - sensor.apple
-            - sensor.amazon
-            - sensor.coinbase_total
-            - sensor.coinbase_btc
-            - sensor.coinbase_eth
-            - sensor.coinbase_ltc
-
-        # - type: camera-preview
-        #   entity: camera.eduard
-      - type: vertical-stack
-        cards:
-        - type: glance
-          title: Home
-          entities:
-            - sensor.blind_position
-            - sensor.temperature
-            - sensor.light_level
-            - sensor.blind_status
-            - binary_sensor.neo_coolcam_doorwindow_detector_sensor
-            - cover.blind
-            - light.qubino_zmnhvdx_flush_dimmer_010v_level
-
-        - type: entities
-          title: Misc
-          entities:
-            - timer.tomato
-            - sensor.total_packages
-
-      - type: vertical-stack
-        cards:
-        - type: entities
-          title: Weather
-          entities:
-            - sun.sun
-            - sensor.weather_symbol
-            - sensor.weather_condition
-            - sensor.weather_detailed_condition
-            - sensor.weather_condition_code_1d
-            - sensor.weather_temperature
-            - sensor.weather_precipitation
-            - sensor.weather_precipitation_forecast_average
-            - sensor.weather_humidity
-            - sensor.weather_wind_direction
-            - sensor.weather_wind_force
-            - sensor.weather_stationname
-
-        - type: weather-forecast
-          entity: weather.br_unknown_station
-
+    - type: vertical-stack
+      cards:
       - type: glance
-        # Title of the entities card
         title: Media
-        # The entities here will be shown in the same order as specified.
         entities:
           - media_player.bedroom
           - media_player.bathroom
           - media_player.living_room
           - media_player.multimedia
           - media_player.tv
+          - media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
           - sensor.plex
           - switch.xbox_one
+          - sensor.resume_music
 
-  - icon: mdi:play-pause
-    title: Media
-    cards:
-      - type: entities
-        # Title of the entities card
-        title: Media
-        # The entities here will be shown in the same order as specified.
-        entities:
-          - media_player.bedroom
-          - media_player.bathroom
-          - media_player.living_room
-          - media_player.multimedia
-          - media_player.tv
-          - sensor.plex
-          - switch.xbox_one
+      - type: media-control
+        entity: media_player.multimedia
+          
+      - type: media-control
+        entity: media_player.bedroom
 
       - type: entities
-        title: Media tracking
-        entities:
-          - sensor.sonarr_series
-          - sensor.sonarr_upcoming
-          - sensor.sonarr_wanted
-          - sensor.sonarr_queue
-          - sensor.sonarr_commands 
-          - sensor.sonarr_diskspace
-          - sensor.sabnzbd_status
-          - sensor.sabnzbd_speed
-          - sensor.sabnzbd_queue
-          - sensor.sabnzbd_left
-          - sensor.sabnzbd_disk
-          - sensor.sabnzbd_disk_free
-
-  - icon: mdi:lightbulb-on
-    title: Lights
-    cards:
-      - type: entities
-        title: Lights
-        entities:
-          - light.oplaad_lamp
-          - light.liggende_lamp
-          - light.staande_lamp
-          - light.desk_lamp
-      
-      - type: entities
-        title: Bedroom
-        entities:
-          - light.aeotec_zw111_nano_dimmer_level_2
-
-  - icon: mdi:chart-line
-    title: History
-    cards:
-      - type: history-graph
-        title: Traveltimes
-        entities:
-          - sensor.huis_naar_werk
-          - sensor.werk_naar_huis
-        hours_to_show: 192
-        refresh: 3600
-
-      - type: history-graph
-        title: Temperatures
-        entities:
-          - sensor.temperature
-          - sensor.weather_temperature
-        hours_to_show: 72
-        refresh: 300
-
-      - type: history-graph
-        title: Sun
-        entities:
-          - sensor.sun_elevation
-          - sensor.sun_azimuth
-        hours_to_show: 72
-        refresh: 300
-
-      - type: history-graph
-        title: Blind
-        entities:
-          - sensor.blind_position
-        hours_to_show: 72
-        refresh: 900
-
-  - icon: mdi:server
-    title: Server
-    cards:
-      - type: vertical-stack
-        cards:
-        - type: entities
-          title: Technical Status
-          entities:          
-            - sensor.cpu_speed
-            - sensor.cpu_used
-            - sensor.ram_used
-            - sensor.disk_free_content
-            - sensor.disk_used_
-            - sensor.received
-            - sensor.sent
-            - sensor.speedtest_download
-            - sensor.speedtest_upload
-            - sensor.speedtest_ping
-            - sensor.myipopendnscom
-            - sensor.last_boot
-
-        - type: entities
-          title: System
-          entities:
-            - sensor.hassuptime
-            - automation.startup_notification
-            - script.reload_ha
-            - script.restart_ha
-            - automation.notify_me_when_update_is_available
-            - sensor.current_version
-            - sensor.pypi_hass_version
-
-      - type: entities
-        title: Light Automations
-        entities:
-          - automation.away_lights_off
-          - automation.away_lights_on
-          - automation.lights_on_at_sunset
-          - automation.lights_off_after_leaving
-          - automation.lights_off_when_away
-
-      - type: entities
-        title: Media Automations
+        title: Media Rules
         entities:
           - automation.movie__pause
           - automation.movie__play
@@ -229,18 +51,28 @@ views:
           - automation.play_media
           - automation.play_music
 
+    - type: vertical-stack
+      cards:
       - type: entities
-        title: Tomato Automations
+        title: Lights
         entities:
-          - timer.tomato
-          - input_boolean.tomato_flow
-          - automation.start_tomato_flow
-          - automation.stop_tomato_flow
-          - automation.tomato_timer_finished__break
-          - automation.tomato_timer_finished__resume
+          - light.oplaad_lamp
+          - light.liggende_lamp
+          - light.staande_lamp
+          - light.desk_lamp
 
       - type: entities
-        title: Blind Automations
+        title: Light Rules
+        entities:
+          - automation.lights_on_at_sunset
+          - automation.lights_off_when_away
+          - automation.lights_on_when_arriving_home
+          - automation.lights_off_after_leaving
+
+    - type: vertical-stack
+      cards:
+      - type: entities
+        title: Blind Controls
         entities:
           - cover.blind
           - sensor.blind_status
@@ -250,28 +82,300 @@ views:
           - automation.blind_open_at_sunrise_weekend
           - automation.close_the_blind_when_its_sunny
 
-      - type: entities
-        title: People Automations
+      - type: history-graph
+        title: Blind
         entities:
-          - automation.eduard_arrives_home
-          - automation.willemijn_arrives_home
-          - automation.willemijn_leaves_home
-          - automation.lights_on_when_arriving_home
-          - automation.lights_off__ios
+          - sensor.blind_position
+        hours_to_show: 12
+        refresh: 900
 
-      - type: entities
-        title: Alarm Automations
+      - type: history-graph
+        title: Blind - Long
         entities:
-          - automation.alarm_automation
-          - input_boolean.alarm_on
-          - input_datetime.alarm_clock_time
+          - sensor.blind_position
+        hours_to_show: 144
+        refresh: 900
 
-      - type: entities
-        title: Fan Automations
+      - type: history-graph
+        title: Light Levels
         entities:
+        - sensor.light_level
+        - sensor.living_light_level
+        - sensor.living_room_luminance
+        hours_to_show: 24
+        refresh: 300
+
+      - type: history-graph
+        title: Living Room Sensor Light Levels
+        entities:
+        - sensor.living_light_level
+        - sensor.living_room_luminance
+        hours_to_show: 3
+        refresh: 300
+
+# rest (laundry, bedroom, bathroom)
+  - icon: mdi:hotel
+    title: Other Rooms
+    cards:
+    - type: glance
+      title: Status
+      entities:
+        - light.bedroom_level
+        - binary_sensor.front_door_sensor
+        - light.fan_level
+
+    - type: entities
+      title: Fan Inputs
+      entities:
+        - input_boolean.washingmachine_busy
+        - input_boolean.dryer_busy
+        - input_boolean.cooking
+        - input_boolean.after_cooking
+        - input_boolean.shower
+        - light.fan_level
+
+    - type: entities
+      title: Fan
+      entities:
+        - script.fan_full
+        - script.fan_background
+        - script.fan_off
+        - automation.fan_morning
+        - automation.fan_cooking
+        - automation.fan_after_cooking
+        - automation.fan_off
+        - automation.fan
+
+    - type: vertical-stack
+      cards:
+      - type: entities
+        title: Laundry
+        entities:
+          - automation.washing_machine__ready
+          - automation.washing_machine__busy
+          - automation.washing_machine__notification
+          - automation.dryer__ready
+          - automation.dryer__busy
+          - automation.dryer__notification
+      - type: history-graph
+        title: Washing Machine Power
+        entities:
+          - sensor.washing_machine_power
+        hours_to_show: 3
+        refresh: 30
+      - type: history-graph
+        title: Dryer Power
+        entities:
+          - sensor.dryer_power
+        hours_to_show: 3
+        refresh: 30
+
+    - type: entities
+      title: Bedroom
+      entities:
+        - light.bedroom_level
+        - automation.alarm_automation
+        - input_boolean.alarm_on
+        - input_datetime.alarm_clock_time
+
+    - type: entities
+      title: Front Door
+      entities:
+        - binary_sensor.neo_coolcam_doorwindow_detector_sensor
+        - automation.notify_when_door_is_open
+        - automation.notify_when_door_stays_open
+
+# people
+  - icon: mdi:human-male-female
+    title: People
+    cards:
+    - type: glance
+      title: People
+      entities:
+        - group.willemijn
+        - sensor.kitchen_motion_sensor
+
+    - type: map
+      aspect_ratio: 50%
+      entities:
+        - entity: device_tracker.eduards_iphone
+        - zone.home
+        - zone.work
+
+    - type: picture-glance
+      image:
+      camera_image: 'camera.eduard'
+      title: Eduard
+      entities:
+        - group.eduard
+        - sensor.eduards_iphone_battery_level
+        - sensor.eduards_iphone_battery_state
+        - sensor.eduard_naar_huis
+
+    - type: history-graph
+      title: Traveltimes
+      entities:
+        - sensor.huis_naar_werk
+        - sensor.werk_naar_huis
+      hours_to_show: 192
+      refresh: 3600
+
+    - type: entities
+      title: People Automations
+      entities:
+        - automation.eduard_arrives_home
+        - automation.willemijn_arrives_home
+        - automation.willemijn_leaves_home
+        - automation.lights_on_when_arriving_home
+        - automation.lights_off__ios
+
+    - type: entities
+      title: Tomato Timer
+      entities:
+        - timer.tomato
+        - input_boolean.tomato_flow
+        - automation.start_tomato_flow
+        - automation.stop_tomato_flow
+        - automation.tomato_timer_finished__break
+        - automation.tomato_timer_finished__resume
+
+# finance & weather
+  - icon: mdi:weather-partlycloudy
+    title: Weather
+    cards:
+    - type: vertical-stack
+      cards:
+      - type: glance
+        title: Status
+        entities:
+          - sensor.temperature
+          - sensor.living_room_temperature
           - light.qubino_zmnhvdx_flush_dimmer_010v_level
-          - script.fan_full
-          - script.fan_background
-          - script.fan_off
-          - automation.fan_evening
-          - automation.fan_morning
+      - type: history-graph
+        title: Temperatures
+        entities:
+          - sensor.temperature
+          - sensor.weather_temperature
+          - sensor.living_room_temperature
+        hours_to_show: 12
+        refresh: 60
+      - type: history-graph
+        title: Temperatures - Long
+        entities:
+          - sensor.temperature
+          - sensor.weather_temperature
+          - sensor.living_room_temperature
+        hours_to_show: 336
+        refresh: 900
+
+      - type: history-graph
+        title: Sun
+        entities:
+          - sensor.sun_elevation
+          - sensor.sun_azimuth
+        hours_to_show: 72
+        refresh: 300
+
+    - type: vertical-stack
+      cards:
+      - type: entities
+        title: Weather
+        entities:
+          - sun.sun
+          - sensor.weather_symbol
+          - sensor.weather_condition
+          - sensor.weather_detailed_condition
+          - sensor.weather_temperature
+          - sensor.weather_precipitation
+          - sensor.weather_humidity
+          - sensor.weather_wind_direction
+          - sensor.weather_wind_force
+          - sensor.weather_stationname
+
+      - type: weather-forecast
+        entity: weather.br_unknown_station
+
+  - icon: mdi:currency-eur
+    title: External Info
+    cards:
+    - type: vertical-stack
+      cards: 
+      - type: entities
+        title: Finance
+        entities:
+          - sensor.microsoft
+          - sensor.google
+          - sensor.apple
+          - sensor.amazon
+          - sensor.coinbase_total
+          - sensor.coinbase_btc
+          - sensor.coinbase_eth
+          - sensor.coinbase_ltc
+          - sensor.microsoft_stock
+          - input_number.microsoft_stock
+
+      - type: history-graph
+        title: MSFT
+        entities:
+          - sensor.microsoft_stock
+        hours_to_show: 336
+        refresh: 300
+
+    - type: glance
+      title: Misc
+      entities:
+        - sensor.total_packages
+        - sensor.postnl
+
+# server  
+  - icon: mdi:server-security
+    title: Server
+    cards:
+    - type: vertical-stack
+      cards:
+      - type: glance
+        title: Home Assistant Status
+        entities:
+          - sensor.hassuptime
+          - sensor.current_version
+          - sensor.pypi_hass_version
+
+      - type: entities
+        title: System
+        entities:
+          - script.reload_ha
+          - script.restart_ha
+          - automation.notify_me_when_update_is_available
+          - automation.startup_notification
+
+    - type: glance
+      title: Technical Status
+      entities:          
+        - sensor.cpu_speed
+        - sensor.cpu_used
+        - sensor.ram_used
+        - sensor.disk_free_content
+        - sensor.disk_used_
+        - sensor.received
+        - sensor.sent
+        - sensor.speedtest_download
+        - sensor.speedtest_upload
+        - sensor.speedtest_ping
+        - sensor.myipopendnscom
+        - sensor.last_boot
+
+    - type: glance
+      title: Media tracking
+      entities:
+        - sensor.sonarr_series
+        - sensor.sonarr_upcoming
+        - sensor.sonarr_wanted
+        - sensor.sonarr_queue
+        - sensor.sonarr_commands 
+        - sensor.sonarr_diskspace
+        - sensor.sabnzbd_status
+        - sensor.sabnzbd_speed
+        - sensor.sabnzbd_queue
+        - sensor.sabnzbd_left
+        - sensor.sabnzbd_disk
+        - sensor.sabnzbd_disk_free

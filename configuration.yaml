@@ -12,7 +12,14 @@ homeassistant:
   time_zone: Europe/Amsterdam
   # Customization file
   customize: !include customize.yaml
+  # Example configuration.yaml entry
+  auth_providers:
+   - type: homeassistant
+   # Uncomment next line if you want to enable legacy API password support
+   - type: legacy_api_password
 
+# Enable the auth component
+auth:
 # Show links to resources in log and frontend
 # introduction:
 
@@ -38,6 +45,8 @@ http:
   api_password: !secret http_password
   ssl_certificate: /etc/letsencrypt/live/eavv.nl/fullchain.pem
   ssl_key: /etc/letsencrypt/live/eavv.nl/privkey.pem
+  trusted_networks:
+    - !secret router_ip
   # base_url: home.eavv.nl
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
   # base_url: example.duckdns.org:8123
@@ -158,11 +167,40 @@ input_boolean:
   alarm_on:
     name: Alarm Active
     icon: mdi:alarm
+  washingmachine_busy:
+    name: Washing Machine Busy
+    initial: off
+    icon: mdi:washing-machine
+  dryer_busy:
+    name: Dryer Busy
+    initial: off
+    icon: mdi:tumble-dryer
+  clear_day:
+    name: Clear Day
+    icon: mdi:weather-sunny
+  cooking:
+    name: Cooking
+    icon:  mdi:stove
+  after_cooking:
+    name: After Cooking
+    icon: mdi:food-variant
+  shower:
+    name: Shower
+    icon: mdi:shower
 
 input_datetime:
   alarm_clock_time:
     name: Alarm Clock
     has_time: true
+
+input_number:
+  microsoft_stock:
+    name: Microsoft Stock
+    min: 0
+    max: 5000
+    step: 1
+    icon: mdi:microsoft
+    mode: box
 
 weather:
   - platform: buienradar
@@ -176,16 +214,59 @@ coinbase:
     - ETH
     - LTC
 
+homekit:
+  filter:
+    include_domains:
+      - cover
+      - light
+      - switch
+    exclude_entities:
+      - light.dlight1
+      - light.dlight2
+      - light.dlight3
+      - light.kitchen      
+      - light.lamp_links
+      - light.lamp_rechts
+      - light.spot_links
+      - light.spot_rechts
+      - light.tapdimmer
+      - switch.neo_coolcam_power_plug_12a_switch
+      - switch.neo_coolcam_power_plug_12a_switch_2
+      - switch.qubino_zmnhvdx_flush_dimmer_010v_switch
+  auto_start: False
+
+sabnzbd:
+  host: !secret host_ip
+  port: !secret sab_port
+  api_key: !secret sab_api_key
+  sensors:
+    - 'current_status'
+    - 'speed'
+    - 'queue_size'
+    - 'queue_remaining'
+    - 'disk_size'
+    - 'disk_free'
+
 history_graph: !include components/history_graph.yaml
 
-azure_event_grid:
-  update_notify:
-    host: !secret eg_host
-    topic key: !secret topic_key
+# azure_event_grid:
+#   update_notify:
+#     host: !secret eg_host
+#     topic key: !secret topic_key
+#     monitored_variables: 
+#       - event type
+#   test:
+#     monitored_variables:
+#       - topic
 
-logger:
-  default: warn
-  logs:
-    homeassistant.components.mqtt: info
-    homeassistant.components.azure_event_grid: debug
-    azure_event_grid: debug
+# logger:
+#   default: warn
+#   logs:
+#     # homeassistant.components.mqtt: info
+#     homeassistant.components.azure_event_grid: debug
+#     azure_event_grid: debug
+#     custom_components.azure_event_grid: debug
+#     custom_components.sensor.azure_event_grid: debug
+    # media_player.xbox_one: debug
+    # homeassistant.components.media_player.xbox_one: debug
+    # custom_components.media_player.xboxone: debug

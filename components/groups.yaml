@@ -35,12 +35,12 @@
     entities:
       - group.willemijn
       - group.eduard
-      - camera.eduard
 
   willemijn:
     name: Willemijn
     entities:
       - device_tracker.android97e3e41b02685fa2
+      - device_tracker.androidd46c7cf7cbcec5a6
 
   eduard:
     name: Eduard

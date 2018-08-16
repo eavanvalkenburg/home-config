@@ -5,3 +5,5 @@
         - media_player.tv
         - switch.xboxone
         - cover.blind
+        - light.aeotec_zw111_nano_dimmer_level_2
+        - switch.fan

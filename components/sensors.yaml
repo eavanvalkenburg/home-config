@@ -10,8 +10,6 @@
       - windforce
       - winddirection
       - precipitation
-      - precipitation_forecast_average
-      - conditioncode_1d 
       
   - platform: uptime
     unit_of_measurement: minutes
@@ -39,26 +37,14 @@
     include_paths:
       - /content
     unit: TB
-
-  - platform: sabnzbd
-    host: !secret host_ip
-    port: !secret sab_port
-    api_key: !secret sab_api_key
-    monitored_variables:
-      - 'current_status'
-      - 'speed'
-      - 'queue_size'
-      - 'queue_remaining'
-      - 'disk_size'
-      - 'disk_free'
     
   - platform: postnl
     username: !secret postnl_un
     password: !secret postnl_pw
 
-  - platform: ups
-    username: !secret ups_username
-    password: !secret ups_password
+  # - platform: ups
+  #   username: !secret ups_username
+  #   password: !secret ups_password
 
   - platform: hue
     ip_address: !secret hue_ip
@@ -103,12 +89,12 @@
     symbols:
     - symbol: MSFT
       name: Microsoft
-    - symbol: GOOGL
-      name: Google
-    - symbol: AAPL
-      name: Apple
-    - symbol: AMZN
-      name: Amazon
+    # - symbol: GOOGL
+    #   name: Google
+    # - symbol: AAPL
+    #   name: Apple
+    # - symbol: AMZN
+    #   name: Amazon
     # foreign_exchange:
     # - name: USD_EUR
     #   from: USD
@@ -138,10 +124,10 @@
       #     {% endif %}
       plex_playing_movies:
         value_template: >- 
-          {{ is_state_attr('media_player.plex_patdcblame9uz5g070n42zts', 'media_library_name', 'Movies' ) }}
+          {{ is_state_attr('media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3', 'media_library_name', 'Movies' ) }}
       plex_playing_series:
         value_template: >- 
-          {{ is_state_attr('media_player.plex_patdcblame9uz5g070n42zts', 'media_library_name', 'Series' ) }}
+          {{ is_state_attr('media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3', 'media_library_name', 'Series' ) }}
       blind_status:
         friendly_name: 'Blind Status'
         value_template: "{{ states('cover.blind') }}"
@@ -193,26 +179,38 @@
 
       temperature:
         friendly_name: 'Temperature'
-        value_template: '{{states.sensor.kitchen_motion_sensor.attributes.temperature}}'
+        value_template: '{{(states.sensor.kitchen_motion_sensor.attributes.temperature)  | round(1)}}'
         unit_of_measurement: °C
 
       light_level:
         friendly_name: 'Light level'
-        value_template: '{{states.sensor.kitchen_motion_sensor.attributes.light_level}}'
+        value_template: '{{ (10**((states.sensor.kitchen_motion_sensor.attributes.light_level - 1) /10000)) | round(1)}}'
         unit_of_measurement: lux
-      
+
+      living_light_level:
+        friendly_name: 'Light level'
+        value_template: '{{ states.sensor.living_room_luminance.state | round(1)}}'
+        unit_of_measurement: lux
+
       resume_music:
         friendly_name: Resume the music when the TV turns off
-        value_template: '{{ states.input_boolean.resume_music.state }}'
+        value_template: "{{ is_state('input_boolean.resume_music', 'on') }}"
         icon_template: >-
           {% if is_state('input_boolean.resume_music', 'on') %}
             mdi:music-note
           {% else %}
             mdi:music-note-off
           {% endif %}
+
       sun_elevation:
         value_template: '{{ states.sun.sun.attributes.elevation | float }}'
         unit_of_measurement: 'º'
       sun_azimuth:
         value_template: '{{ states.sun.sun.attributes.azimuth | float }}'
         unit_of_measurement: 'º'
+
+      microsoft_stock:
+        friendly_name: Microsoft Stock value
+        value_template: "{{ (states('sensor.microsoft') | float) * (states('input_number.microsoft_stock') | float) | round }}"
+        unit_of_measurement: USD
+        icon_template: mdi:microsoft

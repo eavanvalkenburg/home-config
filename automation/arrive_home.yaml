@@ -22,7 +22,7 @@
     id: eduard_home
     trigger:
       - platform: state
-        entity_id: group.eduard
+        entity_id: device_tracker.eduardsiphone_router
         to: 'home'
     condition:
       - condition: state

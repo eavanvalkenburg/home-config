@@ -1,0 +1,73 @@
+- id: 'WashingmachineReady'
+  alias: Washing Machine - Ready
+  trigger:
+  - below: '10'
+    entity_id: sensor.washing_machine_power
+    platform: numeric_state
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.washingmachine_busy
+
+- id: 'WashingMachineBusy'
+  alias: Washing Machine - Busy
+  trigger:
+  - above: '10'
+    entity_id: sensor.washing_machine_power
+    platform: numeric_state
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.washingmachine_busy
+
+- id: 'WashingMachineNotification'
+  alias: Washing Machine - Notification
+  trigger:
+  - platform: state
+    entity_id: input_boolean.washingmachine_busy
+    from: 'on' 
+    to: 'off'
+    for:
+      minutes: 5
+  action: 
+   - service: notify.ios_eduards_iphone
+     data:
+        title: "Wasmachine klaar"
+        message: "Wasmachine klaar"
+
+- id: 'DryerReady'
+  alias: Dryer - Ready
+  trigger:
+  - below: '10'
+    entity_id: sensor.dryer_power
+    platform: numeric_state
+  action:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.dryer_busy
+
+- id: 'DryerBusy'
+  alias: Dryer - Busy
+  trigger:
+  - above: '10'
+    entity_id: sensor.dryer_power
+    platform: numeric_state
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.dryer_busy
+
+- id: 'DryerNotification'
+  alias: Dryer - Notification
+  trigger:
+  - platform: state
+    entity_id: input_boolean.dryer_busy
+    from: 'on' 
+    to: 'off'
+    for:
+      minutes: 5
+  action: 
+   - service: notify.ios_eduards_iphone
+     data:
+        title: "Droger klaar"
+        message: "Droger klaar"
