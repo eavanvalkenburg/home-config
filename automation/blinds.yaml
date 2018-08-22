@@ -66,10 +66,11 @@
               {%- set temp_in = states.sensor.temperature.state | float -%}
               {%- set clear = is_state('input_boolean.clear_day', 'on') -%}
               {%- set add = (temp_in - 22, 1) | max -%}
-              {%- set sun_pos = azimuth > 195 and azimuth < 290 -%}
+              {%- set sun_pos = azimuth > 195 and azimuth < 286 -%}
+              {%- set sun_ele = elevation < 4 -%}
               {%- set factor = (temp_out - 19, 1) | max -%}
               {%- set temp = temp_in >= 22 and temp_out >= 19 -%}
-              {%- if sun_pos and temp and clear -%}
+              {%- if sun_pos and sun_ele and temp and clear -%}
                 {{ ([[ elevation - (add*factor) | round | int, 100] |min, 0] |max) | int }}
               {%- else -%}
                 100

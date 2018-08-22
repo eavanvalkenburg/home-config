@@ -7,16 +7,12 @@ views:
     - type: glance
       title: Status
       entities:
+        - cover.blind
         - sensor.blind_position
-        - sensor.temperature
-        - sensor.living_room_temperature
         - sensor.light_level
         - sensor.living_room_luminance
         - sensor.living_light_level
-        - sensor.blind_status
         - binary_sensor.front_door_sensor
-        - cover.blind
-        - light.fan_level
 
     - type: vertical-stack
       cards:
@@ -125,26 +121,29 @@ views:
         - light.fan_level
 
     - type: entities
-      title: Fan Inputs
+      title: Fan
       entities:
+        - light.fan_level
         - input_boolean.washingmachine_busy
         - input_boolean.dryer_busy
         - input_boolean.cooking
         - input_boolean.after_cooking
         - input_boolean.shower
-        - light.fan_level
-
-    - type: entities
-      title: Fan
-      entities:
-        - script.fan_full
-        - script.fan_background
-        - script.fan_off
-        - automation.fan_morning
+        - automation.fan
         - automation.fan_cooking
         - automation.fan_after_cooking
         - automation.fan_off
-        - automation.fan
+
+    # - type: entities
+    #   title: Fan
+    #   entities:
+        # - script.fan_full
+        # - script.fan_background
+        # - script.fan_off
+        # - automation.shower_on_morning_week
+        # - automation.shower_off_morning_week
+        # - automation.shower_on_morning_weekend
+        # - automation.shower_off_morning_weekend
 
     - type: vertical-stack
       cards:
@@ -248,9 +247,11 @@ views:
       - type: glance
         title: Status
         entities:
+          - sensor.weather_temperature
           - sensor.temperature
           - sensor.living_room_temperature
-          - light.qubino_zmnhvdx_flush_dimmer_010v_level
+          - sensor.sun_elevation
+          - sensor.sun_azimuth
       - type: history-graph
         title: Temperatures
         entities:

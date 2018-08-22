@@ -4,6 +4,7 @@
     "python.linting.flake8Enabled": false,
     "python.linting.pydocstyleEnabled": false,
     "yaml.schemas": {
-        "file:///c%3A/Users/edvan/.vscode-insiders/extensions/gizmos.docs-yaml-0.1.4/schemas/toc.schema.json": "toc.yml"
+        "file:///c%3A/Users/edvan/.vscode-insiders/extensions/gizmos.docs-yaml-0.1.4/schemas/toc.schema.json": "toc.yml",
+        "file:///c%3A/Users/edvan/.vscode-insiders/extensions/gizmos.docs-yaml-0.1.5/schemas/toc.schema.json": "/toc\\.yml/i"
     }
 }

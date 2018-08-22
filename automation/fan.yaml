@@ -61,7 +61,7 @@
         - service: input_boolean.turn_off
           entity_id: input_boolean.shower
 
-  - alias: 'Shower On  Morning Weekend'
+  - alias: 'Shower On Morning Weekend'
     id: shower_on_morning_weekend
     trigger:
       - platform: time
