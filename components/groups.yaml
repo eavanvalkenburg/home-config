@@ -23,7 +23,6 @@
   #     - sensor.huis_naar_werk
   #     - sensor.eduard_naar_huis
   #     - sensor.werk_naar_huis
-  #     - sensor.blind_status
   #     - sensor.plex
   #     - group.stocks
   #     - sensor.sun_azimuth

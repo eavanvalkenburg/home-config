@@ -7,8 +7,6 @@ views:
     - type: glance
       title: Status
       entities:
-        - cover.blind
-        - sensor.blind_position
         - sensor.kitchen_light_level
         - sensor.living_room_luminance
         - sensor.living_light_level
@@ -71,7 +69,6 @@ views:
         title: Blind Controls
         entities:
           - cover.blind
-          - sensor.blind_status
           - sensor.blind_position
           - automation.blind_close_at_sunset
           - automation.blind_open_at_sunrise_week
