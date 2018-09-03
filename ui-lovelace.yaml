@@ -9,25 +9,25 @@ views:
       entities:
         - cover.blind
         - sensor.blind_position
-        - sensor.light_level
+        - sensor.kitchen_light_level
         - sensor.living_room_luminance
         - sensor.living_light_level
         - binary_sensor.front_door_sensor
+        - sensor.plex
 
     - type: vertical-stack
       cards:
       - type: glance
         title: Media
         entities:
+          - media_player.multimedia
+          - media_player.xbox
+          # - switch.xbox_one
+          - media_player.tv
+          - media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
           - media_player.bedroom
           - media_player.bathroom
           - media_player.living_room
-          - media_player.multimedia
-          - media_player.tv
-          - media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
-          - sensor.plex
-          - switch.xbox_one
-          - sensor.resume_music
 
       - type: media-control
         entity: media_player.multimedia
@@ -83,23 +83,23 @@ views:
         entities:
           - sensor.blind_position
         hours_to_show: 12
-        refresh: 900
+        refresh_interval: 900
 
       - type: history-graph
         title: Blind - Long
         entities:
           - sensor.blind_position
         hours_to_show: 144
-        refresh: 900
+        refresh_interval: 900
 
       - type: history-graph
         title: Light Levels
         entities:
-        - sensor.light_level
+        - sensor.kitchen_light_level
         - sensor.living_light_level
         - sensor.living_room_luminance
         hours_to_show: 24
-        refresh: 300
+        refresh_interval: 300
 
       - type: history-graph
         title: Living Room Sensor Light Levels
@@ -107,7 +107,7 @@ views:
         - sensor.living_light_level
         - sensor.living_room_luminance
         hours_to_show: 3
-        refresh: 300
+        refresh_interval: 300
 
 # rest (laundry, bedroom, bathroom)
   - icon: mdi:hotel
@@ -119,20 +119,24 @@ views:
         - light.bedroom_level
         - binary_sensor.front_door_sensor
         - light.fan_level
+        - sensor.bathroom_relative_humidity
+        - sensor.bathroom_humidity_stats_mean
+        - sensor.bathroom_temperature
+        # - fan.ventilatie
 
-    - type: entities
+    - type: glance
       title: Fan
       entities:
-        - light.fan_level
+        # - light.fan_level
         - input_boolean.washingmachine_busy
         - input_boolean.dryer_busy
         - input_boolean.cooking
-        - input_boolean.after_cooking
+        # - input_boolean.after_cooking
         - input_boolean.shower
-        - automation.fan
-        - automation.fan_cooking
-        - automation.fan_after_cooking
-        - automation.fan_off
+        # - automation.fan
+        # - automation.fan_cooking
+        # - automation.fan_after_cooking
+        # - automation.fan_off
 
     # - type: entities
     #   title: Fan
@@ -161,13 +165,13 @@ views:
         entities:
           - sensor.washing_machine_power
         hours_to_show: 3
-        refresh: 30
+        refresh_interval: 30
       - type: history-graph
         title: Dryer Power
         entities:
           - sensor.dryer_power
         hours_to_show: 3
-        refresh: 30
+        refresh_interval: 30
 
     - type: entities
       title: Bedroom
@@ -184,6 +188,14 @@ views:
         - automation.notify_when_door_is_open
         - automation.notify_when_door_stays_open
 
+    - type: history-graph
+      title: Bathroom Humidity
+      entities:
+        - sensor.bathroom_relative_humidity
+        - sensor.bathroom_humidity_stats_mean
+      hours_to_show: 24
+      refresh_interval: 10
+
 # people
   - icon: mdi:human-male-female
     title: People
@@ -192,7 +204,12 @@ views:
       title: People
       entities:
         - group.willemijn
+        - group.eduard
+        - sensor.eduards_iphone_battery_level
+        - sensor.eduards_iphone_battery_state
         - sensor.kitchen_motion_sensor
+        - sensor.people_in_kitchen_mean
+        - sensor.people_in_kitchen_ratio
 
     - type: map
       aspect_ratio: 50%
@@ -201,28 +218,26 @@ views:
         - zone.home
         - zone.work
 
-    - type: picture-glance
-      image:
-      camera_image: 'camera.eduard'
-      title: Eduard
-      entities:
-        - group.eduard
-        - sensor.eduards_iphone_battery_level
-        - sensor.eduards_iphone_battery_state
-        - sensor.eduard_naar_huis
+    # - type: picture-glance
+    #   image:
+    #   camera_image: 'camera.eduard'
+    #   title: Eduard
+    #   entities:
+        # - sensor.eduard_naar_huis
 
-    - type: history-graph
-      title: Traveltimes
-      entities:
-        - sensor.huis_naar_werk
-        - sensor.werk_naar_huis
-      hours_to_show: 192
-      refresh: 3600
+    # - type: history-graph
+    #   title: Traveltimes
+    #   entities:
+    #     - sensor.huis_naar_werk
+    #     - sensor.werk_naar_huis
+    #   hours_to_show: 192
+    #   refresh_interval: 3600
 
     - type: entities
       title: People Automations
       entities:
         - automation.eduard_arrives_home
+        - automation.eduard_leaves_home
         - automation.willemijn_arrives_home
         - automation.willemijn_leaves_home
         - automation.lights_on_when_arriving_home
@@ -237,6 +252,14 @@ views:
         - automation.stop_tomato_flow
         - automation.tomato_timer_finished__break
         - automation.tomato_timer_finished__resume
+
+    - type: history-graph
+      title: People In Kitchen
+      entities:
+        - sensor.people_in_kitchen_mean
+        - sensor.people_in_kitchen_ratio
+      hours_to_show: 24
+      refresh_interval: 300
 
 # finance & weather
   - icon: mdi:weather-partlycloudy
@@ -259,7 +282,7 @@ views:
           - sensor.weather_temperature
           - sensor.living_room_temperature
         hours_to_show: 12
-        refresh: 60
+        refresh_interval: 60
       - type: history-graph
         title: Temperatures - Long
         entities:
@@ -267,7 +290,7 @@ views:
           - sensor.weather_temperature
           - sensor.living_room_temperature
         hours_to_show: 336
-        refresh: 900
+        refresh_interval: 900
 
       - type: history-graph
         title: Sun
@@ -275,7 +298,7 @@ views:
           - sensor.sun_elevation
           - sensor.sun_azimuth
         hours_to_show: 72
-        refresh: 300
+        refresh_interval: 300
 
     - type: vertical-stack
       cards:
@@ -320,13 +343,14 @@ views:
         entities:
           - sensor.microsoft_stock
         hours_to_show: 336
-        refresh: 300
+        refresh_interval: 300
 
     - type: glance
       title: Misc
       entities:
         - sensor.total_packages
         - sensor.postnl
+        - sensor.ups
 
 # server  
   - icon: mdi:server-security

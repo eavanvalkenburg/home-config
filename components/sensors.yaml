@@ -10,7 +10,15 @@
       - windforce
       - winddirection
       - precipitation
-      
+
+  # - platform: netatmo_public
+  #   name: Local Weather
+  #   areas:
+  #     - lat_ne: !secret lat_ne
+  #       lon_ne: !secret long_ne
+  #       lat_sw: !secret lat_sw
+  #       lon_sw: !secret long_sw
+
   - platform: uptime
     unit_of_measurement: minutes
 
@@ -42,9 +50,9 @@
     username: !secret postnl_un
     password: !secret postnl_pw
 
-  # - platform: ups
-  #   username: !secret ups_username
-  #   password: !secret ups_password
+  - platform: ups
+    username: !secret ups_username
+    password: !secret ups_password
 
   - platform: hue
     ip_address: !secret hue_ip
@@ -62,27 +70,27 @@
   #   unit_of_measurement: °C
   #   name: 'Temperature'
 
-  - platform: google_travel_time
-    name: Eduard naar huis
-    api_key: !secret google_api_key
-    origin: device_tracker.eduards_iphone
-    destination: zone.home
-    options:
-      mode: driving
-  - platform: google_travel_time
-    name: Huis naar Werk
-    api_key: !secret google_api_key
-    origin: zone.home
-    destination: zone.work
-    options:
-      mode: driving
-  - platform: google_travel_time
-    name: Werk naar Huis
-    api_key: !secret google_api_key
-    origin: zone.work
-    destination: zone.home
-    options:
-      mode: driving
+  # - platform: google_travel_time
+  #   name: Eduard naar huis
+  #   api_key: !secret google_api_key
+  #   origin: device_tracker.eduards_iphone
+  #   destination: zone.home
+  #   options:
+  #     mode: driving
+  # - platform: google_travel_time
+  #   name: Huis naar Werk
+  #   api_key: !secret google_api_key
+  #   origin: zone.home
+  #   destination: zone.work
+  #   options:
+  #     mode: driving
+  # - platform: google_travel_time
+  #   name: Werk naar Huis
+  #   api_key: !secret google_api_key
+  #   origin: zone.work
+  #   destination: zone.home
+  #   options:
+  #     mode: driving
 
   - platform: alpha_vantage
     api_key: !secret alpha_vantage_key
@@ -110,6 +118,27 @@
     command: python3 -c "import requests; print(requests.get('https://pypi.python.org/pypi/homeassistant/json').json()['info']['version'])"
 
   - platform: version
+
+  - platform: statistics
+    name: Bathroom Humidity Stats
+    entity_id: sensor.bathroom_relative_humidity
+    max_age:
+      minutes: 45
+
+  - platform: history_stats
+    name: People in Kitchen Ratio
+    entity_id: sensor.kitchen_motion_sensor
+    state: 'on'
+    type: ratio
+    end: '{{ now() }}'
+    duration: 
+      minutes: 10
+
+  - platform: statistics
+    name: People In Kitchen
+    entity_id: sensor.people_in_kitchen_ratio
+    max_age:
+      minutes: 120
 
   - platform: template
     sensors:
@@ -182,13 +211,13 @@
         value_template: '{{(states.sensor.kitchen_motion_sensor.attributes.temperature)  | round(1)}}'
         unit_of_measurement: °C
 
-      light_level:
-        friendly_name: 'Light level'
+      kitchen_light_level:
+        friendly_name: 'Kitchen Light level'
         value_template: '{{ (10**((states.sensor.kitchen_motion_sensor.attributes.light_level - 1) /10000)) | round(1)}}'
         unit_of_measurement: lux
 
       living_light_level:
-        friendly_name: 'Light level'
+        friendly_name: 'Living Room Light level'
         value_template: '{{ states.sensor.living_room_luminance.state | round(1)}}'
         unit_of_measurement: lux
 

@@ -7,20 +7,6 @@
     - service: notify.ios_eduards_iphone
       data_template:
         message: "Home Assistant {{ states('updater.updater') }} is now available."
-    # - service: azure_event_grid.publish_message
-    #   data_template:
-    #     name: update_notify
-    #     subject: "homeassistant.update"
-    #     eventtype: "update_available"
-    #     dataversion: 1.0.0
-    #     payload: "Home Assistant {{ states('updater.updater') }} is now available."
-    # - service: notify.eventgrid
-    #   data_template:
-    #     title: "homeassistant.update"
-    #     message: "update_available"
-    #     data:
-    #         data_version: "1"
-    #         message: "Home Assistant {{ states('updater.updater') }} is now available."
     - service: notify.notify_tv
       data_template:
         message: "Home Assistant {{ states('updater.updater') }} is now available."

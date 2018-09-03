@@ -1,34 +1,34 @@
-  default_view:
-    name: Home
-    view: yes
-    icon: mdi:home
-    entities:
-      - group.people
-      - group.weather
-      - media_player.multimedia
-      - media_player.tv
-      - switch.xbox_one
-      - group.lights
-      - sensor.aeotec_zw111_nano_dimmer_power_2
-      - group.sonos
-      - group.blind
-      - sensor.blind_position
-      - timer.tomato
-      - sensor.total_packages
-      - sensor.eduards_iphone_battery_level
-      - sensor.eduards_iphone_battery_state
-      - sensor.temperature
-      - sensor.light_level
-      - sensor.kitchen_motion_sensor
-      - sensor.huis_naar_werk
-      - sensor.eduard_naar_huis
-      - sensor.werk_naar_huis
-      - sensor.blind_status
-      - sensor.plex
-      - group.stocks
-      - sensor.sun_azimuth
-      - sensor.sun_elevation
-      - group.alarm
+  # default_view:
+  #   name: Home
+  #   view: yes
+  #   icon: mdi:home
+  #   entities:
+  #     - group.people
+  #     - group.weather
+  #     - media_player.multimedia
+  #     - media_player.tv
+  #     - switch.xbox_one
+  #     - group.lights
+  #     - sensor.aeotec_zw111_nano_dimmer_power_2
+  #     - group.sonos
+  #     - group.blind
+  #     - sensor.blind_position
+  #     - timer.tomato
+  #     - sensor.total_packages
+  #     - sensor.eduards_iphone_battery_level
+  #     - sensor.eduards_iphone_battery_state
+  #     - sensor.temperature
+  #     - sensor.light_level
+  #     - sensor.kitchen_motion_sensor
+  #     - sensor.huis_naar_werk
+  #     - sensor.eduard_naar_huis
+  #     - sensor.werk_naar_huis
+  #     - sensor.blind_status
+  #     - sensor.plex
+  #     - group.stocks
+  #     - sensor.sun_azimuth
+  #     - sensor.sun_elevation
+  #     - group.alarm
 
   people:
     name: People
@@ -48,150 +48,150 @@
       - device_tracker.eduards_iphone
       - device_tracker.eduardsiphone_router
 
-  weather:
-    name: Weather
-    entities:
-      - sensor.temperature
-      - sensor.weather_temperature
-      - sensor.weather_symbol
-      - sensor.weather_condition
-      - sensor.weather_detailed_condition
-      - sensor.weather_condition_code_1d
-      - sensor.weather_precipitation
-      - sensor.weather_precipitation_forecast_average
-      - sensor.weather_humidity
-      - sensor.weather_wind_direction
-      - sensor.weather_wind_force
-      - sensor.weather_stationname
-      - weather.br_unknown_station
-      - sun.sun
+  # weather:
+  #   name: Weather
+  #   entities:
+  #     - sensor.temperature
+  #     - sensor.weather_temperature
+  #     - sensor.weather_symbol
+  #     - sensor.weather_condition
+  #     - sensor.weather_detailed_condition
+  #     - sensor.weather_condition_code_1d
+  #     - sensor.weather_precipitation
+  #     - sensor.weather_precipitation_forecast_average
+  #     - sensor.weather_humidity
+  #     - sensor.weather_wind_direction
+  #     - sensor.weather_wind_force
+  #     - sensor.weather_stationname
+  #     - weather.br_unknown_station
+  #     - sun.sun
 
-  hue_sensors:
-    name: Hue Sensors
-    entities:
-      - sensor.kitchen_motion_sensor
-      - sensor.light_level
+  # hue_sensors:
+  #   name: Hue Sensors
+  #   entities:
+  #     - sensor.kitchen_motion_sensor
+  #     - sensor.light_level
 
-  lights:
-    name: Lights
-    entities:
-      - light.living
-      - light.oplaad_lamp
-      - light.liggende_lamp
-      - light.staande_lamp
-      - light.desk_lamp
-      - light.aeotec_zw111_nano_dimmer_level_2
+  # lights:
+  #   name: Lights
+  #   entities:
+  #     - light.living
+  #     - light.oplaad_lamp
+  #     - light.liggende_lamp
+  #     - light.staande_lamp
+  #     - light.desk_lamp
+  #     - light.aeotec_zw111_nano_dimmer_level_2
 
-  alarm:
-    name: Alarm
-    entities:
-      - input_boolean.alarm_on
-      - input_datetime.alarm_clock_time
-      - automation.alarm_automation
+  # alarm:
+  #   name: Alarm
+  #   entities:
+  #     - input_boolean.alarm_on
+  #     - input_datetime.alarm_clock_time
+  #     - automation.alarm_automation
 
-  sonos:
-    entities:
-      - media_player.bedroom
-      - media_player.bathroom
-      - media_player.living_room
-    icon: mdi:play-pause
+  # sonos:
+  #   entities:
+  #     - media_player.bedroom
+  #     - media_player.bathroom
+  #     - media_player.living_room
+  #   icon: mdi:play-pause
   
-  xbox_tv:
-    name: Xbox TV
-    entities:
-      - switch.xbox_one
-      - switch.tv
+  # xbox_tv:
+  #   name: Xbox TV
+  #   entities:
+  #     - switch.xbox_one
+  #     - switch.tv
 
-  packages:
-    name: Packages
-    entities:
-      - sensor.postnl
-      - sensor.ups
+  # packages:
+  #   name: Packages
+  #   entities:
+  #     - sensor.postnl
+  #     - sensor.ups
 
-  stocks:
-    name: Stocks
-    entities:
-      - sensor.microsoft
-      - sensor.google
-      - sensor.apple
-      - sensor.amazon
-      - sensor.coinbase_total
+  # stocks:
+  #   name: Stocks
+  #   entities:
+  #     - sensor.microsoft
+  #     - sensor.google
+  #     - sensor.apple
+  #     - sensor.amazon
+  #     - sensor.coinbase_total
 
-  blind:
-    name: Blind
-    entities:
-      - cover.blind
-      - automation.close_the_blind_when_its_sunny
+  # blind:
+  #   name: Blind
+  #   entities:
+  #     - cover.blind
+  #     - automation.close_the_blind_when_its_sunny
 
-  graphs:
-    name: Graphs
-    view: yes
-    icon: mdi:chart-line
-    entities:
-      - history_graph.traveltimes
-      - history_graph.temperatures
-      - history_graph.sun
-      - history_graph.blind
+  # graphs:
+  #   name: Graphs
+  #   view: yes
+  #   icon: mdi:chart-line
+  #   entities:
+  #     - history_graph.traveltimes
+  #     - history_graph.temperatures
+  #     - history_graph.sun
+  #     - history_graph.blind
 
-  automation:
-    name: Automation
-    view: yes
-    icon: mdi:auto-fix
-    entities:
-      - automation.away_lights_off
-      - automation.away_lights_on
-      - automation.home_lights_on
-      - automation.movie_paused
-      - automation.movie_play
-      - automation.people_lights_off
-      - automation.people_lights_on
-      - automation.tv_off_sonos_on
-      - automation.tv_on_sonos_off
-      - input_boolean.tomato_flow
-      - input_boolean.resume_music
-      - sensor.resume_music
+  # automation:
+  #   name: Automation
+  #   view: yes
+  #   icon: mdi:auto-fix
+  #   entities:
+  #     - automation.away_lights_off
+  #     - automation.away_lights_on
+  #     - automation.home_lights_on
+  #     - automation.movie_paused
+  #     - automation.movie_play
+  #     - automation.people_lights_off
+  #     - automation.people_lights_on
+  #     - automation.tv_off_sonos_on
+  #     - automation.tv_on_sonos_off
+  #     - input_boolean.tomato_flow
+  #     - input_boolean.resume_music
+  #     - sensor.resume_music
 
-  homeserver:
-    name: Tech
-    view: yes
-    icon: mdi:settings
-    entities:
-      - group.technical
-      - group.mediatracker
-      - sensor.current_version
-      - sensor.pypi_hass_version
-      - sensor.hassuptime
-      - script.reload_ha
-      - script.restart_ha
+  # homeserver:
+  #   name: Tech
+  #   view: yes
+  #   icon: mdi:settings
+  #   entities:
+  #     - group.technical
+  #     - group.mediatracker
+  #     - sensor.current_version
+  #     - sensor.pypi_hass_version
+  #     - sensor.hassuptime
+  #     - script.reload_ha
+  #     - script.restart_ha
 
-  technical:
-    name: Server details
-    entities:
-      - sensor.cpu_speed
-      - sensor.cpu_used
-      - sensor.ram_used
-      - sensor.disk_free_content
-      - sensor.disk_used_
-      - sensor.received
-      - sensor.sent
-      - sensor.speedtest_download
-      - sensor.speedtest_upload
-      - sensor.speedtest_ping
-      - sensor.myipopendnscom
-      - sensor.last_boot
+  # technical:
+  #   name: Server details
+  #   entities:
+  #     - sensor.cpu_speed
+  #     - sensor.cpu_used
+  #     - sensor.ram_used
+  #     - sensor.disk_free_content
+  #     - sensor.disk_used_
+  #     - sensor.received
+  #     - sensor.sent
+  #     - sensor.speedtest_download
+  #     - sensor.speedtest_upload
+  #     - sensor.speedtest_ping
+  #     - sensor.myipopendnscom
+  #     - sensor.last_boot
 
-  mediatracker:
-    name: Media tracking
-    entities:
-      - sensor.sonarr_series
-      - sensor.sonarr_upcoming
-      - sensor.sonarr_wanted
-      - sensor.sonarr_queue
-      - sensor.sonarr_commands 
-      - sensor.sonarr_diskspace
-      - sensor.sabnzbd_status
-      - sensor.sabnzbd_speed
-      - sensor.sabnzbd_queue
-      - sensor.sabnzbd_left
-      - sensor.sabnzbd_disk
-      - sensor.sabnzbd_disk_free
+  # mediatracker:
+  #   name: Media tracking
+  #   entities:
+  #     - sensor.sonarr_series
+  #     - sensor.sonarr_upcoming
+  #     - sensor.sonarr_wanted
+  #     - sensor.sonarr_queue
+  #     - sensor.sonarr_commands 
+  #     - sensor.sonarr_diskspace
+  #     - sensor.sabnzbd_status
+  #     - sensor.sabnzbd_speed
+  #     - sensor.sabnzbd_queue
+  #     - sensor.sabnzbd_left
+  #     - sensor.sabnzbd_disk
+  #     - sensor.sabnzbd_disk_free

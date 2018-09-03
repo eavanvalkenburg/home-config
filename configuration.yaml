@@ -16,7 +16,7 @@ homeassistant:
   auth_providers:
    - type: homeassistant
    # Uncomment next line if you want to enable legacy API password support
-   - type: legacy_api_password
+  #  - type: legacy_api_password
 
 # Enable the auth component
 auth:
@@ -47,7 +47,7 @@ http:
   ssl_key: /etc/letsencrypt/live/eavv.nl/privkey.pem
   trusted_networks:
     - !secret router_ip
-  # base_url: home.eavv.nl
+  base_url: eavv.nl
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
   # base_url: example.duckdns.org:8123
 api:
@@ -147,11 +147,11 @@ zone:
     radius: 150
     icon: mdi:microsoft
 
-camera:
-  name: Eduard
-  platform: generic
-  still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.eduards_iphone.attributes.latitude }},{{ states.device_tracker.eduards_iphone.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:E%7C{{ states.device_tracker.eduards_iphone.attributes.latitude }},{{ states.device_tracker.eduards_iphone.attributes.longitude }}
-  limit_refetch_to_url_change: true
+# camera:
+#   name: Eduard
+#   platform: generic
+#   still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.eduards_iphone.attributes.latitude }},{{ states.device_tracker.eduards_iphone.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:E%7C{{ states.device_tracker.eduards_iphone.attributes.latitude }},{{ states.device_tracker.eduards_iphone.attributes.longitude }}
+#   limit_refetch_to_url_change: true
 
 zwave:
   usb_path: /dev/ttyACM0
@@ -247,7 +247,36 @@ sabnzbd:
     - 'disk_size'
     - 'disk_free'
 
-history_graph: !include components/history_graph.yaml
+# fan:
+#   - platform: template
+#     fans:
+#       ventilatie:
+#         friendly_name: "Ventilatie"
+#         value_template: "{{ states('light.fan_level') }}"
+#         # speed_template: '{{ states.light.fan_level.attributes.brightness | default("0") }}'
+#         turn_on:
+#           service: light.turn_on
+#           entity_id: light.fan_level
+#         turn_off:
+#           service: light.turn_off
+#           entity_id: light.fan_level
+#         set_speed:
+#           service: light.turn_on
+#           entity_id: light.fan_level
+#           data_template:
+#             brightness: "{{ speed | int }}"
+#         speeds:
+#           - '0'
+#           - '10'
+#           - '20'
+#           - '30'
+#           - '40'
+#           - '50'
+#           - '60'
+#           - '70'
+#           - '80'
+
+# history_graph: !include components/history_graph.yaml
 
 # azure_event_grid:
 #   update_notify:
@@ -260,13 +289,14 @@ history_graph: !include components/history_graph.yaml
 #       - topic
 
 # logger:
-#   default: warn
+#   default: error
 #   logs:
+#     custom_components.media_player.xboxone: debug
 #     # homeassistant.components.mqtt: info
 #     homeassistant.components.azure_event_grid: debug
 #     azure_event_grid: debug
 #     custom_components.azure_event_grid: debug
 #     custom_components.sensor.azure_event_grid: debug
-    # media_player.xbox_one: debug
     # homeassistant.components.media_player.xbox_one: debug
     # custom_components.media_player.xboxone: debug
+

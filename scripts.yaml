@@ -79,3 +79,17 @@
       - service: light.turn_off
         entity_id: light.fan_level
 
+  media_on:
+    alias: Turn on Multimedia
+    sequence:
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.tv
+      - service: media_player.turn_on
+        data:
+          entity_id: media_player.xbox
+      # - delay: '00:01:00'
+      # - service: media_player.select_source
+      #   data:
+      #     entity_id: media_player.xbox
+      #     source: "Plex"

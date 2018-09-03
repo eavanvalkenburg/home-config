@@ -6,5 +6,7 @@
     "yaml.schemas": {
         "file:///c%3A/Users/edvan/.vscode-insiders/extensions/gizmos.docs-yaml-0.1.4/schemas/toc.schema.json": "toc.yml",
         "file:///c%3A/Users/edvan/.vscode-insiders/extensions/gizmos.docs-yaml-0.1.5/schemas/toc.schema.json": "/toc\\.yml/i"
-    }
+    },
+    // Ubuntu (on Windows)
+    "terminal.integrated.shell.windows": "C:\\Users\\edvan\\AppData\\Local\\Microsoft\\WindowsApps\\ubuntu.exe"
 }

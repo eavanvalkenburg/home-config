@@ -1,19 +1,30 @@
-  - platform: xboxone
-    name: Xbox One
-    ip_address: !secret xbox_ip
-    live device id: !secret xbox_live_device_id
+  # - platform: xboxone
+  #   name: Xbox One
+  #   ip_address: !secret xbox_ip
+  #   live device id: !secret xbox_live_device_id
   - platform: template
     switches:
-      tv:
-        value_template: "{{ not is_state('media_player.tv', 'off') }}"
-        turn_on:
-          service: media_player.turn_on
-          data:
-            entity_id: media_player.tv
+      # tv:
+      #   value_template: "{{ not is_state('media_player.tv', 'off') }}"
+      #   turn_on:
+      #     service: media_player.turn_on
+      #     data:
+      #       entity_id: media_player.tv
+      #   turn_off:
+      #     service: media_player.turn_off
+      #     data:
+      #       entity_id: media_player.tv
+      multimedia:
+        value_template: "{{ not is_state('media_player.tv', 'off') and not is_state('media_player.xbox', 'off')}}"
+        turn_on:          
+          service: script.media_on
         turn_off:
-          service: media_player.turn_off
+        - service: media_player.turn_off
           data:
             entity_id: media_player.tv
+        - service: media_player.turn_off
+          data:
+            entity_id: media_player.xbox
       fan:
         value_template: "{{ is_state('light.qubino_zmnhvdx_flush_dimmer_010v_level', 'on') }}"
         turn_on:

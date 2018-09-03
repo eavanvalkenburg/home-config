@@ -3,6 +3,10 @@
     trigger:
       - platform: sun
         event: sunset
+    condition:
+      - condition: state
+        entity_id: group.people
+        state: 'not_home'
     action:
         - service: hue.hue_activate_scene
           data:

@@ -44,9 +44,16 @@
   - alias: 'Close the blind when its sunny'
     id: blind_sunny
     trigger:
-      - platform: time
-        minutes: '/5'
-        seconds: 00
+      # - platform: time
+      #   minutes: '/5'
+      #   seconds: 00
+      - platform: template
+        value_template: >-
+              {%- set azimuth = states.sun.sun.attributes.azimuth | float -%}         
+              {%- set sun_pos = azimuth > 195 and azimuth < 286 -%}
+              {%- set sun_ele = states.sun.sun.attributes.elevation | float > 4 -%}
+              {%- set temp = states.sensor.temperature.state | float >= 22 and states.sensor.weather_temperature.state | float >= 19 -%}
+              {{ sun_pos and sun_ele and temp and is_state('input_boolean.clear_day', 'on') }}  
     condition: 
       condition: and
       conditions:
@@ -67,7 +74,7 @@
               {%- set clear = is_state('input_boolean.clear_day', 'on') -%}
               {%- set add = (temp_in - 22, 1) | max -%}
               {%- set sun_pos = azimuth > 195 and azimuth < 286 -%}
-              {%- set sun_ele = elevation < 4 -%}
+              {%- set sun_ele = elevation > 4 -%}
               {%- set factor = (temp_out - 19, 1) | max -%}
               {%- set temp = temp_in >= 22 and temp_out >= 19 -%}
               {%- if sun_pos and sun_ele and temp and clear -%}
@@ -107,3 +114,5 @@
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.clear_day
+
+3T13:02:46.981700+00:00
