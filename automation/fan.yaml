@@ -4,9 +4,6 @@
     trigger:
       - platform: template
         value_template: "{{ states.sensor.people_in_kitchen_mean.attributes.max_value | float > 60 }}"
-    condition:
-      - condition: time
-        before: '22:00:00'
     action:
       - service: input_boolean.turn_on
         entity_id: input_boolean.cooking
@@ -16,15 +13,6 @@
     trigger:
       - platform: template
         value_template: "{{ states.sensor.people_in_kitchen_mean.attributes.max_value | float <= 60 }}"
-    action:
-      - service: input_boolean.turn_off
-        entity_id: input_boolean.cooking
-
-  - alias: "No more cooking"
-    id: cooking_over
-    trigger:
-      - platform: time
-        at: '22:00:00'
     action:
       - service: input_boolean.turn_off
         entity_id: input_boolean.cooking
@@ -58,6 +46,8 @@
         entity_id: input_boolean.cooking
       - platform: state
         entity_id: input_boolean.shower
+      - platform: time
+        at: '22:00:00'
     action:
       - service: light.turn_on
         entity_id: light.fan_level
@@ -65,9 +55,14 @@
           brightness_pct: >-
               {%- set factor = 40 -%}
               {%- set highest = 80 -%}
+              {%- set hour = now().hour -%}
               {%- set shower_factor = (states.sensor.bathroom_humidity_stats_mean.attributes.max_value | float - states.sensor.bathroom_humidity_stats_mean.attributes.min_value | float)*4 -%}
               {%- set wm = is_state('input_boolean.washingmachine_busy', 'on') | int *factor/2 -%}
               {%- set dr = is_state('input_boolean.dryer_busy', 'on') | int *factor/2 -%}
               {%- set co = is_state('input_boolean.cooking', 'on') | int *factor*2 -%}
               {%- set sh = is_state('input_boolean.shower', 'on') | int *shower_factor -%}
-              {{ [wm+dr+co+sh, highest] | min | float }}
+              {%- if 07 <= hour < 22 -%}
+                {{ [wm+dr+co+sh, highest] | min | float }}
+              {%- else -%}
+                0
+              {%- endif -%}

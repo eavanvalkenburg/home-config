@@ -9,6 +9,8 @@
       - condition: template
         value_template: "{{ states.media_player.xbox.attributes.source != 'Plex' }}"
     action:
+      - delay: 
+          seconds: 5
       - service: media_player.select_source
         data:
           entity_id: media_player.xbox
