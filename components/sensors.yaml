@@ -174,7 +174,8 @@
             {%- set sun_ele = elevation > 4 -%}
             {%- set factor = (temp_out - 19, 1) | max -%}
             {%- set temp = temp_in >= 22 and temp_out >= 19 -%}
-            {%- if sun_pos and sun_ele and temp and clear -%}
+            {%- set tv_on = not(is_state('media_player.tv', 'off')) -%}
+            {%- if sun_pos and sun_ele and (temp or tv_on) and clear -%}
             {{ ([[ elevation - (add*factor) | round | int, 100] |min, 0] |max) | int }}
             {%- else -%}
             {{ 100 }}
