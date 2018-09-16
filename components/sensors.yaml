@@ -171,7 +171,7 @@
             {%- set clear = is_state('input_boolean.clear_day', 'on') -%}
             {%- set add = (temp_in - 22, 1) | max -%}
             {%- set sun_pos = azimuth > 195 and azimuth < 286 -%}
-            {%- set sun_ele = elevation > 4 -%}
+            {%- set sun_ele = elevation > 1.4 -%}
             {%- set factor = (temp_out - 19, 1) | max -%}
             {%- set temp = temp_in >= 22 and temp_out >= 19 -%}
             {%- set tv_on = not(is_state('media_player.tv', 'off')) -%}

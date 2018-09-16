@@ -10,7 +10,7 @@
           entity_id: timer.tomato
           duration: 00:25:00
       - service: media_player.media_pause
-        entity_id: media_player.bedroom
+        entity_id: media_player.living_room
   
   - alias: 'Stop Tomato Flow'
     id: tomato_stop
@@ -22,7 +22,7 @@
       - service: timer.cancel
         entity_id: timer.tomato
       - service: media_player.media_play
-        entity_id: media_player.bedroom
+        entity_id: media_player.living_room
  
   - alias: 'Tomato Timer Finished - break'
     id: tomato_finished_break
@@ -45,7 +45,7 @@
         entity_id: timer.tomato
         duration: 00:05:00
     - service: media_player.media_play
-      entity_id: media_player.bedroom
+      entity_id: media_player.living_room
 
   - alias: 'Tomato Timer Finished - resume'
     id: tomato_finished_resume
@@ -68,4 +68,4 @@
         entity_id: timer.tomato
         duration: 00:25:00
     - service: media_player.media_pause
-      entity_id: media_player.bedroom
+      entity_id: media_player.living_room
