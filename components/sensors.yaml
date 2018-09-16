@@ -19,6 +19,13 @@
   #       lat_sw: !secret lat_sw
   #       lon_sw: !secret long_sw
 
+  - platform: systemmonitor
+    resources:
+      - type: last_boot
+      - type: memory_use_percent
+      - type: disk_use_percent
+        arg: /
+
   - platform: uptime
     unit_of_measurement: minutes
 

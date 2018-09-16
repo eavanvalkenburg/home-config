@@ -114,37 +114,18 @@ views:
       title: Status
       entities:
         - light.bedroom_level
-        - binary_sensor.front_door_sensor
         - light.fan_level
         - sensor.bathroom_relative_humidity
         - sensor.bathroom_humidity_stats_mean
         - sensor.bathroom_temperature
-        # - fan.ventilatie
 
     - type: glance
       title: Fan
       entities:
-        # - light.fan_level
         - input_boolean.washingmachine_busy
         - input_boolean.dryer_busy
         - input_boolean.cooking
-        # - input_boolean.after_cooking
         - input_boolean.shower
-        # - automation.fan
-        # - automation.fan_cooking
-        # - automation.fan_after_cooking
-        # - automation.fan_off
-
-    # - type: entities
-    #   title: Fan
-    #   entities:
-        # - script.fan_full
-        # - script.fan_background
-        # - script.fan_off
-        # - automation.shower_on_morning_week
-        # - automation.shower_off_morning_week
-        # - automation.shower_on_morning_weekend
-        # - automation.shower_off_morning_weekend
 
     - type: vertical-stack
       cards:
@@ -157,12 +138,14 @@ views:
           - automation.dryer__ready
           - automation.dryer__busy
           - automation.dryer__notification
+
       - type: history-graph
         title: Washing Machine Power
         entities:
           - sensor.washing_machine_power
         hours_to_show: 3
         refresh_interval: 30
+
       - type: history-graph
         title: Dryer Power
         entities:
@@ -181,7 +164,7 @@ views:
     - type: entities
       title: Front Door
       entities:
-        - binary_sensor.neo_coolcam_doorwindow_detector_sensor
+        - binary_sensor.front_door_sensor
         - automation.notify_when_door_is_open
         - automation.notify_when_door_stays_open
 
@@ -325,9 +308,9 @@ views:
         title: Finance
         entities:
           - sensor.microsoft
-          - sensor.google
-          - sensor.apple
-          - sensor.amazon
+          # - sensor.google
+          # - sensor.apple
+          # - sensor.amazon
           - sensor.coinbase_total
           - sensor.coinbase_btc
           - sensor.coinbase_eth
@@ -361,6 +344,7 @@ views:
           - sensor.hassuptime
           - sensor.current_version
           - sensor.pypi_hass_version
+          - sensor.last_boot
 
       - type: entities
         title: System
@@ -374,17 +358,12 @@ views:
       title: Technical Status
       entities:          
         - sensor.cpu_speed
-        - sensor.cpu_used
-        - sensor.ram_used
-        - sensor.disk_free_content
-        - sensor.disk_used_
-        - sensor.received
-        - sensor.sent
+        - sensor.memory_use_percent
+        - sensor.disk_use_percent_
         - sensor.speedtest_download
         - sensor.speedtest_upload
         - sensor.speedtest_ping
         - sensor.myipopendnscom
-        - sensor.last_boot
 
     - type: glance
       title: Media tracking
@@ -394,7 +373,7 @@ views:
         - sensor.sonarr_wanted
         - sensor.sonarr_queue
         - sensor.sonarr_commands 
-        - sensor.sonarr_diskspace
+        # - sensor.sonarr_diskspace
         - sensor.sabnzbd_status
         - sensor.sabnzbd_speed
         - sensor.sabnzbd_queue
