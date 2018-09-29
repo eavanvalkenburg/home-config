@@ -70,10 +70,13 @@ views:
         entities:
           - cover.blind
           - sensor.blind_position
+          - binary_sensor.people_awake
+          - input_boolean.people_awake
           - automation.blind_close_at_sunset
-          - automation.blind_open_at_sunrise_week
-          - automation.blind_open_at_sunrise_weekend
+          # - automation.blind_open_at_sunrise_week
+          # - automation.blind_open_at_sunrise_weekend
           - automation.close_the_blind_when_its_sunny
+          - automation.blind_open_people_awake
 
       - type: history-graph
         title: Blind

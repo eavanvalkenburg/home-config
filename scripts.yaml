@@ -3,11 +3,11 @@
       - service: media_player.volume_set
         data:  
           entity_id: "media_player.living_room" 
-          volume_level: 0.2
-        # data_template:
-        #   volume_level: >-
-        #     {% set vol = ([states.media_player.bedroom.attributes.volume_level, states.media_player.bathroom.attributes.volume_level] | min | string) %}
-        #     {{ vol }}
+          # volume_level: 0.2
+        data_template:
+          volume_level: >-
+            {% set vol = ([states.media_player.bedroom.attributes.volume_level, states.media_player.bathroom.attributes.volume_level] | min | string) %}
+            {{ vol }}
   say:
     alias: Sonos TTS
     sequence:

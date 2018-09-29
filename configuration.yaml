@@ -42,7 +42,7 @@ config:
 
 http:
   # Secrets are defined in the file secrets.yaml
-  api_password: !secret http_password
+  # api_password: !secret http_password
   ssl_certificate: /etc/letsencrypt/live/eavv.nl/fullchain.pem
   ssl_key: /etc/letsencrypt/live/eavv.nl/privkey.pem
   trusted_networks:
@@ -83,6 +83,37 @@ sun:
 
 sensor: !include components/sensors.yaml
 # sensor 2: !include components/templates.yaml
+
+binary_sensor:
+  name: 'people_awake'
+  platform: 'bayesian'
+  prior: 0.1
+  probability_threshold: 0.95
+  observations:
+    - entity_id: 'binary_sensor.living_room_motion_sensor'
+      prob_given_true: 0.4
+      prob_given_false: 0.1
+      platform: 'state'
+      to_state: 'on'
+    - entity_id: 'sensor.kitchen_motion_sensor'
+      prob_given_true: 0.4
+      prob_given_false: 0.1
+      platform: 'state'
+      to_state: 'on'
+    - entity_id: 'media_player.tv'
+      prob_given_true: 0.8
+      prob_given_false: 0.1
+      platform: 'state'
+      to_state: 'on'
+    - entity_id: 'media_player.bedroom'
+      prob_given_true: 0.8
+      prob_given_false: 0.1
+      platform: 'state'
+      to_state: 'playing'
+    - entity_id: 'sun.sun'
+      prob_given_true: 0.3
+      platform: 'state'
+      to_state: 'above_horizon'
 
 #device trackers
 device_tracker:
@@ -147,12 +178,6 @@ zone:
     radius: 150
     icon: mdi:microsoft
 
-# camera:
-#   name: Eduard
-#   platform: generic
-#   still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.eduards_iphone.attributes.latitude }},{{ states.device_tracker.eduards_iphone.attributes.longitude }}&zoom=13&size=500x500&maptype=roadmap&markers=color:blue%7Clabel:E%7C{{ states.device_tracker.eduards_iphone.attributes.latitude }},{{ states.device_tracker.eduards_iphone.attributes.longitude }}
-#   limit_refetch_to_url_change: true
-
 zwave:
   usb_path: /dev/ttyACM0
   debug: true
@@ -187,6 +212,9 @@ input_boolean:
   shower:
     name: Shower
     icon: mdi:shower
+  people_awake:
+    name: People Awake
+    icon: mdi:human-handsup
 
 input_datetime:
   alarm_clock_time:
@@ -247,36 +275,6 @@ sabnzbd:
     - 'disk_size'
     - 'disk_free'
 
-# fan:
-#   - platform: template
-#     fans:
-#       ventilatie:
-#         friendly_name: "Ventilatie"
-#         value_template: "{{ states('light.fan_level') }}"
-#         # speed_template: '{{ states.light.fan_level.attributes.brightness | default("0") }}'
-#         turn_on:
-#           service: light.turn_on
-#           entity_id: light.fan_level
-#         turn_off:
-#           service: light.turn_off
-#           entity_id: light.fan_level
-#         set_speed:
-#           service: light.turn_on
-#           entity_id: light.fan_level
-#           data_template:
-#             brightness: "{{ speed | int }}"
-#         speeds:
-#           - '0'
-#           - '10'
-#           - '20'
-#           - '30'
-#           - '40'
-#           - '50'
-#           - '60'
-#           - '70'
-#           - '80'
-
-# history_graph: !include components/history_graph.yaml
 
 # azure_event_grid:
 #   update_notify:
