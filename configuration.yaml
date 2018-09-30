@@ -71,9 +71,90 @@ conversation:
 
 # Enables support for tracking state changes over time
 history:
+  exclude:
+    entities:
+    - sensor.washing_machine_alarm_level
+    - sensor.washing_machine_alarm_type
+    - sensor.washing_machine_current
+    - sensor.washing_machine_exporting
+    - sensor.washing_machine_interval
+    - sensor.washing_machine_interval_2
+    - sensor.washing_machine_interval_3
+    - sensor.washing_machine_interval_4
+    - sensor.washing_machine_energy
+    - sensor.washing_machine_power_management
+    - sensor.washing_machine_previous_reading
+    - sensor.washing_machine_previous_reading_2
+    - sensor.washing_machine_previous_reading_3
+    - sensor.washing_machine_previous_reading_4
+    - sensor.washing_machine_sourcenodeid
+    - sensor.washing_machine_voltage
+    - sensor.dryer_alarm_level
+    - sensor.dryer_alarm_type
+    - sensor.dryer_current
+    - sensor.dryer_exporting
+    - sensor.dryer_interval
+    - sensor.dryer_interval_2
+    - sensor.dryer_interval_3
+    - sensor.dryer_interval_4
+    - sensor.dryer_energy
+    - sensor.dryer_power_management
+    - sensor.dryer_previous_reading
+    - sensor.dryer_previous_reading_2
+    - sensor.dryer_previous_reading_3
+    - sensor.dryer_previous_reading_4
+    - sensor.dryer_sourcenodeid
+    - sensor.dryer_voltage
+    - sensor.bedroom_alarm_level
+    - sensor.bedroom_alarm_type
+    - sensor.bedroom_exporting
+    - sensor.bedroom_power_management
+    - sensor.bedroom_previous_reading
+    - sensor.bedroom_sourcenodeid
+
 
 # View all events in a logbook
 logbook:
+  exclude:
+    entities:
+    - sensor.washing_machine_alarm_level
+    - sensor.washing_machine_alarm_type
+    - sensor.washing_machine_current
+    - sensor.washing_machine_exporting
+    - sensor.washing_machine_interval
+    - sensor.washing_machine_interval_2
+    - sensor.washing_machine_interval_3
+    - sensor.washing_machine_interval_4
+    - sensor.washing_machine_energy
+    - sensor.washing_machine_power_management
+    - sensor.washing_machine_previous_reading
+    - sensor.washing_machine_previous_reading_2
+    - sensor.washing_machine_previous_reading_3
+    - sensor.washing_machine_previous_reading_4
+    - sensor.washing_machine_sourcenodeid
+    - sensor.washing_machine_voltage
+    - sensor.dryer_alarm_level
+    - sensor.dryer_alarm_type
+    - sensor.dryer_current
+    - sensor.dryer_exporting
+    - sensor.dryer_interval
+    - sensor.dryer_interval_2
+    - sensor.dryer_interval_3
+    - sensor.dryer_interval_4
+    - sensor.dryer_energy
+    - sensor.dryer_power_management
+    - sensor.dryer_previous_reading
+    - sensor.dryer_previous_reading_2
+    - sensor.dryer_previous_reading_3
+    - sensor.dryer_previous_reading_4
+    - sensor.dryer_sourcenodeid
+    - sensor.dryer_voltage
+    - sensor.bedroom_alarm_level
+    - sensor.bedroom_alarm_type
+    - sensor.bedroom_exporting
+    - sensor.bedroom_power_management
+    - sensor.bedroom_previous_reading
+    - sensor.bedroom_sourcenodeid
 
 # Enables a map showing the location of tracked devices
 map:
@@ -87,31 +168,35 @@ sensor: !include components/sensors.yaml
 binary_sensor:
   name: 'people_awake'
   platform: 'bayesian'
-  prior: 0.1
-  probability_threshold: 0.95
+  prior: 0.3
+  probability_threshold: 0.75
   observations:
     - entity_id: 'binary_sensor.living_room_motion_sensor'
-      prob_given_true: 0.4
-      prob_given_false: 0.1
+      prob_given_true: 0.6
       platform: 'state'
       to_state: 'on'
     - entity_id: 'sensor.kitchen_motion_sensor'
-      prob_given_true: 0.4
-      prob_given_false: 0.1
+      prob_given_true: 0.6
       platform: 'state'
       to_state: 'on'
     - entity_id: 'media_player.tv'
       prob_given_true: 0.8
-      prob_given_false: 0.1
-      platform: 'state'
-      to_state: 'on'
-    - entity_id: 'media_player.bedroom'
-      prob_given_true: 0.8
-      prob_given_false: 0.1
       platform: 'state'
       to_state: 'playing'
+    - entity_id: 'media_player.bedroom'
+      prob_given_true: 0.8
+      platform: 'state'
+      to_state: 'playing'
+    - entity_id: 'media_player.tv'
+      prob_given_true: 0.6
+      platform: 'state'
+      to_state: 'off'
+    - entity_id: 'media_player.bedroom'
+      prob_given_true: 0.6
+      platform: 'state'
+      to_state: 'paused'
     - entity_id: 'sun.sun'
-      prob_given_true: 0.3
+      prob_given_true: 0.6
       platform: 'state'
       to_state: 'above_horizon'
 

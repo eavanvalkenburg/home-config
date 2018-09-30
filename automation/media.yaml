@@ -16,20 +16,26 @@
           entity_id: media_player.xbox
           source: "Plex"
 
-  - alias: 'Resume toggle for nights'
-    id: 'resume_toggle'
+  - alias: 'Resume toggle at night'
+    id: 'resume_toggle_night'
     trigger:
       - platform: time
-        at: '07:01:00'
-      - platform: time
-        at: '23:59:00'
+        at: '23:00:00'
     action:
       - service: input_boolean.turn_off
         data:
           entity_id: input_boolean.resume_music
-      - condition: time
-        after: '07:00:00'
+
+  - alias: 'Resume toggle for morning'
+    id: 'resume_toggle_morning'
+    trigger:
+      - platform: time
+        at: '07:00:00'
+    condition:
+      - condition: state
+        entity_id: group.willemijn
+        state: not_home
+    action:
       - service: input_boolean.turn_on
         data:
           entity_id: input_boolean.resume_music
-

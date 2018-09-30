@@ -54,7 +54,6 @@ views:
           - light.liggende_lamp
           - light.staande_lamp
           - light.desk_lamp
-
       - type: entities
         title: Light Rules
         entities:
