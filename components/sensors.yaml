@@ -11,6 +11,9 @@
       - winddirection
       - precipitation
 
+  - platform: bunq
+    api_key: !secret bunq_api_key
+
   # - platform: netatmo_public
   #   name: Local Weather
   #   areas:
@@ -141,6 +144,15 @@
     duration: 
       minutes: 10
 
+  - platform: history_stats
+    name: Clear day
+    entity_id: sensor.weather_condition
+    state: 'clear'
+    type: count
+    end: '{{ now() }}'
+    duration: 
+      minutes: 60
+
   - platform: statistics
     name: People In Kitchen
     entity_id: sensor.people_in_kitchen_ratio
@@ -261,3 +273,14 @@
         value_template: "{{ (states('sensor.microsoft') | float) * (states('input_number.microsoft_stock') | float) | round }}"
         unit_of_measurement: USD
         icon_template: mdi:microsoft
+      bunq_total:
+        friendly_name: Bunq Total
+        value_template: '{{ 
+          states("sensor.bunq_boodschappen")|float + 
+          states("sensor.bunq_default")|float + 
+          states("sensor.bunq_evi_van_lanschot")|float +
+          states("sensor.bunq_uit_eten")|float +
+          states("sensor.bunq_we")|float
+          }}'
+        unit_of_measurement: EUR
+        icon_template: mdi:currency-eur

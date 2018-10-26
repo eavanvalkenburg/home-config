@@ -41,15 +41,10 @@ cloud:
 config:
 
 http:
-  # Secrets are defined in the file secrets.yaml
-  # api_password: !secret http_password
-  ssl_certificate: /etc/letsencrypt/live/eavv.nl/fullchain.pem
-  ssl_key: /etc/letsencrypt/live/eavv.nl/privkey.pem
+  server_port: 8123
   trusted_networks:
-    - !secret router_ip
-  base_url: eavv.nl
-  # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-  # base_url: example.duckdns.org:8123
+    - 192.168.2.0/24
+  base_url: home.eavv.nl
 api:
 
 # Checks for available updates
@@ -155,6 +150,31 @@ logbook:
     - sensor.bedroom_power_management
     - sensor.bedroom_previous_reading
     - sensor.bedroom_sourcenodeid
+    - sensor.weather_condition
+    - sensor.weather_detailed_condition
+    - sensor.weather_humidity
+    - sensor.weather_precipitation
+    - sensor.weather_stationname
+    - sensor.weather_symbol
+    - sensor.weather_temperature
+    - sensor.weather_wind_direction
+    - sensor.weather_wind_force
+    - weather.br_unknown_station
+    - binary_sensor.living_room_motion_sensor
+    - sensor.kitchen_motion_sensor
+    - sensor.living_light_level
+    - sensor.living_room_alarm_level
+    - sensor.living_room_alarm_type
+    - sensor.living_room_burglar
+    - sensor.living_room_luminance
+    - sensor.living_room_sourcenodeid
+    - sensor.living_room_temperature
+    - sensor.kitchen_light_level
+    - sensor.kitchen_motion_sensor
+    - sensor.people_in_kitchen_mean
+    - sensor.people_in_kitchen_ratio
+    - sensor.hassuptime
+    - sensor.uptime
 
 # Enables a map showing the location of tracked devices
 map:
@@ -168,37 +188,49 @@ sensor: !include components/sensors.yaml
 binary_sensor:
   name: 'people_awake'
   platform: 'bayesian'
-  prior: 0.3
-  probability_threshold: 0.75
+  prior: 0.4
+  probability_threshold: 0.79999
   observations:
-    - entity_id: 'binary_sensor.living_room_motion_sensor'
+    - entity_id: 'sun.sun'
+      prob_given_true: 0.8
+      platform: 'state'
+      to_state: 'above_horizon'
+
+    - entity_id: 'device_tracker.eduardsiphone_router'
+      prob_given_true: 0.8
+      platform: 'state'
+      to_state: 'not_home'
+    - entity_id: 'group.willemijn'
+      prob_given_true: 0.8
+      platform: 'state'
+      to_state: 'not_home'
+
+    - entity_id: 'device_tracker.eduardsiphone_router'
+      prob_given_true: 0.2
+      platform: 'state'
+      to_state: 'home'
+    - entity_id: 'group.willemijn'
+      prob_given_true: 0.8
+      platform: 'state'
+      to_state: 'home'
+
+    - entity_id: 'media_player.tv'
       prob_given_true: 0.6
+      platform: 'state'
+      to_state: 'playing'
+    - entity_id: 'media_player.bedroom'
+      prob_given_true: 0.6
+      platform: 'state'
+      to_state: 'playing'
+
+    - entity_id: 'binary_sensor.living_room_motion_sensor'
+      prob_given_true: 0.55
       platform: 'state'
       to_state: 'on'
     - entity_id: 'sensor.kitchen_motion_sensor'
-      prob_given_true: 0.6
+      prob_given_true: 0.55
       platform: 'state'
       to_state: 'on'
-    - entity_id: 'media_player.tv'
-      prob_given_true: 0.8
-      platform: 'state'
-      to_state: 'playing'
-    - entity_id: 'media_player.bedroom'
-      prob_given_true: 0.8
-      platform: 'state'
-      to_state: 'playing'
-    - entity_id: 'media_player.tv'
-      prob_given_true: 0.6
-      platform: 'state'
-      to_state: 'off'
-    - entity_id: 'media_player.bedroom'
-      prob_given_true: 0.6
-      platform: 'state'
-      to_state: 'paused'
-    - entity_id: 'sun.sun'
-      prob_given_true: 0.6
-      platform: 'state'
-      to_state: 'above_horizon'
 
 #device trackers
 device_tracker:
@@ -297,9 +329,6 @@ input_boolean:
   shower:
     name: Shower
     icon: mdi:shower
-  people_awake:
-    name: People Awake
-    icon: mdi:human-handsup
 
 input_datetime:
   alarm_clock_time:
@@ -374,6 +403,8 @@ sabnzbd:
 # logger:
 #   default: error
 #   logs:
+    # custom_components.sensor.bunq: debug
+    # custom_components.media_player.webostv: debug
 #     custom_components.media_player.xboxone: debug
 #     # homeassistant.components.mqtt: info
 #     homeassistant.components.azure_event_grid: debug

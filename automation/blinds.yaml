@@ -1,69 +1,24 @@
-  
-  - alias: 'Blind close at sunset'
-    id: blind_sunset
+
+  - alias: 'People Awake'
+    id: people_awake
     trigger:
-      - platform: sun
-        event: sunset
-      - platform: state
-        entity_id: input_boolean.people_awake
-        to: 'off'
+      platform: state
+      entity_id: binary_sensor.people_awake
+      to: 'on'
+      for: 
+        minutes: 5
+    condition:
+      condition: time
+      after: '07:00:00'
+      before: '11:00:00'
     action:
-        - service: cover.close_cover
-          data:
-            entity_id: cover.blind
-
-  - alias: 'Blind open people awake'
-    id: blind_people_awake
-    trigger:
-      - platform: time
-        at: '10:00:00'
-      - platform: state
-        entity_id: input_boolean.people_awake
-        to: 'on'
-    action:
-        - service: cover.open_cover
-          data:
-            entity_id: cover.blind
-
-  # - alias: 'Blind open at sunrise week'
-  #   id: blind_sunrise_week
-  #   trigger:
-  #     - platform: time
-  #       at: '08:00:00'
-  #   condition: 
-  #     - condition: time
-  #       weekday:
-  #         - mon
-  #         - tue
-  #         - wed
-  #         - thu
-  #         - fri
-  #   action:
-  #       - service: cover.open_cover
-  #         data:
-  #           entity_id: cover.blind
-
-  # - alias: 'Blind open at sunrise weekend'
-  #   id: blind_sunrise_weekend
-  #   trigger:
-  #     - platform: time
-  #       at: '11:00:00'
-  #   condition: 
-  #     - condition: time
-  #       weekday:
-  #         - sat
-  #         - sun
-  #   action:
-  #       - service: cover.open_cover
-  #         data:
-  #           entity_id: cover.blind
+        service: cover.open_cover
+        data:
+          entity_id: cover.blind
 
   - alias: 'Close the blind when its sunny'
     id: blind_sunny
     trigger:
-      # - platform: time
-      #   minutes: '/5'
-      #   seconds: 00
       - platform: template
         value_template: '{{ states.sensor.new_blind_position.state | int != states.sensor.blind_position.state | int }}'
     condition: 
@@ -79,13 +34,24 @@
           data_template:
             entity_id: cover.blind
             position: '{{ states.sensor.new_blind_position.state | int }}'
+  
+  - alias: 'Blind close at sunset'
+    id: blind_sunset
+    trigger:
+      - platform: sun
+        event: sunset
+        offset: '00:05:00'
+    action:
+        - service: cover.close_cover
+          data:
+            entity_id: cover.blind
 
   - alias: 'Set Clear Day'
     id: set_clear
     trigger:
-      platform: state
-      entity_id: sensor.weather_condition
-      to: clear
+      platform: numeric_state
+      entity_id: sensor.clear_day
+      above: 0
     condition: 
       condition: state
       entity_id: sun.sun
@@ -98,44 +64,10 @@
   - alias: 'Reset Clear Day'
     id: reset_clear
     trigger:
-      platform: sun
-      event: sunrise
-      offset: '-00:05:00'
+      - platform: numeric_state
+        entity_id: sensor.clear_day
+        below: 1
     action:
     - service: input_boolean.turn_off
       data:
         entity_id: input_boolean.clear_day
-    - condition: state
-      entity_id: sensor.weather_condition
-      state: clear
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.clear_day
-
-  - alias: 'People Awake'
-    id: people_awake
-    trigger:
-      platform: state
-      entity_id: binary_sensor.people_awake
-      to: 'on'
-    condition:
-      condition: time
-      after: '07:00:00'
-    action:
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.people_awake
-
-  - alias: 'People Asleep'
-    id: people_asleep
-    trigger:
-      platform: state
-      entity_id: binary_sensor.people_awake
-      to: 'off'
-    condition:
-      condition: time
-      after: '22:00:00'
-    action:
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.people_awake

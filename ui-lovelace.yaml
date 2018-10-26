@@ -1,8 +1,9 @@
 title: Home
-views:
+views: 
 # living room
   - icon: mdi:home-assistant
     title: Living Room
+    id: living
     cards:
     - type: glance
       title: Status
@@ -20,7 +21,6 @@ views:
         entities:
           - media_player.multimedia
           - media_player.xbox
-          # - switch.xbox_one
           - media_player.tv
           - media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
           - media_player.bedroom
@@ -70,12 +70,9 @@ views:
           - cover.blind
           - sensor.blind_position
           - binary_sensor.people_awake
-          - input_boolean.people_awake
-          - automation.blind_close_at_sunset
-          # - automation.blind_open_at_sunrise_week
-          # - automation.blind_open_at_sunrise_weekend
+          - automation.people_awake
           - automation.close_the_blind_when_its_sunny
-          - automation.blind_open_people_awake
+          - automation.blind_close_at_sunset
 
       - type: history-graph
         title: Blind
@@ -111,6 +108,7 @@ views:
 # rest (laundry, bedroom, bathroom)
   - icon: mdi:hotel
     title: Other Rooms
+    id: other
     cards:
     - type: glance
       title: Status
@@ -181,6 +179,7 @@ views:
 # people
   - icon: mdi:human-male-female
     title: People
+    id: people
     cards:
     - type: glance
       title: People
@@ -199,21 +198,6 @@ views:
         - entity: device_tracker.eduards_iphone
         - zone.home
         - zone.work
-
-    # - type: picture-glance
-    #   image:
-    #   camera_image: 'camera.eduard'
-    #   title: Eduard
-    #   entities:
-        # - sensor.eduard_naar_huis
-
-    # - type: history-graph
-    #   title: Traveltimes
-    #   entities:
-    #     - sensor.huis_naar_werk
-    #     - sensor.werk_naar_huis
-    #   hours_to_show: 192
-    #   refresh_interval: 3600
 
     - type: entities
       title: People Automations
@@ -246,12 +230,14 @@ views:
 # finance & weather
   - icon: mdi:weather-partlycloudy
     title: Weather
+    id: weather
     cards:
     - type: vertical-stack
       cards:
       - type: glance
         title: Status
         entities:
+          - sensor.clear_day
           - sensor.weather_temperature
           - sensor.temperature
           - sensor.living_room_temperature
@@ -303,29 +289,70 @@ views:
 
   - icon: mdi:currency-eur
     title: External Info
+    id: external
     cards:
     - type: vertical-stack
       cards: 
       - type: entities
-        title: Finance
+        title: Stock
         entities:
           - sensor.microsoft
-          # - sensor.google
-          # - sensor.apple
-          # - sensor.amazon
-          - sensor.coinbase_total
-          - sensor.coinbase_btc
-          - sensor.coinbase_eth
-          - sensor.coinbase_ltc
-          - sensor.microsoft_stock
           - input_number.microsoft_stock
+          - sensor.microsoft_stock
 
       - type: history-graph
-        title: MSFT
+        title: Microsoft Stock Value
         entities:
           - sensor.microsoft_stock
         hours_to_show: 336
         refresh_interval: 300
+
+    - type: vertical-stack
+      cards: 
+      - type: entities
+        title: Coinbase
+        entities:
+          - sensor.coinbase_total
+          - sensor.coinbase_btc
+          - sensor.coinbase_eth
+          - sensor.coinbase_ltc
+
+      - type: history-graph
+        title: Coinbase Value
+        entities:
+          - sensor.coinbase_total
+        hours_to_show: 336
+        refresh_interval: 300
+
+    - type: vertical-stack
+      cards: 
+      - type: entities
+        title: Bunq
+        entities:
+          - sensor.bunq_total
+          - sensor.bunq_default
+          - sensor.bunq_boodschappen
+          - sensor.bunq_uit_eten
+          - sensor.bunq_monthly
+          - sensor.bunq_we
+          - sensor.bunq_evi_van_lanschot
+          - sensor.bunq_visa
+          - sensor.bunq_amex
+
+      - type: history-graph
+        title: Bunq
+        entities:
+          - sensor.bunq_total
+          - sensor.bunq_default
+          - sensor.bunq_boodschappen
+          - sensor.bunq_uit_eten
+          - sensor.bunq_monthly
+          - sensor.bunq_we
+          - sensor.bunq_evi_van_lanschot
+          - sensor.bunq_visa
+          - sensor.bunq_amex
+        hours_to_show: 24
+        refresh_interval: 120
 
     - type: glance
       title: Misc
@@ -337,6 +364,7 @@ views:
 # server  
   - icon: mdi:server-security
     title: Server
+    id: server
     cards:
     - type: vertical-stack
       cards:
@@ -382,3 +410,13 @@ views:
         - sensor.sabnzbd_left
         - sensor.sabnzbd_disk
         - sensor.sabnzbd_disk_free
+
+    - type: history-graph
+      title: Speeds
+      entities:
+        - entity: sensor.speedtest_download
+          name: 'Down'
+        - entity: sensor.speedtest_upload
+          name: 'Up'
+      hours_to_show: 168
+      refresh_interval: 300

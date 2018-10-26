@@ -231,7 +231,7 @@ class XboxOne:
         try:
             response = self.get('/device/<liveid>').json()
             if not response.get('success'):
-                _LOGGER.error('Console {0} not available'.format(self.liveid))
+                _LOGGER.warning('Console {0} not available'.format(self.liveid))
                 return None
         except requests.exceptions.RequestException:
             _LOGGER.error('Unreachable device info /<liveid> endpoint')
