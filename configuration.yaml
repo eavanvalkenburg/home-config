@@ -15,6 +15,7 @@ homeassistant:
   # Example configuration.yaml entry
   auth_providers:
    - type: homeassistant
+   - type: trusted_networks
    # Uncomment next line if you want to enable legacy API password support
   #  - type: legacy_api_password
 
@@ -54,7 +55,7 @@ api:
 # https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
 updater:
   # Optional, allows Home Assistant developers to focus on popular components.
-  # include_used_components: true
+  include_used_components: true
 
 # Discover some devices automatically
 discovery:
@@ -64,8 +65,10 @@ wake_on_lan:
 # Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
 
-# Enables support for tracking state changes over time
-history:
+recorder:
+  db_url: !secret sql_url
+  purge_keep_days: 31
+  purge_interval: 1
   exclude:
     entities:
     - sensor.washing_machine_alarm_level
@@ -106,50 +109,16 @@ history:
     - sensor.bedroom_power_management
     - sensor.bedroom_previous_reading
     - sensor.bedroom_sourcenodeid
+    - sensor.hassuptime
+    - sensor.uptime
 
+# Enables support for tracking state changes over time
+history:
 
 # View all events in a logbook
 logbook:
   exclude:
     entities:
-    - sensor.washing_machine_alarm_level
-    - sensor.washing_machine_alarm_type
-    - sensor.washing_machine_current
-    - sensor.washing_machine_exporting
-    - sensor.washing_machine_interval
-    - sensor.washing_machine_interval_2
-    - sensor.washing_machine_interval_3
-    - sensor.washing_machine_interval_4
-    - sensor.washing_machine_energy
-    - sensor.washing_machine_power_management
-    - sensor.washing_machine_previous_reading
-    - sensor.washing_machine_previous_reading_2
-    - sensor.washing_machine_previous_reading_3
-    - sensor.washing_machine_previous_reading_4
-    - sensor.washing_machine_sourcenodeid
-    - sensor.washing_machine_voltage
-    - sensor.dryer_alarm_level
-    - sensor.dryer_alarm_type
-    - sensor.dryer_current
-    - sensor.dryer_exporting
-    - sensor.dryer_interval
-    - sensor.dryer_interval_2
-    - sensor.dryer_interval_3
-    - sensor.dryer_interval_4
-    - sensor.dryer_energy
-    - sensor.dryer_power_management
-    - sensor.dryer_previous_reading
-    - sensor.dryer_previous_reading_2
-    - sensor.dryer_previous_reading_3
-    - sensor.dryer_previous_reading_4
-    - sensor.dryer_sourcenodeid
-    - sensor.dryer_voltage
-    - sensor.bedroom_alarm_level
-    - sensor.bedroom_alarm_type
-    - sensor.bedroom_exporting
-    - sensor.bedroom_power_management
-    - sensor.bedroom_previous_reading
-    - sensor.bedroom_sourcenodeid
     - sensor.weather_condition
     - sensor.weather_detailed_condition
     - sensor.weather_humidity
@@ -173,8 +142,6 @@ logbook:
     - sensor.kitchen_motion_sensor
     - sensor.people_in_kitchen_mean
     - sensor.people_in_kitchen_ratio
-    - sensor.hassuptime
-    - sensor.uptime
 
 # Enables a map showing the location of tracked devices
 map:
@@ -348,13 +315,13 @@ weather:
   - platform: buienradar
     forecast: True
 
-coinbase:
-  api_key: !secret coinbase_key 
-  api_secret: !secret coinbase_secret
-  exchange_rate_currencies:
-    - BTC
-    - ETH
-    - LTC
+# coinbase:
+#   api_key: !secret coinbase_key 
+#   api_secret: !secret coinbase_secret
+#   exchange_rate_currencies:
+#     - BTC
+#     - ETH
+#     - LTC
 
 homekit:
   filter:
@@ -389,6 +356,16 @@ sabnzbd:
     - 'disk_size'
     - 'disk_free'
 
+# sonos:
+#   media_player:
+#     interface_addr: 192.168.2.168
+    # hosts:
+    #   - 192.168.2.168
+    #   - 192.168.2.87
+    #   - 192.168.2.57
+    #   - 192.168.2.140
+    #   - 192.168.2.13
+
 
 # azure_event_grid:
 #   update_notify:
@@ -401,12 +378,13 @@ sabnzbd:
 #       - topic
 
 # logger:
-#   default: error
+#   default: warning
 #   logs:
-    # custom_components.sensor.bunq: debug
+#     homeassistant.components.sonos: debug
+#     homeassistant.components.media_player.sonos: debug
+#     custom_components.sensor.hue: debug
     # custom_components.media_player.webostv: debug
 #     custom_components.media_player.xboxone: debug
-#     # homeassistant.components.mqtt: info
 #     homeassistant.components.azure_event_grid: debug
 #     azure_event_grid: debug
 #     custom_components.azure_event_grid: debug

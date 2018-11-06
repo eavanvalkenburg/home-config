@@ -14,14 +14,6 @@
   - platform: bunq
     api_key: !secret bunq_api_key
 
-  # - platform: netatmo_public
-  #   name: Local Weather
-  #   areas:
-  #     - lat_ne: !secret lat_ne
-  #       lon_ne: !secret long_ne
-  #       lat_sw: !secret lat_sw
-  #       lon_sw: !secret long_sw
-
   - platform: systemmonitor
     resources:
       - type: last_boot
@@ -68,60 +60,11 @@
     ip_address: !secret hue_ip
     token: !secret hue_key
 
-  # - platform: rest
-  #   resource: !secret hue_light_level
-  #   value_template: '{{ value_json.state.lightlevel }}'
-  #   unit_of_measurement: Lux
-  #   name: 'Light Level'
-
-  # - platform: rest
-  #   resource: !secret hue_temperature
-  #   value_template: '{{ value_json.state.temperature | float / 100 }}'
-  #   unit_of_measurement: °C
-  #   name: 'Temperature'
-
-  # - platform: google_travel_time
-  #   name: Eduard naar huis
-  #   api_key: !secret google_api_key
-  #   origin: device_tracker.eduards_iphone
-  #   destination: zone.home
-  #   options:
-  #     mode: driving
-  # - platform: google_travel_time
-  #   name: Huis naar Werk
-  #   api_key: !secret google_api_key
-  #   origin: zone.home
-  #   destination: zone.work
-  #   options:
-  #     mode: driving
-  # - platform: google_travel_time
-  #   name: Werk naar Huis
-  #   api_key: !secret google_api_key
-  #   origin: zone.work
-  #   destination: zone.home
-  #   options:
-  #     mode: driving
-
   - platform: alpha_vantage
     api_key: !secret alpha_vantage_key
     symbols:
     - symbol: MSFT
       name: Microsoft
-    # - symbol: GOOGL
-    #   name: Google
-    # - symbol: AAPL
-    #   name: Apple
-    # - symbol: AMZN
-    #   name: Amazon
-    # foreign_exchange:
-    # - name: USD_EUR
-    #   from: USD
-    #   to: EUR
-  
-  - platform: plex
-    host: 192.168.2.2
-    port: 80
-    token: !secret plex_token
 
   - platform: command_line
     name: "PyPi HASS Version"
@@ -161,27 +104,29 @@
 
   - platform: template
     sensors:
-      # sonos_volume:
-      #   value_template: "{{ [ states.media_player.bedroom.attributes.volume_level, states.media_player.bathroom.attributes.volume_level ] | min }}"
-      # sonos_master:
-      #   value_template: >-
-      #     {% if is_state_attr('media_player.bedroom', 'is_coordinator', true) %}
-      #       media_player.bedroom
-      #     {% else %}
-      #       media_player.bathroom
-      #     {% endif %}
       plex_playing_movies:
+        entity_id:
+          - media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
         value_template: >- 
           {{ is_state_attr('media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3', 'media_library_name', 'Movies' ) }}
       plex_playing_series:
+        entity_id:
+          - media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3
         value_template: >- 
           {{ is_state_attr('media_player.plex_plex_sn16y90mhqpsit50ds4iuvc3', 'media_library_name', 'Series' ) }}
       blind_position:
+        entity_id:
+          - cover.blind
         friendly_name: 'Blind Position'
         value_template: "{{ states.cover.blind.attributes.current_position | int}}"
         unit_of_measurement: "%"
         icon_template: mdi:blinds
       new_blind_position:
+        entity_id:
+          - sun.sun
+          - sensor.weather_temperature
+          - sensor.temperature
+          - input_boolean.clear_day
         value_template: >-
             {%- set elevation = states.sun.sun.attributes.elevation | float -%}
             {%- set azimuth = states.sun.sun.attributes.azimuth | float -%}
@@ -221,37 +166,17 @@
               {{ ', ' }}
             {%- endif -%}
             {{ '%02d' % hours }}:{{ '%02d' % minutes }} hrs
-      coinbase_btc:
-        friendly_name: Coinbase Bitcoin Value
-        value_template: "{{ states.sensor.coinbase_btc_wallet.attributes['Balance in native currency']|replace(' EUR', '')|float }}"
-        unit_of_measurement: 'EUR'
-        icon_template: '{{ states.sensor.coinbase_btc_wallet.attributes.icon }}'
-      coinbase_eth:
-        friendly_name: Coinbase Ethereum Value
-        value_template: "{{ states.sensor.coinbase_eth_wallet.attributes['Balance in native currency']|replace(' EUR', '')|float }}"
-        unit_of_measurement: 'EUR'
-        icon_template: '{{ states.sensor.coinbase_btc_wallet.attributes.icon }}'
-      coinbase_ltc:
-        friendly_name: Coinbase Litecoin Value
-        value_template: "{{ states.sensor.coinbase_ltc_wallet.attributes['Balance in native currency']|replace(' EUR', '')|float }}"
-        unit_of_measurement: 'EUR'
-        icon_template: '{{ states.sensor.coinbase_btc_wallet.attributes.icon }}'
-      coinbase_total:
-        friendly_name: Coinbase Total Value
-        value_template: '{{ states("sensor.coinbase_btc")|float + states("sensor.coinbase_eth")|float + states("sensor.coinbase_ltc")|float }}'
-        unit_of_measurement: 'EUR'
-        icon_template: '{{ states.sensor.coinbase_btc_wallet.attributes.icon }}'
       temperature:
-        friendly_name: 'Temperature'
-        value_template: '{{(states.sensor.kitchen_motion_sensor.attributes.temperature)  | round(1)}}'
+        entity_id:
+        - sensor.hue_sml_001788010202dab402
+        friendly_name: 'Kitchen Temperature'
+        value_template: '{{(states.sensor.hue_sml_001788010202dab402.attributes.temperature)  | round(1)}}'
         unit_of_measurement: °C
       kitchen_light_level:
+        entity_id:
+        - sensor.hue_sml_001788010202dab402
         friendly_name: 'Kitchen Light level'
-        value_template: '{{ (10**((states.sensor.kitchen_motion_sensor.attributes.light_level - 1) /10000)) | round(1)}}'
-        unit_of_measurement: lux
-      living_light_level:
-        friendly_name: 'Living Room Light level'
-        value_template: '{{ states.sensor.living_room_luminance.state | round(1)}}'
+        value_template: '{{ states.sensor.hue_sml_001788010202dab402.attributes.lx | round(1)}}'
         unit_of_measurement: lux
       resume_music:
         friendly_name: Resume the music when the TV turns off
@@ -269,11 +194,20 @@
         value_template: '{{ states.sun.sun.attributes.azimuth | float }}'
         unit_of_measurement: 'º'
       microsoft_stock:
+        entity_id:
+          - sensor.microsoft
+          - input_number.microsoft_stock
         friendly_name: Microsoft Stock value
         value_template: "{{ (states('sensor.microsoft') | float) * (states('input_number.microsoft_stock') | float) | round }}"
         unit_of_measurement: USD
         icon_template: mdi:microsoft
       bunq_total:
+        entity_id:
+          - sensor.bunq_boodschappen
+          - sensor.bunq_default
+          - sensor.bunq_evi_van_lanschot
+          - sensor.bunq_uit_eten
+          - sensor.bunq_we
         friendly_name: Bunq Total
         value_template: '{{ 
           states("sensor.bunq_boodschappen")|float + 

@@ -10,9 +10,9 @@ views:
       entities:
         - sensor.kitchen_light_level
         - sensor.living_room_luminance
-        - sensor.living_light_level
         - binary_sensor.front_door_sensor
-        - sensor.plex
+        - sensor.temperature
+        - sensor.living_room_temperature
 
     - type: vertical-stack
       cards:
@@ -89,20 +89,19 @@ views:
         refresh_interval: 900
 
       - type: history-graph
-        title: Light Levels
+        title: Light Levels Short
         entities:
         - sensor.kitchen_light_level
-        - sensor.living_light_level
         - sensor.living_room_luminance
-        hours_to_show: 24
+        hours_to_show: 3
         refresh_interval: 300
 
       - type: history-graph
-        title: Living Room Sensor Light Levels
+        title: Light Levels Long
         entities:
-        - sensor.living_light_level
+        - sensor.kitchen_light_level
         - sensor.living_room_luminance
-        hours_to_show: 3
+        hours_to_show: 72
         refresh_interval: 300
 
 # rest (laundry, bedroom, bathroom)
@@ -307,22 +306,22 @@ views:
         hours_to_show: 336
         refresh_interval: 300
 
-    - type: vertical-stack
-      cards: 
-      - type: entities
-        title: Coinbase
-        entities:
-          - sensor.coinbase_total
-          - sensor.coinbase_btc
-          - sensor.coinbase_eth
-          - sensor.coinbase_ltc
+    # - type: vertical-stack
+    #   cards: 
+    #   - type: entities
+    #     title: Coinbase
+    #     entities:
+    #       - sensor.coinbase_total
+    #       - sensor.coinbase_btc
+    #       - sensor.coinbase_eth
+    #       - sensor.coinbase_ltc
 
-      - type: history-graph
-        title: Coinbase Value
-        entities:
-          - sensor.coinbase_total
-        hours_to_show: 336
-        refresh_interval: 300
+    #   - type: history-graph
+    #     title: Coinbase Value
+    #     entities:
+    #       - sensor.coinbase_total
+    #     hours_to_show: 336
+    #     refresh_interval: 300
 
     - type: vertical-stack
       cards: 
@@ -393,7 +392,7 @@ views:
         - sensor.speedtest_download
         - sensor.speedtest_upload
         - sensor.speedtest_ping
-        - sensor.myipopendnscom
+        - sensor.myip
 
     - type: glance
       title: Media tracking
