@@ -194,7 +194,7 @@ binary_sensor:
       prob_given_true: 0.55
       platform: 'state'
       to_state: 'on'
-    - entity_id: 'sensor.kitchen_motion_sensor'
+    - entity_id: 'sensor.hue_sml_001788010202dab402'
       prob_given_true: 0.55
       platform: 'state'
       to_state: 'on'
@@ -204,7 +204,7 @@ device_tracker:
   - platform: asuswrt
     host: !secret router_ip
     #port: 8443
-    protocol: telnet
+    protocol: ssh
     username: !secret asus_user
     password: !secret asus_pw
     interval_seconds: 12
@@ -342,6 +342,9 @@ homekit:
       - switch.neo_coolcam_power_plug_12a_switch
       - switch.neo_coolcam_power_plug_12a_switch_2
       - switch.qubino_zmnhvdx_flush_dimmer_010v_switch
+      - media_player.multimedia
+      - media_player.tv
+      - media_player.xboxone
   auto_start: False
 
 sabnzbd:
@@ -380,9 +383,9 @@ sabnzbd:
 # logger:
 #   default: warning
 #   logs:
-#     homeassistant.components.sonos: debug
-#     homeassistant.components.media_player.sonos: debug
-#     custom_components.sensor.hue: debug
+    # homeassistant.components.sonos: debug
+    # homeassistant.components.media_player.sonos: debug
+    # custom_components.sensor.hue: debug
     # custom_components.media_player.webostv: debug
 #     custom_components.media_player.xboxone: debug
 #     homeassistant.components.azure_event_grid: debug

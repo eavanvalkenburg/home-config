@@ -80,7 +80,7 @@
 
   - platform: history_stats
     name: People in Kitchen Ratio
-    entity_id: sensor.kitchen_motion_sensor
+    entity_id: sensor.hue_sml_001788010202dab402
     state: 'on'
     type: ratio
     end: '{{ now() }}'

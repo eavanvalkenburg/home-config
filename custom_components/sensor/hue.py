@@ -20,7 +20,7 @@ from homeassistant.helpers.event import async_track_time_interval
 
 _LOGGER = logging.getLogger(__name__)
 
-SCAN_INTERVAL = timedelta(seconds=3)
+SCAN_INTERVAL = timedelta(seconds=1)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Required(CONF_IP_ADDRESS): cv.string,
@@ -162,6 +162,7 @@ class HueSensorData(object):
             arr.insert(-1, 'motion')
             name = ' '.join(arr)
             hue_state = response['state']['presence']
+            _LOGGER.debug(f'Hue response: {response}')
             if hue_state is True:
                 state = 'on'
             else:
@@ -280,11 +281,15 @@ class HueSensor(Entity):
 
     def load_data(self, data):
         """Update the sensor."""
+        
         if not self.initialized:
-            self._state = data[self._hue_id]['state']
             self._name = data[self._hue_id]['name']
             self._model = data[self._hue_id]['model']
         old_attr = self._attributes.copy()
+        old_state = None
+        if self._state:
+            old_state = self._state
+        self._state = data[self._hue_id]['state']
         try:
             if self._model == 'SML':
                 self._icon = 'mdi:run-fast'
@@ -324,4 +329,4 @@ class HueSensor(Entity):
                 self._icon = 'mdi:cellphone'
         except:
             _LOGGER.error("Error updating Hue sensors")
-        return False if old_attr == self._attributes else True
+        return False if old_attr == self._attributes and old_state == self._state else True
